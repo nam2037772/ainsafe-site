@@ -96,17 +96,17 @@ Google Fonts 요청은 페이지 전환 중 브라우저가 취소할 수 있어
 
 ## 9. 배포 상태
 
-- 커밋: 미생성
-- 브랜치: 없음
-- 배포 URL: 없음
-- 사유: 현재 폴더가 Git 저장소가 아니며 연결할 기존 GitHub 저장소도 확인되지 않았습니다.
+- 저장소: https://github.com/nam2037772/ainsafe-site
+- 배포 커밋: `577c8da7ee6590ccdb7352c7f4fd4c1255b80328`
+- 브랜치: `main`
+- Pages 소스: `main / (root)`
+- 배포 URL: https://nam2037772.github.io/ainsafe-site/
+- Pages 빌드: `built`
 
-안전한 다음 단계는 `nam2037772/ainsafe-site` 같은 공개 저장소 생성 여부를 확인한 뒤, 저장소 루트에 이 폴더 내용을 커밋하고 GitHub Pages를 `main / root`로 설정하는 것입니다. 배포 주소가 확정되면 canonical, Open Graph URL, JSON-LD 이미지, `robots.txt`, `sitemap.xml`, `COMPANY.siteUrl`을 실제 GitHub Pages URL로 일괄 교체해야 합니다.
+공개 URL에서 메인, 서비스, 시공사례, 기술자료, 상세 페이지와 없는 ID 안내를 확인했습니다. CSS, JavaScript, 히어로 이미지, `robots.txt`, `sitemap.xml`은 모두 HTTP 200이며, 320~1440px 실제 배포본 Playwright 테스트 8개가 모두 통과했습니다.
 
 ## 10. 남은 TODO 우선순위
 
-1. GitHub 저장소명과 공개 여부 확정
-2. 실제 Pages URL로 SEO 기준 URL 교체
-3. 실제 온라인몰 주소 입력
-4. 사업자등록번호 입력
-5. 안전시설·특수방수 시공사례 원본 데이터 보강
+1. 실제 온라인몰 주소 입력
+2. 사업자등록번호 입력
+3. 안전시설·특수방수 시공사례 원본 데이터 보강
