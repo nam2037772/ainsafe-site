@@ -26,9 +26,9 @@ const COMPANY = {
 /* 외부 채널 — 새 탭으로 열림 (target=_blank, rel=noopener noreferrer) */
 const EXTERNAL_LINKS = {
   shop: {
-    url: '', // TODO: 실제 온라인몰 주소 확정 시 입력 (빈 값이면 링크 비활성화)
+    url: 'https://ainsafety.com/',
     label: '온라인몰',
-    desc: '공식 온라인몰 주소를 확인 중입니다. 주소가 확정되면 연결합니다.'
+    desc: '아인산업안전 공식 온라인몰입니다.'
   },
   blog: {
     url: 'https://blog.naver.com/ainsafe',
