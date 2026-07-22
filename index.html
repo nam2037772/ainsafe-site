@@ -350,8 +350,8 @@ ul,ol{list-style:none}
 <header class="site-header" id="header">
   <div class="wrap">
     <a class="brand" href="index.html">
-      <b>아인산업안전</b>
-      <span>Jeju Concrete Restoration</span>
+      <b id="brandName"></b>
+      <span id="brandEn"></span>
     </a>
     <nav class="nav" id="nav" aria-label="주요 메뉴" inert>
       <a href="concrete.html">노출콘크리트</a>
@@ -359,7 +359,7 @@ ul,ol{list-style:none}
       <a href="safety.html">안전시설</a>
       <a href="projects.html">시공사례</a>
       <a href="about.html">회사소개</a>
-      <a class="tel" href="tel:16604019">1660-4019</a>
+      <a class="tel" id="navTel" href="tel:16604019">1660-4019</a>
       <a class="nav__cta" href="contact.html">문의하기</a>
     </nav>
     <button class="burger" id="burger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav">
@@ -372,39 +372,30 @@ ul,ol{list-style:none}
 
 <!-- ═══════════ 히어로 ═══════════ -->
 <section class="hero" id="hero">
-  <div class="hero__slides" id="slides">
-    <div class="hero__slide active"><img src="assets/images/projects/jisan-lightgray.jpg" alt="제주 노출콘크리트 면보수를 마친 실내 벽면" fetchpriority="high" /></div>
-    <div class="hero__slide"><img src="assets/images/projects/starry-park-after.jpg" alt="노출콘크리트 외벽 복원 시공 현장" loading="lazy" /></div>
-    <div class="hero__slide"><img src="assets/images/projects/20-1.jpg" alt="노출콘크리트 벽면 면보수 마감" loading="lazy" /></div>
-  </div>
+  <div class="hero__slides" id="slides"></div>
   <div class="hero__scrim" aria-hidden="true"></div>
 
   <div class="hero__inner">
-    <h1 class="hero__title">콘크리트 본연의 표정을,<br />다시 되살립니다</h1>
-    <p class="hero__en">Exposed Concrete Restoration</p>
-    <p class="hero__sub">제주 노출콘크리트 면보수 · 색상 재현 · 균열 보수 전문</p>
+    <h1 class="hero__title" id="heroTitle"></h1>
+    <p class="hero__en" id="heroEn"></p>
+    <p class="hero__sub" id="heroSub"></p>
   </div>
 
-  <div class="hero__dots" id="dots" aria-hidden="true">
-    <button class="active" data-i="0"></button>
-    <button data-i="1"></button>
-    <button data-i="2"></button>
-  </div>
+  <div class="hero__dots" id="dots" aria-hidden="true"></div>
 </section>
 
 <!-- ═══════════ ABOUT ═══════════ -->
 <section class="about" id="about">
   <div class="wrap about__grid">
     <div class="about__head reveal">
-      <p class="eyebrow">About Us</p>
-      <h2 class="h2">덧칠로 가릴 수 없기에,<br />보수의 기준이 다릅니다.</h2>
-      <p class="body">노출콘크리트는 타설 순간의 결과가 그대로 외관이 됩니다. 곰보 하나, 층조인트 한 줄이 건물 전체의 인상을 바꿉니다. 아인산업안전은 결함을 덮는 대신, 주변 면의 질감과 색을 읽어 다시 만들어 넣는 방식으로 보수합니다.</p>
-      <p class="body">해풍과 잦은 강우라는 제주의 조건은 육지와 다른 열화 양상을 만듭니다. 현장 확인에서 시작해 공법을 제안하고, 건축기술자가 직접 검토한 계획으로 시공합니다.</p>
-      <p class="about__more"><a class="link-arrow" href="about.html">회사소개</a></p>
+      <p class="eyebrow" id="aboutEyebrow"></p>
+      <h2 class="h2" id="aboutHeading"></h2>
+      <div id="aboutBody"></div>
+      <p class="about__more"><a class="link-arrow" id="aboutMore" href="about.html"></a></p>
     </div>
     <figure class="about__media reveal">
-      <img src="assets/images/projects/12-1.jpg" alt="노출콘크리트 표면의 결과 질감 디테일" loading="lazy" />
-      <figcaption>표면의 결, 기포, 줄눈 — 보수는 이 디테일을 다시 만드는 일입니다.</figcaption>
+      <img id="aboutImg" src="" alt="" loading="lazy" />
+      <figcaption id="aboutCaption"></figcaption>
     </figure>
   </div>
 </section>
@@ -414,38 +405,13 @@ ul,ol{list-style:none}
   <div class="wrap">
     <div class="sec-head sec-head--row reveal">
       <div>
-        <p class="eyebrow">Service</p>
-        <h2 class="h2">전문 분야</h2>
+        <p class="eyebrow" id="svcEyebrow"></p>
+        <h2 class="h2" id="svcHeading"></h2>
       </div>
-      <p class="sec-head__desc">표면 보수만으로 끝나지 않는 현장이 있습니다. 물길을 막고, 사용하는 사람의 안전까지 이어서 시공합니다.</p>
+      <p class="sec-head__desc" id="svcDesc"></p>
     </div>
 
-    <div class="service__grid">
-      <a class="svc reveal" href="concrete.html">
-        <p class="svc__no">01</p>
-        <h3 class="svc__ttl">노출콘크리트 보수</h3>
-        <p class="svc__text">곰보·기포·층조인트를 인접 면과 같은 인상으로 되돌립니다. 부분이 아니라 면 단위로 계획할 때 결과가 안정적입니다.</p>
-        <span class="svc__go">View More</span>
-      </a>
-      <a class="svc reveal" href="waterproof.html">
-        <p class="svc__no">02</p>
-        <h3 class="svc__ttl">인젝션 및 누수 보수</h3>
-        <p class="svc__text">누수는 새는 자리와 들어온 자리가 다릅니다. 경로를 먼저 추적한 뒤 우레탄·에폭시 인젝션으로 물길을 차단합니다.</p>
-        <span class="svc__go">View More</span>
-      </a>
-      <a class="svc reveal" href="waterproof.html#liquid">
-        <p class="svc__no">03</p>
-        <h3 class="svc__ttl">특수방수</h3>
-        <p class="svc__text">형상이 복잡한 부위는 이음매 없는 액상고무 도막으로 마감합니다. 옥상·파라펫·관통부까지 하나로 처리합니다.</p>
-        <span class="svc__go">View More</span>
-      </a>
-      <a class="svc reveal" href="safety.html">
-        <p class="svc__no">04</p>
-        <h3 class="svc__ttl">안전시설 시공</h3>
-        <p class="svc__text">기준에 맞는 안전난간·방호울·표지를 설치합니다. 시공 이후의 사용 안전까지 하나의 계획으로 정리합니다.</p>
-        <span class="svc__go">View More</span>
-      </a>
-    </div>
+    <div class="service__grid" id="serviceGrid"></div>
   </div>
 </section>
 
@@ -453,34 +419,13 @@ ul,ol{list-style:none}
 <section class="feature" id="feature">
   <div class="wrap feature__grid">
     <figure class="feature__media reveal">
-      <img src="assets/images/projects/jisan-lightgray.jpg" alt="제주 현장의 노출콘크리트 벽면" loading="lazy" />
+      <img id="featureImg" src="" alt="" loading="lazy" />
     </figure>
     <div class="reveal">
-      <p class="eyebrow">Feature</p>
-      <h2 class="h2" style="margin-top:1.2em">제주 현장 대응</h2>
-      <p class="feature__intro">사진만으로 판단하지 않습니다. 결함의 원인을 먼저 정리한 뒤, 왜 이 방법인지 설명할 수 있는 계획으로 시공합니다.</p>
-      <div class="feat-list">
-        <div class="feat">
-          <span class="feat__no">01</span>
-          <div><h3 class="feat__ttl">제주 전 지역 현장 대응</h3>
-          <p class="feat__text">제주시·서귀포시, 성산·애월 등 읍면 지역까지 직접 이동해 현장에서 상태를 확인합니다.</p></div>
-        </div>
-        <div class="feat">
-          <span class="feat__no">02</span>
-          <div><h3 class="feat__ttl">해풍과 강우를 전제로 한 공법</h3>
-          <p class="feat__text">염분과 높은 습도는 양생과 색 발현에 영향을 줍니다. 육지 기준을 그대로 적용하지 않습니다.</p></div>
-        </div>
-        <div class="feat">
-          <span class="feat__no">03</span>
-          <div><h3 class="feat__ttl">건축기술자의 직접 검토</h3>
-          <p class="feat__text">결함의 원인을 먼저 정리한 뒤 공법을 제안합니다. 설명할 수 없는 시공은 하지 않습니다.</p></div>
-        </div>
-        <div class="feat">
-          <span class="feat__no">04</span>
-          <div><h3 class="feat__ttl">보수·방수·안전 연계 시공</h3>
-          <p class="feat__text">표면 보수와 방수, 안전시설을 한 계획으로 묶어 가설 비용과 공기를 함께 줄입니다.</p></div>
-        </div>
-      </div>
+      <p class="eyebrow" id="featEyebrow"></p>
+      <h2 class="h2" id="featHeading" style="margin-top:1.2em"></h2>
+      <p class="feature__intro" id="featIntro"></p>
+      <div class="feat-list" id="featList"></div>
     </div>
   </div>
 </section>
@@ -490,31 +435,15 @@ ul,ol{list-style:none}
   <div class="wrap">
     <div class="sec-head sec-head--row reveal">
       <div>
-        <p class="eyebrow">Works</p>
-        <h2 class="h2">시공사례</h2>
+        <p class="eyebrow" id="worksEyebrow"></p>
+        <h2 class="h2" id="worksHeading"></h2>
       </div>
-      <p class="sec-head__desc">제주시 · 서귀포시를 중심으로 수행한 관급 · 민간 현장의 시공 기록입니다.</p>
+      <p class="sec-head__desc" id="worksDesc"></p>
     </div>
 
-    <div class="works__grid">
-      <a class="work reveal" href="projects.html">
-        <div class="work__media"><img src="assets/images/projects/starry-park-after.jpg" alt="별빛누리공원 노출콘크리트 복원" loading="lazy" /></div>
-        <div class="work__meta"><span>Jeju-si</span><span>Exposed Concrete</span></div>
-        <h3 class="work__ttl">별빛누리공원 노출콘크리트 복원</h3>
-      </a>
-      <a class="work reveal" href="projects.html">
-        <div class="work__media"><img src="assets/images/projects/seogwipo-nh.jpg" alt="서귀포 로비 노출콘크리트" loading="lazy" /></div>
-        <div class="work__meta"><span>Seogwipo</span><span>Surface Repair</span></div>
-        <h3 class="work__ttl">서귀포 공공청사 로비 면보수</h3>
-      </a>
-      <a class="work reveal" href="projects.html">
-        <div class="work__media"><img src="assets/images/projects/sincheon-ivory.jpg" alt="신천리 실내 노출콘크리트" loading="lazy" /></div>
-        <div class="work__meta"><span>Seongsan</span><span>Color &amp; Texture</span></div>
-        <h3 class="work__ttl">신천리 주택 실내 색상 재현</h3>
-      </a>
-    </div>
+    <div class="works__grid" id="worksGrid"></div>
     <div class="works__more">
-      <a class="link-arrow" href="projects.html">전체 시공사례 보기</a>
+      <a class="link-arrow" id="worksMore" href="projects.html"></a>
     </div>
   </div>
 </section>
@@ -522,16 +451,12 @@ ul,ol{list-style:none}
 <!-- ═══════════ CONTACT ═══════════ -->
 <section class="contact" id="contact">
   <div class="wrap">
-    <p class="eyebrow reveal">Contact</p>
-    <h2 class="contact__ttl reveal">콘크리트의 상태는<br />현장마다 다릅니다.</h2>
-    <p class="contact__desc reveal">현장 사진을 보내주시면 적합한 보수 방향을 검토해 드립니다.<br />제주시 · 서귀포시 전 지역 현장 대응.</p>
-    <a class="contact__tel reveal" href="tel:16604019">1660-4019</a>
-    <p class="contact__hours reveal">평일 09:00 – 18:00 · 주말 및 공휴일 상담 예약</p>
-    <div class="contact__actions reveal">
-      <a href="tel:16604019">전화 상담</a>
-      <a href="mailto:ainsafe@naver.com">사진 상담</a>
-      <a href="contact.html">견적 문의</a>
-    </div>
+    <p class="eyebrow reveal" id="contactEyebrow"></p>
+    <h2 class="contact__ttl reveal" id="contactTitle"></h2>
+    <p class="contact__desc reveal" id="contactDesc"></p>
+    <a class="contact__tel reveal" id="contactTel" href="tel:16604019"></a>
+    <p class="contact__hours reveal" id="contactHours"></p>
+    <div class="contact__actions reveal" id="contactActions"></div>
   </div>
 </section>
 
@@ -541,49 +466,152 @@ ul,ol{list-style:none}
 <footer class="footer">
   <div class="wrap footer__grid">
     <div class="footer__brand">
-      <b>주식회사 아인산업안전</b>
-      <span>Jeju Concrete Restoration</span>
-      <p class="tel">1660-4019</p>
-      <p>제주특별자치도 서귀포시 성산읍 풍천로 142, 103호</p>
-      <p>ainsafe@naver.com</p>
+      <b id="footName"></b>
+      <span id="footEn"></span>
+      <p class="tel" id="footTel"></p>
+      <p id="footAddr"></p>
+      <p id="footEmail"></p>
     </div>
     <nav class="footer__col" aria-label="사업 분야">
       <h4>Service</h4>
-      <ul>
-        <li><a href="concrete.html">노출콘크리트 면보수</a></li>
-        <li><a href="concrete.html#crack">균열 보수</a></li>
-        <li><a href="waterproof.html">인젝션 특수방수</a></li>
-        <li><a href="safety.html">안전시설물</a></li>
-      </ul>
+      <ul id="footServiceLinks"></ul>
     </nav>
     <nav class="footer__col" aria-label="사이트">
       <h4>Site</h4>
-      <ul>
-        <li><a href="projects.html">시공사례</a></li>
-        <li><a href="resources.html">기술자료</a></li>
-        <li><a href="about.html">회사소개</a></li>
-        <li><a href="contact.html">상담문의</a></li>
-      </ul>
+      <ul id="footSiteLinks"></ul>
     </nav>
     <nav class="footer__col" aria-label="채널">
       <h4>Channel</h4>
-      <ul>
-        <li><a href="https://ainsafety.com/" target="_blank" rel="noopener noreferrer">온라인몰</a></li>
-        <li><a href="https://blog.naver.com/ainsafe" target="_blank" rel="noopener">네이버 블로그</a></li>
-        <li><a href="https://www.youtube.com/@%EC%95%84%EC%9D%B8%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84" target="_blank" rel="noopener">유튜브</a></li>
-        <li><a href="https://www.instagram.com/ericswallart/" target="_blank" rel="noopener">인스타그램</a></li>
-      </ul>
+      <ul id="footChannelLinks"></ul>
     </nav>
   </div>
   <div class="footer__bottom">
-    <small>© <span id="year">2026</span> 주식회사 아인산업안전. All rights reserved.</small>
-    <small>제주 노출콘크리트 보수 전문</small>
+    <small>© <span id="year">2026</span> <span id="footCopyName"></span>. All rights reserved.</small>
+    <small id="footTagline"></small>
   </div>
 </footer>
 
+<!-- ▼ 콘텐츠 데이터 (이 파일만 수정하면 글·사진·정보가 바뀝니다) -->
+<script src="data/site-content.js"></script>
 <script>
 (function(){
   "use strict";
+
+  var S=window.SITE||{};
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(ch){
+    return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[ch];});}
+  function setText(id,v){var el=$(id);if(el)el.textContent=(v==null?"":v);}
+  function setHTML(id,v){var el=$(id);if(el)el.innerHTML=(v==null?"":v);}
+  function setAttr(id,a,v){var el=$(id);if(el)el.setAttribute(a,(v==null?"":v));}
+
+  /* ── 콘텐츠 렌더링: data/site-content.js → 화면 ──────────── */
+  function render(){
+    if(!window.SITE)return;              // 데이터 파일이 없으면 조용히 종료
+    var c=S.company||{};
+
+    /* 헤더 */
+    setText("brandName",c.shortName);
+    setText("brandEn",c.enName);
+    setText("navTel",c.tel); setAttr("navTel","href",c.telHref);
+
+    /* 히어로 */
+    var h=S.hero||{};
+    setHTML("heroTitle",h.title); setText("heroEn",h.en); setText("heroSub",h.sub);
+    var slides=$("slides"),dots=$("dots");
+    if(slides&&h.images){
+      slides.innerHTML=h.images.map(function(im,i){
+        return '<div class="hero__slide'+(i===0?" active":"")+'"><img src="'+esc(im.src)+
+          '" alt="'+esc(im.alt)+'"'+(i===0?' fetchpriority="high"':' loading="lazy"')+' /></div>';
+      }).join("");
+    }
+    if(dots&&h.images){
+      dots.innerHTML=h.images.map(function(im,i){
+        return '<button'+(i===0?' class="active"':"")+' data-i="'+i+'"></button>';
+      }).join("");
+    }
+
+    /* 회사소개 */
+    var a=S.about||{};
+    setText("aboutEyebrow",a.eyebrow); setHTML("aboutHeading",a.heading);
+    var ab=$("aboutBody");
+    if(ab&&a.paragraphs)ab.innerHTML=a.paragraphs.map(function(p){
+      return '<p class="body">'+esc(p)+"</p>";}).join("");
+    setText("aboutMore",a.moreText); setAttr("aboutMore","href",a.moreLink);
+    setAttr("aboutImg","src",a.image); setAttr("aboutImg","alt",a.imageAlt);
+    setText("aboutCaption",a.caption);
+
+    /* 서비스 */
+    var ss=S.serviceSection||{};
+    setText("svcEyebrow",ss.eyebrow); setText("svcHeading",ss.heading); setText("svcDesc",ss.desc);
+    var sg=$("serviceGrid");
+    if(sg&&S.services)sg.innerHTML=S.services.map(function(s){
+      return '<a class="svc reveal" href="'+esc(s.link)+'">'+
+        '<p class="svc__no">'+esc(s.no)+'</p>'+
+        '<h3 class="svc__ttl">'+esc(s.title)+'</h3>'+
+        '<p class="svc__text">'+esc(s.text)+'</p>'+
+        '<span class="svc__go">View More</span></a>';
+    }).join("");
+
+    /* 강점 */
+    var fs=S.featureSection||{};
+    setAttr("featureImg","src",fs.image); setAttr("featureImg","alt",fs.imageAlt);
+    setText("featEyebrow",fs.eyebrow); setText("featHeading",fs.heading); setText("featIntro",fs.intro);
+    var fl=$("featList");
+    if(fl&&S.features)fl.innerHTML=S.features.map(function(f){
+      return '<div class="feat"><span class="feat__no">'+esc(f.no)+'</span>'+
+        '<div><h3 class="feat__ttl">'+esc(f.title)+'</h3>'+
+        '<p class="feat__text">'+esc(f.text)+'</p></div></div>';
+    }).join("");
+
+    /* 시공사례 */
+    var ws=S.worksSection||{};
+    setText("worksEyebrow",ws.eyebrow); setText("worksHeading",ws.heading); setText("worksDesc",ws.desc);
+    setText("worksMore",ws.moreText); setAttr("worksMore","href",ws.moreLink);
+    var wg=$("worksGrid");
+    if(wg&&S.works){
+      var lim=ws.homeLimit||S.works.length;
+      wg.innerHTML=S.works.slice(0,lim).map(function(w){
+        var meta="";
+        if(w.location)meta+="<span>"+esc(w.location)+"</span>";
+        if(w.type)meta+="<span>"+esc(w.type)+"</span>";
+        return '<a class="work reveal" href="'+esc(w.link||"#")+'">'+
+          '<div class="work__media"><img src="'+esc(w.image)+'" alt="'+esc(w.imageAlt||w.title)+'" loading="lazy" /></div>'+
+          '<div class="work__meta">'+meta+"</div>"+
+          '<h3 class="work__ttl">'+esc(w.title)+'</h3></a>';
+      }).join("");
+    }
+
+    /* 상담 */
+    var ct=S.contact||{};
+    setText("contactEyebrow",ct.eyebrow); setHTML("contactTitle",ct.heading); setHTML("contactDesc",ct.desc);
+    setText("contactTel",c.tel); setAttr("contactTel","href",c.telHref);
+    setText("contactHours",ct.hours);
+    var ca=$("contactActions");
+    if(ca)ca.innerHTML='<a href="'+esc(c.telHref)+'">전화 상담</a>'+
+      '<a href="mailto:'+esc(c.email)+'">사진 상담</a>'+
+      '<a href="contact.html">견적 문의</a>';
+
+    /* 푸터 */
+    setText("footName",c.name); setText("footEn",c.enName);
+    setText("footTel",c.tel); setText("footAddr",c.address); setText("footEmail",c.email);
+    setText("footCopyName",c.name); setText("footTagline",c.tagline);
+    var f=S.footer||{};
+    function linkList(id,arr){var el=$(id);if(!el||!arr)return;
+      el.innerHTML=arr.map(function(l){
+        var ext=l.external?' target="_blank" rel="noopener noreferrer"':"";
+        return '<li><a href="'+esc(l.href)+'"'+ext+">"+esc(l.label)+"</a></li>";
+      }).join("");}
+    linkList("footServiceLinks",f.serviceLinks);
+    linkList("footSiteLinks",f.siteLinks);
+    var ch=[];
+    if(c.shop)ch.push({label:"온라인몰",href:c.shop,external:true});
+    if(c.blog)ch.push({label:"네이버 블로그",href:c.blog,external:true});
+    if(c.youtube)ch.push({label:"유튜브",href:c.youtube,external:true});
+    if(c.instagram)ch.push({label:"인스타그램",href:c.instagram,external:true});
+    linkList("footChannelLinks",ch);
+  }
+  render();
 
   /* 모바일 메뉴 -------------------------------------------- */
   var burger=document.getElementById("burger");
