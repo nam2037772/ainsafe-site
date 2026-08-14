@@ -111,10 +111,10 @@ window.SITE = {
      ※ 홈페이지 첫 화면에는 아래 목록에서 앞쪽 homeLimit 개만 보입니다. */
   worksSection: {
     eyebrow:   'Works',
-    heading:   '시공사례',
+    heading:   '시공기술사례',
     desc:      '제주시 · 서귀포시를 중심으로 수행한 관급 · 민간 현장의 시공 기록입니다.',
     homeLimit: 3,                 // 홈 화면에 보여줄 개수
-    moreText:  '전체 시공사례 보기',
+    moreText:  '전체 시공기술사례 보기',
     // 시공사례는 기술자료 페이지에 통합되었습니다. ?type=case 는 '시공사례만' 보기입니다.
     moreLink:  'resources.html?type=case'
   },
@@ -167,8 +167,7 @@ window.SITE = {
       { label: '안전시설물',          href: 'safety.html' }
     ],
     siteLinks: [
-      { label: '시공사례',   href: 'resources.html?type=case' },
-      { label: '기술자료',   href: 'resources.html' },
+      { label: '시공기술사례', href: 'resources.html' },
       { label: '회사소개',   href: 'about.html' },
       { label: '상담문의',   href: 'contact.html' }
     ]
