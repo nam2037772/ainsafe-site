@@ -443,16 +443,23 @@
   function initProjectDetail() {
     var root = $('#projectDetail');
     if (!root || !hasProjects) return;
-    var id = qs('id');
+    var requestedId = qs('id');
+    var id = (typeof PROJECT_ALIASES !== 'undefined' && PROJECT_ALIASES[requestedId]) || requestedId;
     var idx = -1;
     var sorted = PROJECTS.slice().sort(byDateDesc);
     sorted.forEach(function (p, i) { if (p.id === id) idx = i; });
 
     if (idx < 0) {
+      var isRetired = typeof RETIRED_PROJECT_IDS !== 'undefined' && RETIRED_PROJECT_IDS.indexOf(requestedId) !== -1;
       root.innerHTML = '<div class="wrap notfound">' +
-        '<h1 class="h2">요청하신 시공사례를 찾을 수 없습니다.</h1>' +
-        '<p>주소가 변경되었거나 삭제된 항목일 수 있습니다.</p>' +
-        '<p><a class="btn btn--dark" href="projects.html">시공사례 목록으로</a></p></div>';
+        (isRetired
+          ? '<h1 class="h2">이 시공사례는 게시가 종료되었습니다.</h1>' +
+            '<p>검증되지 않은 이전 콘텐츠는 더 이상 제공하지 않습니다. 검증된 기술자료와 시공사례를 확인해 주세요.</p>' +
+            '<p><a class="btn btn--dark" href="resources.html?type=case">기술자료 목록으로</a></p>'
+          : '<h1 class="h2">요청하신 시공사례를 찾을 수 없습니다.</h1>' +
+            '<p>주소가 변경되었거나 삭제된 항목일 수 있습니다.</p>' +
+            '<p><a class="btn btn--dark" href="resources.html?type=case">기술자료 목록으로</a></p>') +
+        '</div>';
       return;
     }
     var p = sorted[idx];
