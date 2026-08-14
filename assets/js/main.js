@@ -93,6 +93,10 @@
       el.href = item.url;
       el.target = '_blank';
       el.rel = 'noopener noreferrer';
+      el.removeAttribute('aria-disabled');
+      el.removeAttribute('aria-label');
+      el.removeAttribute('title');
+      el.classList.remove('is-disabled');
       if (el.hasAttribute('data-link-label')) el.textContent = item.label;
     });
 
@@ -207,7 +211,7 @@
             '<p class="project-split__meta">' + meta + '</p>' +
             '<h3 class="project-split__ttl">' + esc(p.title) + '</h3>' +
             '<p class="project-split__sum">' + esc(p.summary) + '</p>' +
-            '<a class="link-arrow" href="project.html?id=' + esc(p.id) + '">시공사례 자세히 보기</a>' +
+            '<a class="link-arrow" href="project.html?id=' + esc(p.id) + '">시공기술사례 자세히 보기</a>' +
           '</div>' +
           '<a class="project-split__media" href="project.html?id=' + esc(p.id) + '">' +
             '<img src="' + esc(img(p.after)) + '" alt="' + esc(p.title) + ' 시공 사진" loading="lazy" />' +
@@ -272,19 +276,17 @@
      유형은 배지(card__type)로 구분합니다. 시공사례는 진한 배지 + BEFORE/AFTER 표시. */
   function contentCard(item) {
     var isCase = item.type === 'case';
-    var typeLabel = isCase ? '시공사례' : '기술자료';
     var meta = [item.category || item.categoryRaw, isCase ? item.meta.building : '', fmtDate(item.date)]
       .filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
-    var alt = item.title + (isCase ? ' 시공 사진' : ' 관련 사진');
+    var alt = item.title + ' 대표 이미지';
 
     return '' +
-      '<article class="card card--' + (isCase ? 'case' : 'tech') + ' reveal">' +
+      '<article class="card reveal">' +
         '<a class="card__link" href="' + esc(item.url) + '">' +
           '<span class="card__media">' +
             '<img src="' + esc(img(item.images.thumbnail || item.images.cover)) + '" alt="' + esc(alt) + '"' +
             ' loading="lazy" width="800" height="600" />' +
-            '<span class="card__type card__type--' + (isCase ? 'case' : 'tech') + '">' + typeLabel + '</span>' +
             (isCase && item.images.before ? '<span class="card__flag card__flag--btm">BEFORE / AFTER</span>' : '') +
           '</span>' +
           '<span class="card__body">' +
@@ -321,7 +323,7 @@
       box.innerHTML = list.length ? list.map(function(p, i) {
         return isAsymmetric ? featuredProjectCard(p, i) : projectCard(p);
       }).join('')
-        : emptyState('해당 분야의 시공사례를 준비 중입니다.');
+        : emptyState('해당 분야의 콘텐츠를 준비 중입니다.');
     });
   }
 
@@ -335,7 +337,7 @@
       if (mode && mode !== 'all') list = list.filter(function (r) { return r.category === mode; });
       list = list.slice(0, limit);
       box.innerHTML = list.length ? list.map(resourceRow).join('')
-        : emptyState('등록된 기술자료가 없습니다.');
+        : emptyState('등록된 콘텐츠가 없습니다.');
     });
   }
 
@@ -415,7 +417,7 @@
       var list = filtered();
       var view = list.slice(0, state.shown);
       grid.innerHTML = view.length ? view.map(projectCard).join('')
-        : emptyState('선택하신 조건의 시공사례를 준비 중입니다. 다른 분류를 선택해 보세요.');
+        : emptyState('선택하신 조건의 콘텐츠를 준비 중입니다. 다른 분류를 선택해 보세요.');
       if (countEl) countEl.textContent = list.length;
       if (moreBtn) moreBtn.hidden = state.shown >= list.length;
     }
@@ -453,12 +455,12 @@
       var isRetired = typeof RETIRED_PROJECT_IDS !== 'undefined' && RETIRED_PROJECT_IDS.indexOf(requestedId) !== -1;
       root.innerHTML = '<div class="wrap notfound">' +
         (isRetired
-          ? '<h1 class="h2">이 시공사례는 게시가 종료되었습니다.</h1>' +
-            '<p>검증되지 않은 이전 콘텐츠는 더 이상 제공하지 않습니다. 검증된 기술자료와 시공사례를 확인해 주세요.</p>' +
-            '<p><a class="btn btn--dark" href="resources.html?type=case">시공기술사례 목록으로</a></p>'
-          : '<h1 class="h2">요청하신 시공사례를 찾을 수 없습니다.</h1>' +
+          ? '<h1 class="h2">이 콘텐츠는 게시가 종료되었습니다.</h1>' +
+            '<p>검증되지 않은 이전 콘텐츠는 더 이상 제공하지 않습니다. 검증된 시공기술사례를 확인해 주세요.</p>' +
+            '<p><a class="btn btn--dark" href="resources.html">시공기술사례 목록으로</a></p>'
+          : '<h1 class="h2">요청하신 시공기술사례를 찾을 수 없습니다.</h1>' +
             '<p>주소가 변경되었거나 삭제된 항목일 수 있습니다.</p>' +
-            '<p><a class="btn btn--dark" href="resources.html?type=case">시공기술사례 목록으로</a></p>') +
+            '<p><a class="btn btn--dark" href="resources.html">시공기술사례 목록으로</a></p>') +
         '</div>';
       return;
     }
@@ -478,7 +480,7 @@
 
     root.innerHTML =
       '<div class="wrap detail__head">' +
-        '<p class="eyebrow">WORKS</p>' +
+        '<p class="eyebrow">ARCHIVE</p>' +
         '<h1 class="h2">' + esc(p.title) + '</h1>' +
         '<p class="lead">' + esc(p.summary) + '</p>' +
       '</div>' +
@@ -541,19 +543,15 @@
 
     var STEP = 12;
     var reqCategory = unifyCategory(qs('category'));
-    var reqType = qs('type');
     var state = {
       category: reqCategory || 'all',
-      type: CONTENT_TYPES.some(function (t) { return t.value === reqType; }) ? reqType : 'all',
       q: qs('q') || '',
       shown: STEP
     };
 
     var catBox  = $('#contentFilters');
-    var typeBox = $('#contentTypeFilters');
     var search  = $('#contentSearch');
     var countEl = $('#contentCount');
-    var scopeEl = $('#contentScope');
     var moreBtn = $('#contentMore');
 
     function chip(value, label, active) {
@@ -568,19 +566,12 @@
           return chip(c, c, state.category === c);
         }).join('');
     }
-    if (typeBox) {
-      typeBox.innerHTML = chip('all', '전체', state.type === 'all') +
-        CONTENT_TYPES.map(function (t) {
-          return chip(t.value, t.label, state.type === t.value);
-        }).join('');
-    }
     if (search && state.q) search.value = state.q;
 
     function filtered() {
       var q = state.q.trim().toLowerCase();
       return CONTENT.filter(function (item) {
         if (state.category !== 'all' && item.category !== state.category) return false;
-        if (state.type !== 'all' && item.type !== state.type) return false;
         if (!q) return true;
         return item.searchText.indexOf(q) > -1;
       });
@@ -592,12 +583,6 @@
       grid.innerHTML = view.length ? view.map(contentCard).join('')
         : emptyState('검색 조건에 맞는 자료가 없습니다. 다른 키워드나 분류를 선택해 보세요.');
       if (countEl) countEl.textContent = list.length;
-      if (scopeEl) {
-        var nTech = list.filter(function (i) { return i.type === 'technical'; }).length;
-        var nCase = list.length - nTech;
-        scopeEl.textContent = (nTech && nCase) ? ' · 기술자료 ' + nTech + ' · 시공사례 ' + nCase
-          : nCase ? ' · 시공사례' : nTech ? ' · 기술자료' : '';
-      }
       if (moreBtn) moreBtn.hidden = state.shown >= list.length;
       initReveal();
     }
@@ -618,7 +603,6 @@
       });
     }
     bind(catBox, 'category');
-    bind(typeBox, 'type');
 
     if (search) {
       search.addEventListener('input', function () {
@@ -643,7 +627,7 @@
 
     if (!r) {
       root.innerHTML = '<div class="wrap notfound">' +
-        '<h1 class="h2">요청하신 기술자료를 찾을 수 없습니다.</h1>' +
+        '<h1 class="h2">요청하신 시공기술사례를 찾을 수 없습니다.</h1>' +
         '<p><a class="btn btn--dark" href="resources.html">시공기술사례 목록으로</a></p></div>';
       return;
     }
@@ -651,7 +635,7 @@
 
     root.innerHTML =
       '<div class="wrap detail__head">' +
-        '<p class="eyebrow">TECHNICAL NOTE</p>' +
+        '<p class="eyebrow">ARCHIVE</p>' +
         '<p class="doc__meta"><span>' + esc(r.category) + '</span><span>' + fmtDate(r.date) + '</span></p>' +
         '<h1 class="h2">' + esc(r.title) + '</h1>' +
         '<p class="lead">' + esc(r.summary) + '</p>' +
@@ -696,25 +680,36 @@
       });
       if (bad) {
         bad.focus();
-        toast('필수 항목을 입력해 주세요.');
+        var validationMessages = {
+          'f-name': '성함 / 회사명을 입력해 주세요.',
+          'f-phone': '연락처를 입력해 주세요.',
+          'f-agree': '개인정보 수집 및 이용에 동의해 주세요.'
+        };
+        toast(validationMessages[bad.id] || '필수 항목을 확인해 주세요.');
         return;
       }
       var get = function (n) { var el = form.elements[n]; return el ? el.value.trim() : ''; };
       var body = [
-        '성함 / 회사명 : ' + get('name'),
-        '연락처 : ' + get('phone'),
-        '현장 위치 : ' + get('place'),
-        '문의 구분 : ' + get('type'),
+        '아인산업안전 홈페이지에서 작성된 문의입니다.',
         '',
-        '현장 상태 / 요청사항',
-        get('message'),
-        '',
-        '— ' + COMPANY.siteUrl + ' 견적문의'
+        '성함 / 회사명: ' + get('name'),
+        '연락처: ' + get('phone'),
+        '현장 위치: ' + get('place'),
+        '문의 구분: ' + get('type'),
+        '현장 상태 / 요청사항:',
+        get('message')
       ].join('\n');
 
-      window.location.href = 'mailto:' + COMPANY.email +
-        '?subject=' + encodeURIComponent('[견적문의] ' + get('name') + ' / ' + get('type')) +
+      var mailtoHref = 'mailto:' + COMPANY.email +
+        '?subject=' + encodeURIComponent('[홈페이지 견적문의] ' + get('name') + ' - ' + get('type')) +
         '&body=' + encodeURIComponent(body);
+      var mailtoLink = document.createElement('a');
+      mailtoLink.href = mailtoHref;
+      mailtoLink.hidden = true;
+      mailtoLink.setAttribute('data-mailto-launch', '');
+      document.body.appendChild(mailtoLink);
+      mailtoLink.click();
+      mailtoLink.remove();
       toast('메일 앱으로 문의 내용을 전달했습니다.');
     });
   }
