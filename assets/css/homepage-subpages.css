@@ -57,9 +57,8 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .tech__text{max-width:42em;font-size:.96rem;line-height:1.95}
 .compare__stage{gap:clamp(40px,7vw,96px)}.compare__nav button{border-width:0 0 1px}.ba__handle{border-radius:50%}
 .grid{gap:clamp(36px,4vw,56px) clamp(20px,3vw,40px)}
-.card__media img,.card--tech .card__media img{filter:none}.card__body{padding-top:20px}
+.card__media img{filter:none}.card__body{padding-top:20px}
 .card__ttl{font-size:clamp(1.05rem,1.7vw,1.25rem);line-height:1.5}.card__sum{color:var(--ink-2);line-height:1.85}
-.card__type{font-size:.67rem;font-weight:400}.card__type--tech{box-shadow:none;border:1px solid rgba(22,22,22,.35)}
 .filterbar{margin-bottom:clamp(40px,6vw,72px)}
 .filterbar__row{display:grid;grid-template-columns:108px 1fr;align-items:start;padding-block:14px}
 .filterbar__label{margin:11px 0 0;color:var(--color-gray-dark)}
@@ -123,6 +122,5 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
    Source data remains unchanged; verified case photography is unaffected. */
 .tech__media{display:none}
 .tech__item{display:block;max-width:760px}
-.card--tech .card__media{display:none}
 body[data-page=resource] .detail__figure{display:none}
 /* hpds-part-11 */

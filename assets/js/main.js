@@ -272,11 +272,10 @@
       '</article>';
   }
 
-  /* 통합 콘텐츠 카드 — 기술문서와 시공사례를 같은 그리드에 함께 노출합니다.
-     유형은 배지(card__type)로 구분합니다. 시공사례는 진한 배지 + BEFORE/AFTER 표시. */
+  /* 통합 콘텐츠 카드 — 모든 항목에 같은 메타데이터와 시각 패턴을 적용합니다.
+     콘텐츠 유형은 내부 데이터로만 유지하며 목록 화면에서는 구분하지 않습니다. */
   function contentCard(item) {
-    var isCase = item.type === 'case';
-    var meta = [item.category || item.categoryRaw, isCase ? item.meta.building : '', fmtDate(item.date)]
+    var meta = [item.category || item.categoryRaw, item.date ? fmtDate(item.date) : '']
       .filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
     var alt = item.title + ' 대표 이미지';
@@ -287,7 +286,6 @@
           '<span class="card__media">' +
             '<img src="' + esc(img(item.images.thumbnail || item.images.cover)) + '" alt="' + esc(alt) + '"' +
             ' loading="lazy" width="800" height="600" />' +
-            (isCase && item.images.before ? '<span class="card__flag card__flag--btm">BEFORE / AFTER</span>' : '') +
           '</span>' +
           '<span class="card__body">' +
             '<span class="card__meta">' + meta + '</span>' +
@@ -710,7 +708,7 @@
       document.body.appendChild(mailtoLink);
       mailtoLink.click();
       mailtoLink.remove();
-      toast('메일 앱으로 문의 내용을 전달했습니다.');
+      toast('메일 작성창을 열었습니다. 내용을 확인한 후 전송 버튼을 눌러주세요.');
     });
   }
 

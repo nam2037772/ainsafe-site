@@ -468,24 +468,6 @@ body.is-locked { overflow: hidden; }
   font-family: var(--font-en); font-size: 9.5px; font-weight: 600; letter-spacing: 0.14em;
   background: var(--color-black); color: var(--color-white);
 }
-/* 통합 목록(기술자료)에서 BEFORE/AFTER 표시는 아래쪽으로 내려 유형 배지와 겹치지 않게 합니다 */
-.card__flag--btm { top: auto; bottom: 0; }
-
-/* 콘텐츠 유형 배지 — 시공사례(진한 배지) / 기술자료(테두리 배지) */
-.card__type {
-  position: absolute; top: 0; left: 0; padding: 7px 12px;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; line-height: 1;
-}
-.card__type--case { background: var(--color-black); color: var(--color-white); }
-.card__type--tech {
-  background: var(--color-white); color: var(--color-black);
-  box-shadow: inset 0 0 0 1px var(--color-black);
-}
-/* 시공사례 카드는 사진이 주인공, 기술자료 카드는 문서 성격을 유지 */
-.card--tech .card__media img { filter: grayscale(45%); }
-.card--tech .card__link:hover .card__media img,
-.card--tech .card__link:focus-visible .card__media img { filter: grayscale(0%); }
-
 .card__body { display: block; padding-top: 18px; }
 .card__meta {
   display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;

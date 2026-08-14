@@ -155,14 +155,17 @@ function contentSearchText(item) {
 }
 
 /* ── 통합 목록 ────────────────────────────────────────────────
-   기술문서 + 시공사례를 합쳐 최신순으로 정렬합니다.
+   기술문서 + 시공사례를 합쳐 제목 가나다순으로 정렬합니다.
+   날짜가 없는 항목에 임의 날짜를 만들지 않고, 모든 항목에 같은 중립 규칙을 적용합니다.
    (앞으로 옵시디언 .md 를 변환해 넣을 때도 여기에 concat 하면 됩니다) */
 var CONTENT = (function () {
   var list = [];
   if (typeof RESOURCES !== 'undefined') list = list.concat(RESOURCES.map(resourceToContent));
   if (typeof PROJECTS !== 'undefined') list = list.concat(PROJECTS.map(projectToContent));
   list.forEach(function (item) { item.searchText = contentSearchText(item); });
-  return list.sort(function (a, b) { return (b.sortKey || '').localeCompare(a.sortKey || ''); });
+  return list.sort(function (a, b) {
+    return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+  });
 })();
 
 /* 실제로 항목이 존재하는 통합 필터만 반환 (빈 필터를 화면에 두지 않기 위함) */
