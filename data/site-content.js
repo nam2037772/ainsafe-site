@@ -115,7 +115,8 @@ window.SITE = {
     desc:      '제주시 · 서귀포시를 중심으로 수행한 관급 · 민간 현장의 시공 기록입니다.',
     homeLimit: 3,                 // 홈 화면에 보여줄 개수
     moreText:  '전체 시공사례 보기',
-    moreLink:  'projects.html'
+    // 시공사례는 기술자료 페이지에 통합되었습니다. ?type=case 는 '시공사례만' 보기입니다.
+    moreLink:  'resources.html?type=case'
   },
   // 공종(工種) 분류 — 시공사례를 나누는 기준. 지역이 아니라 '무슨 공사'인지로 나눕니다.
   workTypes: ['전체', '노출콘크리트', '인젝션', '특수방수', '안전시설', '기타'],
@@ -126,7 +127,7 @@ window.SITE = {
       image:       'assets/images/works/work-1.jpg',
       imageAlt:    '별빛누리공원 노출콘크리트 복원',
       type:        '노출콘크리트',   // 공종 (workTypes 중 하나)
-      link:        'projects.html'
+      link:        'resources.html?type=case'
     },
     {
       title:       '서귀포 공공청사 로비 면보수',
@@ -134,7 +135,7 @@ window.SITE = {
       image:       'assets/images/works/work-2.jpg',
       imageAlt:    '서귀포 공공청사 로비 노출콘크리트 면보수',
       type:        '노출콘크리트',
-      link:        'projects.html'
+      link:        'resources.html?type=case'
     },
     {
       title:       '신천리 주택 실내 색상 재현',
@@ -142,7 +143,7 @@ window.SITE = {
       image:       'assets/images/works/work-3.jpg',
       imageAlt:    '신천리 주택 실내 노출콘크리트 색상 재현',
       type:        '노출콘크리트',
-      link:        'projects.html'
+      link:        'resources.html?type=case'
     }
   ],
 
@@ -166,7 +167,7 @@ window.SITE = {
       { label: '안전시설물',          href: 'safety.html' }
     ],
     siteLinks: [
-      { label: '시공사례',   href: 'projects.html' },
+      { label: '시공사례',   href: 'resources.html?type=case' },
       { label: '기술자료',   href: 'resources.html' },
       { label: '회사소개',   href: 'about.html' },
       { label: '상담문의',   href: 'contact.html' }

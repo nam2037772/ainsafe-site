@@ -12,6 +12,7 @@
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
   var hasProjects  = typeof PROJECTS  !== 'undefined';
   var hasResources = typeof RESOURCES !== 'undefined';
+  var hasContent   = typeof CONTENT   !== 'undefined';
 
   function esc(str) {
     return String(str == null ? '' : str)
@@ -267,6 +268,34 @@
       '</article>';
   }
 
+  /* 통합 콘텐츠 카드 — 기술문서와 시공사례를 같은 그리드에 함께 노출합니다.
+     유형은 배지(card__type)로 구분합니다. 시공사례는 진한 배지 + BEFORE/AFTER 표시. */
+  function contentCard(item) {
+    var isCase = item.type === 'case';
+    var typeLabel = isCase ? '시공사례' : '기술자료';
+    var meta = [item.category || item.categoryRaw, isCase ? item.meta.building : '', fmtDate(item.date)]
+      .filter(Boolean)
+      .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
+    var alt = item.title + (isCase ? ' 시공 사진' : ' 관련 사진');
+
+    return '' +
+      '<article class="card card--' + (isCase ? 'case' : 'tech') + ' reveal">' +
+        '<a class="card__link" href="' + esc(item.url) + '">' +
+          '<span class="card__media">' +
+            '<img src="' + esc(img(item.images.thumbnail || item.images.cover)) + '" alt="' + esc(alt) + '"' +
+            ' loading="lazy" width="800" height="600" />' +
+            '<span class="card__type card__type--' + (isCase ? 'case' : 'tech') + '">' + typeLabel + '</span>' +
+            (isCase && item.images.before ? '<span class="card__flag card__flag--btm">BEFORE / AFTER</span>' : '') +
+          '</span>' +
+          '<span class="card__body">' +
+            '<span class="card__meta">' + meta + '</span>' +
+            '<span class="card__ttl">' + esc(item.title) + '</span>' +
+            '<span class="card__sum">' + esc(item.description) + '</span>' +
+          '</span>' +
+        '</a>' +
+      '</article>';
+  }
+
   function emptyState(msg) {
     return '<p class="empty">' + esc(msg) + '</p>';
   }
@@ -494,46 +523,85 @@
     }
   }
 
-  /* ── 9. 기술자료 목록 ─────────────────────────────────── */
-  function initResourcesPage() {
-    var grid = $('#resourceGrid');
-    if (!grid || !hasResources) return;
-    var requestedCategory = qs('category');
-    var state = {
-      category: RESOURCE_CATEGORIES.indexOf(requestedCategory) > -1 ? requestedCategory : 'all',
-      q: ''
-    };
-    var box = $('#resourceFilters');
-    var search = $('#resourceSearch');
-    var countEl = $('#resourceCount');
+  /* ── 9. 기술자료 통합 목록 (기술문서 + 시공사례) ────────
+     주소 파라미터를 지원합니다.
+       ?category=노출콘크리트  (예전 분류명 '인젝션','균열보수' 등도 자동 변환)
+       ?type=case | technical
+       ?q=검색어                                                        */
+  function initContentPage() {
+    var grid = $('#contentGrid');
+    if (!grid || !hasContent) return;
 
-    var used = RESOURCE_CATEGORIES.filter(function (c) {
-      return RESOURCES.some(function (r) { return r.category === c; });
-    });
-    if (box) {
-      box.innerHTML = ['all'].concat(used).map(function (c) {
-        var on = state.category === c;
-        return '<button class="filter' + (on ? ' is-on' : '') + '" type="button" role="tab" aria-selected="' +
-          (on ? 'true' : 'false') + '" data-value="' + esc(c) + '">' + (c === 'all' ? '전체' : esc(c)) + '</button>';
-      }).join('');
+    var STEP = 12;
+    var reqCategory = unifyCategory(qs('category'));
+    var reqType = qs('type');
+    var state = {
+      category: reqCategory || 'all',
+      type: CONTENT_TYPES.some(function (t) { return t.value === reqType; }) ? reqType : 'all',
+      q: qs('q') || '',
+      shown: STEP
+    };
+
+    var catBox  = $('#contentFilters');
+    var typeBox = $('#contentTypeFilters');
+    var search  = $('#contentSearch');
+    var countEl = $('#contentCount');
+    var scopeEl = $('#contentScope');
+    var moreBtn = $('#contentMore');
+
+    function chip(value, label, active) {
+      return '<button class="filter' + (active ? ' is-on' : '') + '" type="button" role="tab"' +
+             ' aria-selected="' + (active ? 'true' : 'false') + '" data-value="' + esc(value) + '">' +
+             esc(label) + '</button>';
     }
-    function render() {
+
+    if (catBox) {
+      catBox.innerHTML = chip('all', '전체', state.category === 'all') +
+        usedUnifiedCategories().map(function (c) {
+          return chip(c, c, state.category === c);
+        }).join('');
+    }
+    if (typeBox) {
+      typeBox.innerHTML = chip('all', '전체', state.type === 'all') +
+        CONTENT_TYPES.map(function (t) {
+          return chip(t.value, t.label, state.type === t.value);
+        }).join('');
+    }
+    if (search && state.q) search.value = state.q;
+
+    function filtered() {
       var q = state.q.trim().toLowerCase();
-      var list = RESOURCES.slice().sort(byDateDesc).filter(function (r) {
-        if (state.category !== 'all' && r.category !== state.category) return false;
+      return CONTENT.filter(function (item) {
+        if (state.category !== 'all' && item.category !== state.category) return false;
+        if (state.type !== 'all' && item.type !== state.type) return false;
         if (!q) return true;
-        var hay = [r.title, r.summary, r.category].concat(r.tags || []).join(' ').toLowerCase();
-        return hay.indexOf(q) > -1;
+        return item.searchText.indexOf(q) > -1;
       });
-      grid.innerHTML = list.length ? list.map(resourceRow).join('')
-        : emptyState('검색 조건에 맞는 기술자료가 없습니다. 다른 키워드로 찾아보세요.');
-      if (countEl) countEl.textContent = list.length;
     }
-    if (box) {
+
+    function render() {
+      var list = filtered();
+      var view = list.slice(0, state.shown);
+      grid.innerHTML = view.length ? view.map(contentCard).join('')
+        : emptyState('검색 조건에 맞는 자료가 없습니다. 다른 키워드나 분류를 선택해 보세요.');
+      if (countEl) countEl.textContent = list.length;
+      if (scopeEl) {
+        var nTech = list.filter(function (i) { return i.type === 'technical'; }).length;
+        var nCase = list.length - nTech;
+        scopeEl.textContent = (nTech && nCase) ? ' · 기술자료 ' + nTech + ' · 시공사례 ' + nCase
+          : nCase ? ' · 시공사례' : nTech ? ' · 기술자료' : '';
+      }
+      if (moreBtn) moreBtn.hidden = state.shown >= list.length;
+      initReveal();
+    }
+
+    function bind(box, key) {
+      if (!box) return;
       box.addEventListener('click', function (e) {
         var btn = e.target.closest('button[data-value]');
         if (!btn) return;
-        state.category = btn.getAttribute('data-value');
+        state[key] = btn.getAttribute('data-value');
+        state.shown = STEP;
         $$('button', box).forEach(function (b) {
           var on = b === btn;
           b.classList.toggle('is-on', on);
@@ -542,10 +610,19 @@
         render();
       });
     }
+    bind(catBox, 'category');
+    bind(typeBox, 'type');
+
     if (search) {
-      search.addEventListener('input', function () { state.q = search.value; render(); });
+      search.addEventListener('input', function () {
+        state.q = search.value;
+        state.shown = STEP;
+        render();
+      });
       search.form && search.form.addEventListener('submit', function (e) { e.preventDefault(); });
     }
+    if (moreBtn) moreBtn.addEventListener('click', function () { state.shown += STEP; render(); });
+
     render();
   }
 
@@ -675,7 +752,7 @@
     if (page === 'home') initHome();
     if (page === 'projects') initProjectsPage();
     if (page === 'project') initProjectDetail();
-    if (page === 'resources') initResourcesPage();
+    if (page === 'resources') initContentPage();
     if (page === 'resource') initResourceDetail();
     initQuoteForm();
     initCompares();

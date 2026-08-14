@@ -26,6 +26,103 @@
    ============================================================ */
 
 const PROJECTS = [
+  /* ── 옵시디언 원고 기반 시공기술사례 (Raw/노출콘크리트 시공기술사례 - 0XX.md) ─────
+     case_no 003 / 013 / 025. featured_image, description 등 원문에 없는 항목은
+     비워 두었습니다(추측 금지). */
+  {
+    id: 'concrete-case-025-sample-mockup',
+    title: '노출콘크리트 면보수 샘플시공 — 색상 협의 사례',
+    location: '',
+    building: '',
+    category: '노출콘크리트',
+    date: '2025-12',
+    period: '',
+    summary: '본시공 전 벽체 일부에 콘채 샘플시공을 진행해 건축주와 색상·질감을 협의한 기록입니다.',
+    problem: '노후된 노출콘크리트 면의 보수 색상과 질감을 시공 전에 확인할 필요가 있었습니다.',
+    method: '대상 벽체 구간 선정 후 보양 → 1차 샌딩으로 표면 정리 → 프라이머와 콘채 1차 뿜칠 → 콘채 2차 뿜칠 및 코팅. 배합은 라이트그레이 콘채 2 : 아이보리 콘채 1 비율을 사용했습니다.',
+    result: '샘플시공 결과를 바탕으로 건축주가 최종 색상을 선택했습니다.',
+    thumbnail: 'assets/images/case-studies/case-025-sample-mockup/img-11.jpg',
+    after: 'assets/images/case-studies/case-025-sample-mockup/img-11.jpg',
+    before: 'assets/images/case-studies/case-025-sample-mockup/img-01.jpg',
+    images: [
+      'assets/images/case-studies/case-025-sample-mockup/img-01.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-02.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-03.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-04.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-05.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-06.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-07.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-08.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-09.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-10.jpg',
+      'assets/images/case-studies/case-025-sample-mockup/img-12.jpg'
+    ],
+    featured: false
+  },
+  {
+    id: 'concrete-case-013-stain-repair',
+    title: '오염된 노출콘크리트 콘채 면보수',
+    location: '',
+    building: '',
+    category: '노출콘크리트',
+    date: '2025-05',
+    period: '',
+    summary: '샌딩만으로는 해결되지 않는 오염된 노출콘크리트 면을 콘채 시공으로 복원한 시공전후 기록입니다.',
+    problem: '표면 오염이 심해 샌딩만으로는 해결되지 않았고, 도장으로 덮지 않으면서 콘크리트 본연의 자연스러움을 살리는 방법이 필요했습니다.',
+    method: '콘채를 이용한 면보수. 여러 벽체 구간에 대해 시공 전/후 비교를 진행했습니다.',
+    result: '도장한 느낌 없이 콘크리트 본연의 자연스러움을 유지한 채 오염을 해소했습니다. 시공 전후 사진 비교로 개선 정도를 확인할 수 있습니다.',
+    thumbnail: 'assets/images/case-studies/case-013-stain-repair/img-01.jpg',
+    after: 'assets/images/case-studies/case-013-stain-repair/img-03.jpg',
+    before: 'assets/images/case-studies/case-013-stain-repair/img-02.jpg',
+    images: [
+      'assets/images/case-studies/case-013-stain-repair/img-01.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-02.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-03.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-04.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-05.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-06.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-07.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-08.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-09.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-10.jpg',
+      'assets/images/case-studies/case-013-stain-repair/img-11.jpg'
+    ],
+    featured: false
+  },
+  {
+    id: 'concrete-case-003-euroform-airless-spray',
+    title: '500㎡ 유로폼 노출콘크리트 콘채 에어리스 뿜칠 시공',
+    location: '',
+    building: '',
+    category: '노출콘크리트',
+    date: '2024-03',
+    period: '',
+    summary: '약 500㎡ 규모 유로폼 노출콘크리트 면을 에어리스 장비로 콘채 뿜칠 마감한 시공 기록입니다.',
+    problem: '기존 콘크리트 면의 타이자리 보수가 필요했고, 1회 뿜칠 후에는 면은 나왔으나 색상의 이질감이 남아 있었습니다.',
+    method: '타이자리 보수 후 면갈이는 최소화하고 재료분리 부위는 콘채 견출로 정리, 유로폼 줄눈은 살려서 정리. 콘채(라이트그레이)를 물과 1:2.5 비율로 3분 이상 교반해 에어리스 장비(517노즐)로 1차 뿜칠(약 3시간 소요) 후, 2차 뿜칠을 진행했습니다. 다음날 방수코팅을 에어리스로 2회 도포했습니다. 에어리스 작업 시 접착력 저하를 막기 위해 몰다인 또는 수성바인더를 첨가했습니다.',
+    result: '줄눈과 거친 면이 살아있는 콘크리트 질감으로 마감되었으며, 방수코팅 후 색상이 살짝 짙어지는 것을 확인했습니다. 코팅은 두꺼워지면 표면이 매끄러워져 거친 느낌이 사라지므로 1회만 도포할 것을 권장합니다.',
+    thumbnail: 'assets/images/case-studies/case-003-euroform-airless-spray/img-08.jpg',
+    after: 'assets/images/case-studies/case-003-euroform-airless-spray/img-14.jpg',
+    before: 'assets/images/case-studies/case-003-euroform-airless-spray/img-01.jpg',
+    images: [
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-01.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-02.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-03.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-04.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-05.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-06.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-07.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-09.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-10.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-11.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-12.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-13.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-15.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-16.jpg',
+      'assets/images/case-studies/case-003-euroform-airless-spray/img-17.jpg'
+    ],
+    featured: true
+  },
   {
     id: 'jeju-starlight-park-001',
     title: '제주 별빛누리공원 노출콘크리트 복원공사',

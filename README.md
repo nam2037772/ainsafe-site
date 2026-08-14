@@ -13,10 +13,10 @@ ainsafe-site/
 ├─ concrete.html       노출콘크리트 (공정별 기준 · 시공 흐름)
 ├─ waterproof.html     특수방수 (인젝션 · 배면그라우팅 · 액상고무)
 ├─ safety.html         안전시설 (시공 범위 · 연계 시공)
-├─ projects.html       시공사례 목록 (공종 필터 · 더보기)
+├─ resources.html      기술자료 — 통합 콘텐츠 목록 ★ (기술문서 + 시공사례 / 검색 · 카테고리 · 유형 필터)
+├─ resource.html       기술문서 상세  → resource.html?id=아이디
 ├─ project.html        시공사례 상세  → project.html?id=아이디
-├─ resources.html      기술자료 목록 (검색 · 카테고리 필터)
-├─ resource.html       기술자료 상세  → resource.html?id=아이디
+├─ projects.html       시공사례만 모아 보는 화면 (기존 주소 유지용. 상단 메뉴에는 없음)
 ├─ about.html          회사소개
 ├─ contact.html        상담문의 · 견적문의
 ├─ privacy.html        개인정보처리방침
@@ -25,8 +25,9 @@ ainsafe-site/
 └─ assets/
    ├─ css/style.css        전체 스타일 (디자인 토큰 → 반응형 순서)
    ├─ js/config.js         회사정보 · 외부링크 · 상담채널  ← 가장 먼저 확인할 파일
-   ├─ js/projects.js       시공사례 데이터
-   ├─ js/resources.js      기술자료 데이터
+   ├─ js/projects.js       시공사례 데이터 (원본)
+   ├─ js/resources.js      기술문서 데이터 (원본)
+   ├─ js/content.js        통합 콘텐츠 모델 — 위 두 데이터를 하나의 형태로 합칩니다
    ├─ js/main.js           공통 동작 + 페이지별 렌더러
    └─ images/
       ├─ brand/    로고 · SNS 아이콘
@@ -44,6 +45,85 @@ python -m http.server 8777
 
 > `index.html`을 더블클릭해도 대부분 동작하지만, 브라우저 보안 정책 때문에
 > 목록/상세 렌더가 막힐 수 있습니다. 위 방식으로 확인하세요.
+
+---
+
+## 1-2. 통합 콘텐츠 구조 (기술자료 = 기술문서 + 시공사례)
+
+`시공사례` 메뉴는 `기술자료` 로 **통합**되었습니다. 상단 메뉴 항목은 `기술자료` 하나입니다.
+
+```
+                  ┌─ assets/js/resources.js  (기술문서 원본)
+resources.html ←──┤                              ↓
+ (통합 목록)      └─ assets/js/projects.js   (시공사례 원본)
+                                                 ↓
+                             assets/js/content.js  ← 두 데이터를 하나의 형태로 변환
+                                                 ↓
+                                    CONTENT (최신순 정렬된 통합 배열)
+```
+
+- **데이터 파일은 그대로입니다.** `projects.js` / `resources.js` 편집 방법도 그대로입니다.
+- `content.js` 는 저장소가 아니라 **변환기**입니다. 기존 주소를 하나도 바꾸지 않기 위한 구조입니다.
+
+### 통합 항목 형태 (`content.js`)
+
+| 필드 | 설명 |
+| --- | --- |
+| `id` | 원본 데이터의 id (그대로) |
+| `type` | `'technical'` (기술문서) \| `'case'` (시공사례) |
+| `title` | 제목 |
+| `category` | 통합 필터값 — 노출콘크리트 / 균열·보수 / 특수방수 / 안전시설·자재 |
+| `categoryRaw` | 원본 데이터에 적힌 분류 (상세페이지 표기용) |
+| `date` | `YYYY-MM` 또는 `YYYY-MM-DD` (`sortKey` 로 보정해 함께 정렬) |
+| `description` | 목록 카드 한 줄 요약 (원본의 `summary`) |
+| `images` | `{ thumbnail, cover, before, gallery[] }` |
+| `body` | 상세 본문 HTML (기술문서만. 시공사례는 상세페이지가 자체 구성) |
+| `tags` | 검색 키워드 |
+| `url` | 상세 주소 — `project.html?id=…` / `resource.html?id=…` (기존 그대로) |
+| `meta` | 유형별 부가정보 (`location` `building` `period` `problem` `method` `result` `featured` `file`) |
+
+### 통합 필터 · 기존 분류 대응표
+
+`content.js` 의 `CATEGORY_ALIASES` 가 처리합니다. 예전 분류명으로 된 주소도 자동 변환됩니다.
+
+| 통합 필터 | 여기에 들어오는 기존 분류 |
+| --- | --- |
+| 노출콘크리트 | 노출콘크리트, 시공기준 |
+| 균열·보수 | 균열보수 |
+| 특수방수 | 인젝션, 특수방수 |
+| 안전시설·자재 | 안전시설, 건축자재, 현장관리 |
+
+### `resources.html` 이 지원하는 주소
+
+| 주소 | 결과 |
+| --- | --- |
+| `resources.html` | 전체 (기술문서 + 시공사례) |
+| `resources.html?type=case` | 시공사례만 |
+| `resources.html?type=technical` | 기술문서만 |
+| `resources.html?category=노출콘크리트` | 카테고리 필터 |
+| `resources.html?category=인젝션` | 예전 분류명 → `특수방수` 로 자동 변환 |
+| `resources.html?q=곰보` | 검색어를 넣은 상태로 열기 |
+
+두 개를 함께 쓸 수 있습니다 → `resources.html?type=case&category=특수방수`
+
+### 앞으로 옵시디언(.md) 원고를 넣을 때
+
+`.md` 프론트매터는 통합 항목과 1:1로 대응하도록 설계했습니다.
+
+```yaml
+---
+title: 노출콘크리트 층조인트 단차 보수
+category: 노출콘크리트     # 통합 필터 이름을 그대로 쓰면 됩니다
+type: case                 # technical | case
+date: 2026-08-14
+description: 목록에 노출되는 한 줄 요약
+images: [assets/images/projects/101-1.jpg]
+---
+(본문 마크다운 → item.body)
+```
+
+변환 결과를 `content.js` 의 `CONTENT` 에 `concat` 하기만 하면 통합 목록에 함께 나옵니다.
+**자동화는 아직 만들지 않았습니다.** 구조만 준비된 상태입니다.
 
 ---
 
@@ -90,7 +170,10 @@ python -m http.server 8777
 ```
 
 카테고리: 노출콘크리트 / 균열보수 / 인젝션 / 특수방수 / 안전시설 / 건축자재 / 시공기준 / 현장관리
+(통합 필터 이름 — 노출콘크리트 / 균열·보수 / 특수방수 / 안전시설·자재 — 을 그대로 적어도 됩니다)
 
+> 추가한 항목은 `기술자료`(resources.html) 통합 목록에 **시공사례와 함께** 자동으로 나옵니다.
+> 별도 등록 작업은 없습니다.
 > 자료를 새로 추가하면 `sitemap.xml` 에도 `resource.html?id=…` 한 줄을 추가해 주세요.
 > 특정 자료의 검색 노출을 크게 키우고 싶다면, 그 자료만 별도 HTML 파일
 > (예: `note-곰보보수.html`)로 복사해 두는 방식도 가능합니다.

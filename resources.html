@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>노출콘크리트 기술자료 | 주식회사 아인산업안전</title>
-<meta name="description" content="노출콘크리트 곰보·기포 보수, 층조인트 단차 보정, 색상 재현, 균열 보수, 인젝션과 방수 공법에 대한 현장 기술자료를 공개합니다." />
-<meta name="keywords" content="노출콘크리트 기술자료, 콘크리트 보수 공법, 균열보수 기준, 인젝션 방수 자료, 시공기준" />
+<title>노출콘크리트 기술자료 · 시공사례 | 주식회사 아인산업안전</title>
+<meta name="description" content="노출콘크리트 곰보·기포 보수, 층조인트 단차 보정, 색상 재현, 균열 보수, 인젝션과 방수 공법에 대한 현장 기술자료와 실제 시공사례를 함께 공개합니다." />
+<meta name="keywords" content="노출콘크리트 기술자료, 노출콘크리트 시공사례, 콘크리트 보수 공법, 균열보수 기준, 인젝션 방수 자료, 시공기준" />
 <link rel="canonical" href="https://nam2037772.github.io/ainsafe-site/resources.html" />
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#111111" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="주식회사 아인산업안전" />
-<meta property="og:title" content="노출콘크리트 기술자료 | 주식회사 아인산업안전" />
-<meta property="og:description" content="노출콘크리트 곰보·기포 보수, 층조인트 단차 보정, 색상 재현, 균열 보수, 인젝션과 방수 공법에 대한 현장 기술자료를 공개합니다." />
+<meta property="og:title" content="노출콘크리트 기술자료 · 시공사례 | 주식회사 아인산업안전" />
+<meta property="og:description" content="노출콘크리트 곰보·기포 보수, 층조인트 단차 보정, 색상 재현, 균열 보수, 인젝션과 방수 공법에 대한 현장 기술자료와 실제 시공사례를 함께 공개합니다." />
 <meta property="og:image" content="https://nam2037772.github.io/ainsafe-site/assets/images/hero/concrete-detail.jpg" />
 <meta property="og:url" content="https://nam2037772.github.io/ainsafe-site/resources.html" />
 <meta property="og:locale" content="ko_KR" />
@@ -38,7 +38,6 @@
         <li><a href="concrete.html">노출콘크리트</a></li>
         <li><a href="waterproof.html">특수방수</a></li>
         <li><a href="safety.html">안전시설</a></li>
-        <li><a href="projects.html">시공사례</a></li>
         <li><a href="resources.html" aria-current="page">기술자료</a></li>
         <li><a href="about.html">회사소개</a></li>
         <li><a class="gnb__shop" data-link="shop" aria-disabled="true" title="온라인몰 주소 준비 중">온라인몰</a></li>
@@ -56,11 +55,11 @@
 
 <main id="main">
 <section class="phero">
-  <div class="phero__media"><img src="assets/images/hero/concrete-detail.jpg" alt="노출콘크리트 표면 디테일" width="1600" height="900" fetchpriority="high" /></div>
+  <div class="phero__media"><img src="assets/images/hero/hero-3.jpg" alt="면보수를 마친 노출콘크리트 벽면" width="773" height="435" fetchpriority="high" /></div>
   <div class="phero__inner">
-    <p class="eyebrow">TECHNICAL NOTES</p>
+    <p class="eyebrow">TECHNICAL NOTES &amp; WORKS</p>
     <h1 class="h1">기술자료</h1>
-    <p class="phero__desc">현장에서 확인한 기준과 순서를 정리해 공개합니다. 자료는 계속 추가됩니다.</p>
+    <p class="phero__desc">현장에서 확인한 기준과 순서, 그리고 실제 시공사례를 한곳에 모았습니다. 자료는 계속 추가됩니다.</p>
   </div>
 </section>
 
@@ -74,23 +73,29 @@
 <section class="section section--flat">
   <div class="wrap">
     <form class="searchbar" role="search" onsubmit="return false;">
-      <label class="sr-only" for="resourceSearch">기술자료 검색</label>
-      <input id="resourceSearch" type="search" placeholder="예) 곰보, 인젝션, 발수, 층조인트" autocomplete="off" />
+      <label class="sr-only" for="contentSearch">기술자료 · 시공사례 검색</label>
+      <input id="contentSearch" type="search" placeholder="예) 곰보, 인젝션, 발수, 층조인트, 지하주차장" autocomplete="off" />
       <button type="submit" aria-label="검색">검색</button>
     </form>
 
     <div class="filterbar">
       <div class="filterbar__row">
-        <span class="filterbar__label" id="lbl-doc">카테고리</span>
-        <div class="filters" id="resourceFilters" role="tablist" aria-labelledby="lbl-doc"></div>
+        <span class="filterbar__label" id="lbl-cat">카테고리</span>
+        <div class="filters" id="contentFilters" role="tablist" aria-labelledby="lbl-cat"></div>
+      </div>
+      <div class="filterbar__row">
+        <span class="filterbar__label" id="lbl-type">자료 유형</span>
+        <div class="filters" id="contentTypeFilters" role="tablist" aria-labelledby="lbl-type"></div>
       </div>
     </div>
 
-    <p class="result-count">총 <strong id="resourceCount">0</strong>건 · 최신순</p>
+    <p class="result-count">총 <strong id="contentCount">0</strong>건 · 최신순<span id="contentScope"></span></p>
 
-    <div class="resource-list" id="resourceGrid">
+    <div class="grid grid--3" id="contentGrid">
       <noscript><p class="empty">기술자료 목록을 보려면 자바스크립트를 허용해 주세요. 자료 문의는 1660-4019 로 부탁드립니다.</p></noscript>
     </div>
+
+    <div class="section__more"><button class="btn btn--dark" type="button" id="contentMore">더 보기</button></div>
   </div>
 </section>
 
@@ -164,6 +169,8 @@
 
 <script src="assets/js/config.js"></script>
 <script src="assets/js/resources.js"></script>
+<script src="assets/js/projects.js"></script>
+<script src="assets/js/content.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
