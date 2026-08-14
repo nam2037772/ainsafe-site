@@ -358,6 +358,7 @@ ul,ol{list-style:none}
       <a href="waterproof.html">특수방수</a>
       <a href="safety.html">안전시설</a>
       <a href="projects.html">시공사례</a>
+      <a href="resources.html">기술자료</a>
       <a href="about.html">회사소개</a>
       <a class="tel" id="navTel" href="tel:16604019">1660-4019</a>
       <a class="nav__cta" href="contact.html">문의하기</a>
@@ -573,7 +574,6 @@ ul,ol{list-style:none}
       var lim=ws.homeLimit||S.works.length;
       wg.innerHTML=S.works.slice(0,lim).map(function(w){
         var meta="";
-        if(w.location)meta+="<span>"+esc(w.location)+"</span>";
         if(w.type)meta+="<span>"+esc(w.type)+"</span>";
         return '<a class="work reveal" href="'+esc(w.link||"#")+'">'+
           '<div class="work__media"><img src="'+esc(w.image)+'" alt="'+esc(w.imageAlt||w.title)+'" loading="lazy" /></div>'+

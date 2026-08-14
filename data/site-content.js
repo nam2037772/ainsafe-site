@@ -99,14 +99,14 @@ window.SITE = {
   /* ── 6. 시공사례 (Works) ──────────────────────────────────────────────────
      ★ 가장 자주 쓰는 부분입니다.
      - 새 사례 추가: 아래 { } 한 덩어리를 복사해서 맨 위(또는 원하는 위치)에 붙이고
-                    title / description / image / type / location 만 바꿉니다.
+                    title / description / image / type 만 바꿉니다.
      - 사례 삭제: 해당 { } 덩어리를 지웁니다.
      - 순서 변경: { } 덩어리의 위아래 순서를 바꿉니다. (위에 있을수록 먼저 나옵니다)
 
      · type(공종) 은 반드시 아래 workTypes 중 하나로 적습니다.
        ▶ 노출콘크리트 / 인젝션 / 특수방수 / 안전시설 / 기타
-     · location(지역) 은 '제주', '서울', '부산' 처럼 참고용 태그일 뿐,
-       메뉴나 분류 기준이 아닙니다. (아인산업안전은 전국 시공)
+     · 지역은 분류 기준이 아닙니다. 현장 위치가 필요하면 본문(description)이나
+       개별 시공사례 상세(assets/js/projects.js 의 location)에만 적습니다.
 
      ※ 홈페이지 첫 화면에는 아래 목록에서 앞쪽 homeLimit 개만 보입니다. */
   worksSection: {
@@ -126,7 +126,6 @@ window.SITE = {
       image:       'assets/images/works/work-1.jpg',
       imageAlt:    '별빛누리공원 노출콘크리트 복원',
       type:        '노출콘크리트',   // 공종 (workTypes 중 하나)
-      location:    '제주',          // 참고용 지역 태그
       link:        'projects.html'
     },
     {
@@ -135,7 +134,6 @@ window.SITE = {
       image:       'assets/images/works/work-2.jpg',
       imageAlt:    '서귀포 공공청사 로비 노출콘크리트 면보수',
       type:        '노출콘크리트',
-      location:    '서귀포',
       link:        'projects.html'
     },
     {
@@ -144,7 +142,6 @@ window.SITE = {
       image:       'assets/images/works/work-3.jpg',
       imageAlt:    '신천리 주택 실내 노출콘크리트 색상 재현',
       type:        '노출콘크리트',
-      location:    '성산',
       link:        'projects.html'
     }
   ],

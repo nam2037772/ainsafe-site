@@ -13,7 +13,7 @@ ainsafe-site/
 ├─ concrete.html       노출콘크리트 (공정별 기준 · 시공 흐름)
 ├─ waterproof.html     특수방수 (인젝션 · 배면그라우팅 · 액상고무)
 ├─ safety.html         안전시설 (시공 범위 · 연계 시공)
-├─ projects.html       시공사례 목록 (공종/지역 필터 · 더보기)
+├─ projects.html       시공사례 목록 (공종 필터 · 더보기)
 ├─ project.html        시공사례 상세  → project.html?id=아이디
 ├─ resources.html      기술자료 목록 (검색 · 카테고리 필터)
 ├─ resource.html       기술자료 상세  → resource.html?id=아이디
@@ -57,7 +57,7 @@ python -m http.server 8777
 {
   id: 'jeju-concrete-101',              // 상세 주소가 됩니다 → project.html?id=jeju-concrete-101
   title: '제주 ○○빌딩 층조인트 면보수',
-  location: '제주시',                    // 지역 필터에 자동 추가됨
+  location: '제주시',                    // 현장 위치(선택). 상세페이지에만 표시, 분류 기준 아님
   building: '근린생활시설',
   category: '노출콘크리트',              // 노출콘크리트 | 균열보수 | 인젝션 | 특수방수 | 안전시설
   date: '2026-08',                       // 최신순 정렬 기준

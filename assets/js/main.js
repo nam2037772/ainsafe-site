@@ -174,7 +174,7 @@
 
   /* ── 5. 카드 및 리스트 마크업 ────────────────────────── */
   function projectCard(p) {
-    var meta = [p.location, p.category, fmtDate(p.date)].filter(Boolean)
+    var meta = [p.category, p.building, fmtDate(p.date)].filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
     return '' +
       '<article class="card">' +
@@ -194,7 +194,7 @@
   }
 
   function featuredProjectCard(p, index) {
-    var meta = [p.location, p.category, fmtDate(p.date)].filter(Boolean)
+    var meta = [p.category, p.building, fmtDate(p.date)].filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
     
     if (index === 0) {
@@ -346,7 +346,7 @@
 
       nav.innerHTML = pairs.map(function (p, i) {
         return '<button type="button" role="tab" aria-selected="' + (i === 0) + '"' +
-               ' class="' + (i === 0 ? 'is-on' : '') + '">' + esc(p.location || '현장') + ' · ' + esc(p.category) + '</button>';
+               ' class="' + (i === 0 ? 'is-on' : '') + '">' + esc(p.category) + ' · ' + esc(fmtDate(p.date)) + '</button>';
       }).join('');
       $$('button', nav).forEach(function (b, i) { b.addEventListener('click', function () { show(i); }); });
       show(0);
@@ -361,17 +361,12 @@
     var requestedCategory = qs('category');
     var state = {
       category: CATEGORIES.indexOf(requestedCategory) > -1 ? requestedCategory : 'all',
-      location: 'all',
       shown: 9
     };
     var STEP = 9;
     var catBox = $('#catFilters');
-    var locBox = $('#locFilters');
     var moreBtn = $('#projectMore');
     var countEl = $('#projectCount');
-
-    var locations = PROJECTS.map(function (p) { return p.location; })
-      .filter(function (v, i, arr) { return v && arr.indexOf(v) === i; });
 
     function chip(value, label, active) {
       return '<button class="filter' + (active ? ' is-on' : '') + '" type="button" role="tab"' +
@@ -381,15 +376,10 @@
       catBox.innerHTML = chip('all', '전체', state.category === 'all') +
         CATEGORIES.map(function (c) { return chip(c, c, state.category === c); }).join('');
     }
-    if (locBox) {
-      locBox.innerHTML = chip('all', '전체 지역', true) +
-        locations.map(function (l) { return chip(l, l, false); }).join('');
-    }
 
     function filtered() {
       return PROJECTS.slice().sort(byDateDesc).filter(function (p) {
-        return (state.category === 'all' || p.category === state.category) &&
-               (state.location === 'all' || p.location === state.location);
+        return state.category === 'all' || p.category === state.category;
       });
     }
     function render() {
@@ -416,7 +406,6 @@
       });
     }
     bind(catBox, 'category');
-    bind(locBox, 'location');
     if (moreBtn) moreBtn.addEventListener('click', function () { state.shown += STEP; render(); });
     render();
   }
@@ -438,10 +427,10 @@
       return;
     }
     var p = sorted[idx];
-    updateMeta(p.title, p.location + ' ' + p.category + ' — ' + p.summary, img(p.after));
+    updateMeta(p.title, p.category + ' — ' + p.summary, img(p.after));
 
     var rows = [
-      ['지역', p.location], ['건축물', p.building], ['시공 분야', p.category],
+      ['시공 분야', p.category], ['건축물', p.building], ['현장 위치', p.location],
       ['시공 시기', fmtDate(p.date)], ['작업 기간', p.period]
     ].filter(function (r) { return r[1]; });
 
