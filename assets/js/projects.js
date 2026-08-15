@@ -1,16 +1,23 @@
 /* ============================================================
-   projects.js — verified Obsidian-derived case studies only
-   Canonical chain: Raw -> Wiki/홈페이지/발행대기 -> CASE_IMAGE_MAP.md
-   Generated for the approved 26-case rebuild. Do not add unverified legacy data.
+   projects.js — 시공기술사례 데이터 (자동 생성 파일 · 직접 고치지 마세요)
+
+   생성: node tools/rebuild-cases.js --write --sync-drafts
+   정본: Vault/에릭_vault/Raw/노출콘 시공기술사례/*.md   (에릭 검수본)
+         └ 이미지 분류(대표사진 / 시공전 / 시공중 / 시공후)와 그 순서
+         Wiki/홈페이지/발행대기/*.md
+         └ 제목 · 요약 · 기술 본문
+
+   · Raw 에 없는 사례는 되살리지 않습니다. 지워진 사례는 의도적으로 지운 것입니다.
+   · 없어진 사례의 id 는 RETIRED_PROJECT_IDS 에 남겨 주소가 죽지 않게 합니다.
+   · 사진을 바꾸려면 이 파일이 아니라 Raw 노트를 고치고 도구를 다시 실행하세요.
    ============================================================ */
 
-const PROJECT_ALIASES = {
-  "concrete-case-003-euroform-airless-spray": "obsidian-case-003-euroform-exposed-concrete-airless-spray-500sqm",
-  "concrete-case-025-sample-mockup": "obsidian-case-025-exposed-concrete-repair-sample-mockup-color-matching"
-};
+const PROJECT_ALIASES = {};
 
 const RETIRED_PROJECT_IDS = [
   "concrete-case-013-stain-repair",
+  "concrete-case-003-euroform-airless-spray",
+  "concrete-case-025-sample-mockup",
   "jeju-starlight-park-001",
   "jeju-parking-injection-001",
   "jeju-wall-crack-001",
@@ -49,7 +56,14 @@ const RETIRED_PROJECT_IDS = [
   "jeju-injection-029",
   "jeju-injection-030",
   "jeju-injection-031",
-  "jeju-injection-032"
+  "jeju-injection-032",
+  "obsidian-case-025-exposed-concrete-repair-sample-mockup-color-matching",
+  "obsidian-case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating",
+  "obsidian-case-021-exposed-concrete-large-hole-crack-mapei-cd1-repair-jointline",
+  "obsidian-case-019-exposed-concrete-plaster-patch-repair-conche-repair",
+  "obsidian-case-018-exposed-concrete-crack-repair-conche-middlegray-ivory",
+  "obsidian-case-016-exposed-concrete-color-tone-demo-iron-oxide-white-cement",
+  "obsidian-case-003-euroform-exposed-concrete-airless-spray-500sqm"
 ];
 
 const PROJECTS = [
@@ -57,7 +71,7 @@ const PROJECTS = [
     "id": "obsidian-case-045-songpa-restaurant-industrial-conchae-vintage-wall",
     "source": "obsidian",
     "case_no": "045",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 045.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 045.md",
     "draft_file": "Wiki/홈페이지/발행대기/songpa-restaurant-industrial-conchae-vintage-wall.md",
     "review_required": false,
     "title": "송파 오픈예정 식당 인더스트리얼 콘채 빈티지 벽체 시공",
@@ -70,24 +84,51 @@ const PROJECTS = [
     "problem": "• 오래된 마감재와 사용 흔적이 남아 있는 벽체 (인더스트리얼 스타일 표현에는 유리한 조건으로 평가) • 이질감 있는 기둥 — 미장+페인트가 혼재된 상태 • 건축주는 노출콘크리트 특유의 질감과 빈티지한 인더스트리얼 분위기를 요청 • 노출콘크리트 특유의 질감과 시간의 흔적을 살려 거칠면서도 세련된 공간을 연출하는 것을 목표로 인더스트리얼 컨셉 설정 • 이질재료(미장+페인트) 부위는 전체 퍼티로 처리하기로 판단 — 진행하다 보니 \"거의 올퍼티 수준\"까지 확대됨 • 바탕면 정리 후 라이트그레이로 전체 뿜칠할지 여부는 현장 상황에 맞게 판단해야 한다는 원칙 언급",
     "method": "1. 현장미팅 — 제주에서 서울로 이동해 현장미팅 및 건축주 의도 파악 2. 자재·공구·연장 준비 — 프라이머, 콘채 미들그레이, 콘채 라이트그레이, 코팅제, 커버링, 마스킹, 콤프레샤, 고대와 고대판, 헤라, 전기선, 그라인더, 샌딩기 등 3. 바탕면 정리 — 청소, 튀어나온 못 제거, 들뜬 부위 스크래핑, 기본 그라인딩, 커버링 작업 4. 균열보수와 퍼티 — 이질재료 부분은 올퍼티, 단차·파손·오염 부위는 콘채퍼티 작업 5. 퍼티&콘채뿜칠 — 미들그레이 퍼티로 뼈대를 잡고 미들그레이 콘채 1차 뿜칠, 보수부위 단차부는 샌딩 (주방쪽은 타일 시공 예정이라 제외) 6. 샌딩 후 2차 부분퍼티와 샌딩 — 1차 시공 후 불편한 부분을 다시 샌딩·퍼티로 반복 보완 7. 2차 샌딩, 퍼티부분 커버 — 1차 뿜칠 후 눈에 띄는 불편한 면을 재차 샌딩·부분퍼티 (퍼티 후 반드시 샌딩 필요하다는 원칙 언급) 8. 2차·3차 콘채뿜칠 — 1·2차는 미들그레이로 전체 바탕 형성 후, 3차는 라이트그레이로 전체 뿜칠 (패턴 작업을 위해서는 라이트그레이가 적절하다는 판단) 9. 패턴과 채도를 낮추는 과정",
     "result": "• 인더스트리얼 컨셉의 빈티지 노출콘크리트 벽체로 완성 • 기존 이질감 있던 기둥(미장+페인트)이 콘채 시공을 통해 빈티지한 느낌으로 통일됨 • 원문 코멘트: \"콘크리트는 차가운 재료처럼 보이지만, 그 안에는 시간과 공간의 이야기가 담겨 있습니다\"",
-    "representative_image": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.jpg",
+    "representative_image": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.png",
     "before_images": [
-      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before.jpg"
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-01.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-02.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-03.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-04.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-05.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-06.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-01.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-02.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-03.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-04.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-05.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-06.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-07.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-08.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/process-09.jpg"
     ],
     "after_images": [
-      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.jpg"
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-01.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-02.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-03.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-04.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-05.jpg",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-06.png",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-07.png",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-08.png",
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-09.png"
     ],
-    "thumbnail": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.jpg",
-    "after": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.jpg",
-    "before": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before.jpg",
+    "thumbnail": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.png",
+    "after": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/after-01.jpg",
+    "before": "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-045-songpa-restaurant-industrial-conchae-vintage-wall/representative.png"
+    ]
   },
   {
     "id": "obsidian-case-044-jeju-stain-efflorescence-exposed-concrete-repair",
     "source": "obsidian",
     "case_no": "044",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 044.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 044.md",
     "draft_file": "Wiki/홈페이지/발행대기/jeju-stain-efflorescence-exposed-concrete-repair.md",
     "review_required": false,
     "title": "제주 오염·백화 노출콘크리트 면보수 (콘채 라이트그레이2:아이보리1)",
@@ -100,17 +141,68 @@ const PROJECTS = [
     "problem": "• 오염과 얼룩이 전체적으로 퍼져 있는 상태 • 부분적인 색상 차이와 면 불균형 • 노출콘크리트는 표면 자체가 디자인 요소가 되므로 작은 오염이나 색상 편차만으로도 공간 분위기가 크게 달라질 수 있다는 판단 • 일반 도장처럼 덮어 가리는 방식이 아니라 기존 면의 특성을 살리면서 자연스럽게 연결하는 방향으로 접근 • 시공 전 상태를 충분히 분석한 후 작업 방향을 결정",
     "method": "[시공기록 — 원문 기록] 1. 바탕면 정리 2. 균열보수 및 열화부위 보수 3. 콘채 시공 (현장에 따라 배합비율이 다르며, 이번 현장은 라이트그레이 2 : 아이보리 1로 시공) 4. 방수코팅제 시공 바탕 정리 단계에서는 표면 상태 확인, 오염 부위와 접착 상태 점검, 기존 면과의 질감 연결을 고려하며 진행. 콘채 작업 단계에서는 면의 균일감과 질감 표현, 빛 반사까지 고려하며 세밀하게 조정.",
     "result": "• 기존 구조물과 자연스럽게 어우러지는 면 정리로 마감 • 노출콘크리트 본연의 느낌을 유지하면서 전체적인 균형감과 안정감 회복 • 원문 코멘트: \"노출콘크리트는 얼마나 자연스럽게 면이 정리되었는지가 완성도를 결정합니다\"",
+    "representative_image": "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/before-01.jpg",
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/before-02.jpg",
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/before-03.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/after-01.jpg",
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/after-02.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/representative.jpg",
-    "after": "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/representative.jpg",
+    "after": "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/after-01.jpg",
+    "before": "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/representative.jpg",
+      "assets/images/case-studies/case-044-jeju-stain-efflorescence-exposed-concrete-repair/representative-02.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-043-warm-gray-tone-conchae-jeju-house-finish",
+    "source": "obsidian",
+    "case_no": "043",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 043.md",
+    "draft_file": "Wiki/홈페이지/발행대기/warm-gray-tone-conchae-jeju-house-finish.md",
+    "review_required": true,
+    "title": "제주 주택 웜그레이톤 콘채 노출콘크리트 마감 (아이보리·라이트그레이 1:1 배합)",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "제주 주택 현장에서 콘채 아이보리와 라이트그레이를 1:1 비율로 배합해 부드럽고 고급스러운 웜그레이톤 노출콘크리트를 구현한 사례.",
+    "problem": "원문에 명시되지 않음 (기존 벽체 상태, 하자 여부 등에 대한 서술 없이 완성 사진 위주로 구성됨) • 제주 특유의 자연광과 주변 풍경을 고려해 너무 차갑지 않으면서도 묵직한 콘크리트 감성을 살리는 방향으로 색상 판단 • 아이보리와 라이트그레이를 조합하면 과하게 노랗지 않고 은은한 웜그레이톤으로 정리된다는 경험적 판단",
+    "method": "• 콘채 아이보리 + 라이트그레이를 1:1로 배합 • 면의 균일성과 자연스러운 색 흐름에 집중해 시공 • 햇빛의 방향, 수분 상태, 건조 타이밍에 따라 색감이 달라지므로 이를 고려해 작업 (구체적 시공 단계, 바탕 정리, 뿜칠/미장 방식 등 세부 공정은 원문에 명시되지 않음 — 색상 배합 컨셉 소개 위주)",
+    "result": "• 콘크리트 특유의 거친 질감은 유지하면서도 전체적인 인상이 부드럽고 따뜻하게 표현됨 • 원문 코멘트: \"완공이 가까워질수록 건물의 매스감과 웜그레이 특유의 분위기가 더욱 살아나고 있습니다\", \"제주의 하늘과도 잘 어울리는 고급스러운 노출콘크리트 주택 현장\"",
+    "representative_image": "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/representative.png",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/after-01.png",
+      "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/after-02.png",
+      "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/after-03.png",
+      "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/after-04.png",
+      "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/after-05.png"
+    ],
+    "thumbnail": "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/representative.png",
+    "after": "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/after-01.png",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-043-warm-gray-tone-conchae-jeju-house-finish/representative.png"
+    ]
   },
   {
     "id": "obsidian-case-042-floor-joint-exposed-concrete-repair-color-matching",
     "source": "obsidian",
     "case_no": "042",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 042.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 042.md",
     "draft_file": "Wiki/홈페이지/발행대기/floor-joint-exposed-concrete-repair-color-matching.md",
     "review_required": false,
     "title": "층조인트 노출콘크리트 면보수 및 컬러 조색 (시공영상 포함)",
@@ -123,17 +215,137 @@ const PROJECTS = [
     "problem": "• 층조인트를 갈아낸 면 — 보수 필요한 상황 • 층조인트 라인과 표면 거칠음, 색상 차이가 눈에 띄는 상태 • 노출콘크리트는 작은 색 차이나 단차, 보수 흔적도 눈에 잘 띄기 때문에 단순히 메우는 작업이 아니라 \"기존 콘크리트와 얼마나 자연스럽게 이어지느냐\"가 핵심이라는 판단 • 빛을 받는 방향에 따라 보수 부위가 더 도드라져 보일 수 있어 컬러 조색과 질감 맞춤 작업이 중요하다고 판단",
     "method": "1. 층조인트 및 불량부 정리 2. 전용 보수재 배합 및 컬러 조색 3. 면 정리 및 패턴 조율 4. 전체 질감 균일화 작업 5. 주변 콘크리트와 자연스럽게 연결되는 최종 마감",
     "result": "• 층조인트의 이질감이 줄어들고 전체 면이 한층 정돈된 느낌으로 개선 • 멀리서뿐 아니라 가까이에서도 자연스럽게 이어지는 방향으로 완성 • 원문 코멘트: \"노출콘크리트 보수는 단순 미장이 아니라 '콘크리트의 표정을 다시 만드는 작업'에 가깝습니다\"",
+    "representative_image": "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/before-01.jpg",
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/before-02.jpg",
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/before-03.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/process-01.jpg",
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/process-02.jpg",
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/process-03.jpg",
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/process-04.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/after-01.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/representative.jpg",
-    "after": "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/after-01.jpg",
+    "before": "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-042-floor-joint-exposed-concrete-repair-color-matching/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-041-exposed-concrete-logo-wall-repair-color-correction",
+    "source": "obsidian",
+    "case_no": "041",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 041.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-logo-wall-repair-color-correction.md",
+    "review_required": true,
+    "title": "음각 로고 노출콘크리트 벽체 파손·오염 면보수 및 색보정",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "파손·오염·색편차가 있던 음각 로고 노출콘크리트 벽체를 입체감과 빛 방향을 고려해 면보수·색보정한 사례.",
+    "problem": "• 로고 부분 콘크리트 글자의 파손, 오염, 색편차 • 벽체 전체적으로 면 불균형 • 입체 음각 로고 특성상 단순 면보수가 아니라 빛 방향과 그림자까지 고려한 정리가 필요하다는 판단 • 노출콘크리트는 단순히 메우는 작업이 아니라 \"기존 콘크리트와 얼마나 자연스럽게 연결되느냐\"가 핵심이라는 원칙 하에 진행",
+    "method": "• 로고 부분 파손·오염 부위 면보수 • 전체 밸런스에 맞춘 색보정 • 빛 방향과 그림자를 고려한 입체감 정리 (구체적 배합비, 자재명, 단계별 공정 순서는 원문에 명시되지 않음 — 다수의 시공중 사진만 나열되어 있고 서술은 개괄적)",
+    "result": "• 기존 얼룩과 이질감이 줄어들고, 로고의 입체감과 노출콘크리트 특유의 질감이 깔끔하게 살아남",
+    "representative_image": "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-01.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-02.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-03.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-04.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-05.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-06.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-07.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-01.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-02.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-03.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-04.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-05.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-06.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-07.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-08.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-09.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-10.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/process-11.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/after-01.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/after-02.jpg",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/after-03.png",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/after-04.png",
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/after-05.png"
+    ],
+    "thumbnail": "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/representative.jpg",
+    "after": "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/after-01.jpg",
+    "before": "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-041-exposed-concrete-logo-wall-repair-color-correction/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-040-window-surround-exposed-concrete-color-matching-repair",
+    "source": "obsidian",
+    "case_no": "040",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 040.md",
+    "draft_file": "Wiki/홈페이지/발행대기/window-surround-exposed-concrete-color-matching-repair.md",
+    "review_required": true,
+    "title": "창호 주변 노출콘크리트 면보수 및 색상 매칭 (제주, 6개 구간)",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "창호 주변 노출콘크리트의 거친 면과 단차, 타설 오차를 6개 구간에 걸쳐 기존 콘크리트 컬러·질감에 맞춰 보수한 제주 지역 사례.",
+    "problem": "• 창 주변 콘크리트 면의 거친 부분과 단차 • 타설 오차, 면 불량, 몰탈 자국, 색 번짐 • 노출콘크리트는 일반 도장면과 달리 작은 색 차이와 미세한 단차도 바로 눈에 띄기 때문에 보수 완성도가 중요하다는 판단 • 보수 작업을 단순히 메우는 개념이 아니라 기존 콘크리트의 흐름과 표면 질감을 이어주는 작업으로 접근 • 모서리 라인과 창호 접합부는 직선 라인이 무너지지 않도록 세밀하게 정리하는 것이 핵심 포인트로 강조됨",
+    "method": "• 창 주변 콘크리트 면의 거친 부분과 단차 정리 • 기존 콘크리트 컬러와 질감을 최대한 자연스럽게 맞춤 • 얇은 미장과 샌딩, 컬러 조율을 반복 진행 • 모서리 라인과 창호 접합부 정밀 정리 (구체적 배합비, 자재명, 공정 순서 번호는 원문에 명시되지 않음 — 서술형 설명 중심)",
+    "result": "• 6개 구간 모두 시공전/시공후 비교 사진으로 확인 가능 • 빛을 받았을 때도 이질감이 적도록 마감 • 원문 결론: \"노출콘크리트는 결국 '얼마나 티 안 나게 보수하느냐'가 핵심입니다\"",
+    "representative_image": "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-01.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-02.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-03.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-04.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-05.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-06.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-07.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-01.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-02.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-03.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-04.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-05.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-06.jpg",
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-07.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/representative.jpg",
+    "after": "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/after-01.jpg",
+    "before": "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-040-window-surround-exposed-concrete-color-matching-repair/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-039-jeju-new-building-retaining-wall-exposed-concrete-repair",
     "source": "obsidian",
     "case_no": "039",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 039.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 039.md",
     "draft_file": "Wiki/홈페이지/발행대기/jeju-new-building-retaining-wall-exposed-concrete-repair.md",
     "review_required": false,
     "title": "제주 신축현장 옹벽 노출콘크리트 질감 복원 면보수",
@@ -146,17 +358,38 @@ const PROJECTS = [
     "problem": "• 콘크리트 색 편차 • 미세 벌집(공극) • 거친 면 • 조인트 주변 불균형 • 면 거칠음, 부분 백화, 색상 불균형, 조인트 라인 흐트러짐, 폼타이 주변 미세 하자 • 노출콘크리트는 일반 미장과 달리 단순히 메꾸는 작업이 아니라 기존 콘크리트의 질감과 분위기를 자연스럽게 연결하는 것이 핵심이라는 판단 • 전체 면의 흐름을 살리면서 콘크리트 특유의 재료감을 유지하는 방향으로 작업 방향 설정 • 너무 깨끗하게 마감하면 이질감이 생기고, 반대로 질감 정리가 부족하면 완성도가 떨어진다는 판단 하에 균형점을 찾음",
     "method": "1. 면 정리 후 취약부 박막면보수 진행 2. 조인트 라인 재정리 3. 콘크리트 컬러에 맞춰 톤 조절 4. 과도하게 새것처럼 보이지 않도록 자연스러운 질감과 농담을 살려 마감 5. 재료 배합, 수분 타이밍, 압착감, 워시 질감까지 전체 흐름을 맞추는 작업 진행",
     "result": "• 전체 면이 자연스럽게 정리되면서 조인트 라인과 콘크리트 패널 느낌이 안정감 있게 개선 • 색상 불균형과 조인트 라인 흐트러짐이 해소됨",
+    "representative_image": "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/before-01.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/before-02.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/before-03.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/before-04.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/process-01.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/process-02.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/process-03.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/after-01.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/after-02.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/after-03.jpg",
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/after-04.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/representative.jpg",
-    "after": "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/after-01.jpg",
+    "before": "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-038-column-section-repair-conchae-pattern-two-columns",
     "source": "obsidian",
     "case_no": "038",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 038.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 038.md",
     "draft_file": "Wiki/홈페이지/발행대기/column-section-repair-conchae-pattern-two-columns.md",
     "review_required": false,
     "title": "기둥 골재 노출 단면보수 및 콘채패턴 마감 (2개 기둥 사례)",
@@ -169,17 +402,41 @@ const PROJECTS = [
     "problem": "• 기둥단변 #1: 골재절단표면 노출로 보수 필요 • 기둥단면 #2: 배부름으로 면갈기를 과하게 하여 골재 자갈까지 절단면이 노출됨 — 깊은 곳 보수, 표면보수 등이 필요한 상태 • 단면보수는 단순히 메우는 개념이 아니라 마감까지 이어질 수 있는 표면 상태를 만드는 것이 핵심으로 판단 (원문: \"이 단계에서 결과가 거의 70% 결정됩니다\") • 보수 후 방향 설정에서 두 가지 선택지 검토: 1) 완전히 덮어 새 콘크리트처럼 만들기 2) 질감을 살려 디자인으로 가져가기 • 표면 연출은 \"반투명하게 눌러주는 느낌\"의 중간 지점을 지향 — 너무 덮으면 페인트처럼 보이고, 덜 건드리면 보수 티가 남는다는 판단",
     "method": "1. 단면보수 상태 확보 — 고강도 보수몰탈로 구조적 안정화, 들뜸 없이 밀착, 골재가 자연스럽게 드러날 수 있는 상태, 패치 느낌 최소화 2. 노출콘크리트 방향 설정 (질감 살릴지 완전히 덮을지 판단) 3. 표면 연출 — 콘채패턴 방식으로 진행, 톤은 정리하되 인위적 느낌은 줄이는 방향 4. 결과 확인 — 톤 정리 + 인위적 느낌 최소화 5. 실무 포인트 — 단면보수 단계에서 마감까지 고려, 질감은 남기고 톤만 잡는 방향, 마지막은 보호코팅으로 마무리 기둥단면 #2는 동일한 방식(단면보수 → 콘채패턴 → 보호코팅)으로 진행됨 (원문: \"1차보수\" → \"보수완료\" 순서로 사진 기록).",
     "result": "• 완성된 표면은 톤이 정리되어 있고 인위적인 느낌이 줄어든 상태로 마감 • 원문 총평: \"노출콘크리트는 '잘 만드는 기술'보다 '어디까지 남길지 판단하는 감각'이 더 중요합니다\"",
+    "representative_image": "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/before-01.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/before-02.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/before-03.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/before-04.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/process-01.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/process-02.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-01.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-02.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-03.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-04.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-05.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-06.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-07.jpg",
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-08.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/representative.jpg",
-    "after": "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/after-01.jpg",
+    "before": "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-038-column-section-repair-conchae-pattern-two-columns/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-037-retaining-wall-conchae-spray-stain-removal",
     "source": "obsidian",
     "case_no": "037",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 037.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 037.md",
     "draft_file": "Wiki/홈페이지/발행대기/retaining-wall-conchae-spray-stain-removal.md",
     "review_required": false,
     "title": "노출콘크리트 옹벽 얼룩·거친면 콘채뿜칠 개선 시공",
@@ -192,17 +449,30 @@ const PROJECTS = [
     "problem": "• 콘크리트 타설 후 양생 과정에서 발생한 얼룩과 타설 조인트 자국이 그대로 노출되어 지저분한 상태 • 거푸집 탈형 후 표면이 매끄럽지 못하고 거친 상태 • 주변 자연석 축대·수풀과 대비되어 이질적이고 방치된 느낌 • 단순 페인트와 달리 콘크리트 미세 기공을 채우면서 표면 강도를 높이는 콘채뿜칠 공법을 적용하기로 판단 • 균일한 톤을 만들기 위해 얼룩진 부위가 비치지 않도록 두께를 균일하게 뿜칠 • 기존 옹벽의 메지(줄눈) 라인은 손상시키지 않고 그대로 살려 입체감 유지",
     "method": "[시공과정 — 원문 기록] 1. 균열보수 2. 전체 샌딩 3. 콘채 라이트그레이 뿜칠 4. 방수코팅제 뿜칠 핵심 시공 포인트: • 뿜칠 전 느슨한 부위·이물질 제거하는 바탕 정리 철저히 진행 • 균일한 두께로 뿜칠하여 톤 맞춤 • 메지 라인을 손상시키지 않고 그대로 살려 입체감 유지",
     "result": "• 지저분했던 얼룩과 타설 자국이 완전히 사라지고 고급스러운 연그레이 톤의 균일한 컬러로 마감 • 거칠었던 표면이 메워져 시각적으로 매끈한 질감으로 개선 • 우측 하단 비정형적 마감 부위나 기존 구조적 라인은 그대로 살리면서 표면만 정리해 이질감 없음 • 주변 자연석·수풀과 어우러져 완성도 있는 공간으로 개선",
+    "representative_image": "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/before-01.jpg",
+      "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/before-02.jpg",
+      "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/before-03.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/after-01.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/representative.jpg",
-    "after": "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/after-01.jpg",
+    "before": "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-037-retaining-wall-conchae-spray-stain-removal/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-036-panel-house-exterior-insulation-conchae-vintage-finish",
     "source": "obsidian",
     "case_no": "036",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 036.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 036.md",
     "draft_file": "Wiki/홈페이지/발행대기/panel-house-exterior-insulation-conchae-vintage-finish.md",
     "review_required": false,
     "title": "판넬주택 외단열 보강 + 콘채 빈티지 노출콘크리트 마감",
@@ -215,17 +485,91 @@ const PROJECTS = [
     "problem": "• 샌드위치 판넬로 지어진 주택 — 효율적이나 시각적으로 가볍고 단열 성능이 아쉬운 상태 • 원문 표현: \"시각적인 '가벼움'과 단열의 아쉬움이 늘 숙제\" • 단순히 표면만 칠하는 방식이 아니라, 단열 보강(기초)과 질감 마감(피부)을 함께 만드는 접근으로 판단 • 단열재 부착으로 판넬의 열교 현상을 차단하고 외벽 볼륨감 확보 • 메쉬 미장으로 균열을 방지하고 마감재와의 접착력 극대화 • 콘채 마감은 인위적인 매끄러움이 아닌 시멘트 특유의 거칠고 자연스러운 얼룩·질감을 살리는 방향으로 결정",
     "method": "1. 단열재 부착, 메쉬 미장 후 콘채 미장 - 기존 판넬면을 가볍게 샌딩 - 폼본드와 화스너를 이용해 단열재 부착 - 단열재 위에 메쉬를 감아 균열 방지 및 마감재 접착력 강화 2. 콘채(Concrete Art) 마감 — 시멘트 특유의 거칠고 자연스러운 얼룩과 질감을 살려 마감 3. 단조로운 콘채 미장 위에 추가로 콘채 패턴 작업 후 코팅 완료",
     "result": "• 무채색 콘채 마감이 주변과 이질감 없이 어우러지며, 건물이 땅에 안정적으로 안착한 느낌 형성 • 외단열을 통해 판넬 주택의 취약점인 단열 성능 개선과 미적 완성도를 동시에 확보 • 원문 코멘트: \"손맛의 미학\", \"빛의 각도에 따라 면의 표정이 달라집니다\", \"건물이 땅에 안정적으로 안착한 느낌\"",
+    "representative_image": "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-01.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-02.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-03.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-04.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-05.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-06.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/process-01.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/process-02.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/process-03.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/process-04.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/process-05.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-01.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-02.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-03.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-04.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-05.jpg",
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-06.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/representative.jpg",
-    "after": "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/after-01.jpg",
+    "before": "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-036-panel-house-exterior-insulation-conchae-vintage-finish/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard",
+    "source": "obsidian",
+    "case_no": "035",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 035.md",
+    "draft_file": "Wiki/홈페이지/발행대기/gangnam-clothing-store-conchae-gray-pattern-plasterboard.md",
+    "review_required": true,
+    "title": "강남 의류매장 석고보드 위 콘채 그레이 패턴 노출콘크리트 시공",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "강남 의류매장 내부 석고보드 벽체에 콘채 그레이 패턴을 적용해 빈티지한 노출콘크리트 감성을 연출한 시공 사례.",
+    "problem": "• 기존 석고보드 마감 상태 • 신축이 아닌 기존 건물 (원문: \"신축이 아니어도 가능합니다. 기존 석고보드 위에 콘크리트 질감 표현이 가능합니다.\") • 의류매장 특성상 벽이 튀면 안 되고 제품이 돋보여야 한다는 요구 — 강한 대비보다 은은한 명도 차이 중심으로 컨셉 설정 • 차가운 그레이톤 기반, 채도를 낮춘 빈티지 무드, 조명 아래서 자연스럽게 살아나는 패턴을 목표로 설정 • 패턴은 일정하게 찍지 않고 부직포와 붓터치를 혼합해 자연스러운 흐름을 의도 (얼룩이 아닌 \"레이어\"로 보이도록 조절)",
+    "method": "1. 바탕면 정리 및 조인트 보강 2. 콘채 올퍼티 1차 베이스 형성 3. 그레이 베이스 톤 정리 4. 콘채 그레이 패턴 작업 5. 채도 감소 워시 작업으로 깊이감 형성 6. 무광 코팅 마감 (각 단계별 배합비, 자재 사용량, 소요 시간 등 구체적 수치는 원문에 명시되지 않음)",
+    "result": "• 천장 노출콘크리트와 조화, 우드 선반과 대비, 블랙 가구와 균형을 이루는 공간 연출 • 블랙 가구와 그레이 벽의 조합으로 묵직하면서도 세련된 분위기 형성 • 원문 코멘트: \"사진보다 실제 현장에서 보는 질감이 훨씬 깊습니다\" • 추천 적용 공간으로 의류매장, 카페, 쇼룸, 갤러리, 빈티지 컨셉 상업공간, 석고보드 노출콘크리트 연출이 필요한 공간을 제시",
+    "representative_image": "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/before-01.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/before-02.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/before-03.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/before-04.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/before-05.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-01.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-02.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-03.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-04.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-05.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-06.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-07.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-08.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-09.jpg",
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-10.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/representative.jpg",
+    "after": "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/after-01.jpg",
+    "before": "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-034-gray-tone-concrete-texture-drywall-cafe-gallery",
     "source": "obsidian",
     "case_no": "034",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 034.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 034.md",
     "draft_file": "Wiki/홈페이지/발행대기/gray-tone-concrete-texture-drywall-cafe-gallery.md",
     "review_required": false,
     "title": "석고보드 바탕 그레이톤 노출콘크리트 질감 표현 (카페·갤러리형 상업공간)",
@@ -238,17 +582,45 @@ const PROJECTS = [
     "problem": "• 바탕면은 석고보드 • 최근 상업공간에서 구조 노출이 어려운 이유로 단열/설비 문제, 리모델링 현장, 기존 마감 위 덧시공 필요, 공기 단축 등이 원문에 나열됨 • 구체적인 현장 위치/업종은 명시되지 않으나, 카페·갤러리형 상업공간·병원·쇼룸·리모델링 프로젝트에 적합하다고 소개됨 • 구조 변경 없이 공간의 무게감과 완성도를 동시에 확보해야 하는 과제 • 패턴을 균일하게 찍지 않고, 실제 콘크리트처럼 농담 차이를 두어 깊이를 형성하는 방향으로 판단 — 가까이서는 질감이 살아있고 멀리서는 하나의 안정된 면으로 보이도록 조율 • 코팅은 단순 보호가 아니라 오염 방지, 스크래치 저항성, 색감 고정, 유지관리 편의성을 종합적으로 고려한 선택 — 상업공간 특성상 손자국·마찰·오염 관리가 중요하다는 판단 • 광이 과하게 올라오지 않도록 콘크리트 질감은 유지하면서 내구성만 보강하는 무광 코팅 방식을 채택",
     "method": "1. 바탕면 올퍼티 정리 2. 평활도 확보 후 건조 3. 콘채 그레이 베이스 형성 4. 농도 조절한 패턴 반복 레이어링 5. 톤 조율 및 밀도 정리 6. 무광 코팅 마감",
     "result": "• 넓은 창면으로 들어오는 자연광에 따라 그레이 톤의 표정이 달라지는 결과 확인 — 낮에는 부드럽고, 조명이 들어오면 깊이감이 강조됨 • 공간이 과하게 무거워지지 않으면서 정제된 분위기를 형성 • 서울·수도권 상시 시공팀 운영, 제주 현장도 진행 가능하다고 안내됨",
+    "representative_image": "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-01.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-02.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-03.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-04.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-05.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-06.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-07.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-08.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-09.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-10.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-11.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-12.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-13.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-14.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-15.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-16.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-17.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-18.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-19.jpg",
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-20.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/representative.jpg",
-    "after": "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/representative.jpg",
+    "after": "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-034-gray-tone-concrete-texture-drywall-cafe-gallery/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-033-storefront-drywall-concrete-aging-gray-pattern-technique",
     "source": "obsidian",
     "case_no": "033",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 033.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 033.md",
     "draft_file": "Wiki/홈페이지/발행대기/storefront-drywall-concrete-aging-gray-pattern-technique.md",
     "review_required": false,
     "title": "석고보드 마감 상가 콘크리트 에이징 표현 (콘채 그레이톤 패턴 시공)",
@@ -261,17 +633,43 @@ const PROJECTS = [
     "problem": "• 바탕면은 석고보드 (상가 내부, 보양작업과 줄퍼티가 진행된 상태) • 시공 전 샘플보드를 제작하여 아이보리톤과 그레이톤을 비교했고, 최종적으로 그레이톤을 바탕으로 결정 • 너무 매끈한 면은 콘크리트 특유의 깊이를 담기 어렵다는 판단 하에, 미세한 텍스처를 남긴 상태로 바탕을 형성하기로 결정 • 그레이 바탕임에도 아이보리 패턴을 먼저 올리는 이유: 시간이 지나며 층이 드러나는 듯한 깊이감을 표현하기 위함 • 콘볼트 자리나 줄눈을 별도로 만들지 않고, 표면의 색감과 농도 차이만으로 빈티지한 분위기를 완성하기로 판단",
     "method": "1단계 — 바탕면 형성 (콘채 그레이톤 올퍼티) • 기존 석고보드 면 위에 콘채로 전체 올퍼티 작업 • 단순 평활 작업이 아니라 이후 패턴이 자연스럽게 얹힐 수 있는 베이스를 만드는 과정 • 미세한 텍스처를 남긴 상태로 바탕 형성 2단계 — 패턴 레이어링 작업 • 밝은 그레이 바탕 위에 두 가지 톤을 레이어링 • 1차: 아이보리 패턴 • 2차: 그레이톤 패턴 (아이보리 패턴 위에 중첩) • 색이 덮이고 드러나는 자연스러운 명암 형성 • 콘볼트 자리/줄눈 없이 색감·농도 차이만으로 빈티지 분위기 완성 3단계 — 채도 감소 에이징 작업 • 전체 톤을 정리하고 과하게 튀는 부분을 눌러줌 • 균일하게 뿌리지 않고, 구름이 스며든 듯 불규칙하게 작업하여 몽환적이면서도 깊이 있는 분위기 형성 • 이 과정을 통해 신규 시공면이 아닌, 시간이 지나 자연스럽게 에이징된 콘크리트 느낌 구현 시공 특징 정리 (원문 요약) • 석고보드 위 콘크리트 질감 표현 • 콘채 그레이톤 베이스 올퍼티 • 아이보리 + 그레이 레이어링 패턴 • 채도 감소 에이징 마감 • 줄눈·볼트 없이 색감과 명암으로 빈티지 구현",
     "result": "• 석고보드 마감 공간에서도 충분히 깊이 있는 콘크리트 에이징 표현이 가능함을 보여주는 결과로 정리됨 • 현장 조건에 맞춘 샘플보드 제작 후 상담을 진행한다는 시공 프로세스 안내로 마무리",
+    "representative_image": "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/before-01.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/before-02.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/before-03.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/before-04.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-01.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-02.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-03.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-04.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-05.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-06.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/process-07.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/after-01.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/after-02.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/after-03.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/after-04.jpg",
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/after-05.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/representative.jpg",
-    "after": "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/after-01.jpg",
+    "before": "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-033-storefront-drywall-concrete-aging-gray-pattern-technique/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-032-vintage-concrete-storefront-gray-ivory-pattern-layering",
     "source": "obsidian",
     "case_no": "032",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 032.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 032.md",
     "draft_file": "Wiki/홈페이지/발행대기/vintage-concrete-storefront-gray-ivory-pattern-layering.md",
     "review_required": false,
     "title": "상가 석고보드 빈티지 콘크리트 표현 (그레이+아이보리 패턴 레이어링)",
@@ -284,17 +682,59 @@ const PROJECTS = [
     "problem": "• 바탕면은 석고보드 (상가 내부) • 시공 전 샘플보드로 건축주와 미팅을 진행 — 그레이톤과 아이보리톤 중 그레이톤을 최종 선정 • 바탕면이 그레이톤으로 결정되었더라도, 아이보리 패턴을 1차로 먼저 시공한 뒤 그레이톤을 2차로 패턴을 찍는 레이어링 순서를 채택 • 예전 방식(콘볼트 자리나 줄눈을 인위적으로 만드는 방식) 대신, 표면의 색감과 명암만으로 빈티지함을 표현하는 방향으로 판단 • 최종 뿜칠은 불규칙하게 뿌려 구름패턴의 몽환적 분위기를 의도",
     "method": "1. 보양작업 후 줄퍼티 2. 석고보드면 콘채 올퍼티 3. 기본 샌딩 후 패턴생성 및 에이징작업 4. 바탕면(밝은 그레이) 위에 아이보리 패턴 1차 시공 5. 그레이패턴 2차 시공 — 아이보리 패턴 위에 레이어링 6. 최종 뿜칠을 불규칙하게 적용해 구름패턴 몽환적 분위기 형성 7. 콘볼트 자리나 줄눈은 만들지 않고, 표면 색감과 명암으로만 빈티지함 표현 원문에 자연광/조명 등 빛의 각도에 따라 색상이 다르게 보일 수 있다는 주의사항이 명시됨.",
     "result": "• 그레이톤 바탕 위에 아이보리·그레이 패턴이 레이어링된 빈티지 콘크리트 벽면 완성 • 구름패턴의 몽환적 분위기를 갖는 저채도 감성벽체로 마무리",
+    "representative_image": "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/representative.jpg",
+    "before_images": [],
+    "process_images": [
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-01.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-02.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-03.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-04.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-05.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-06.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-07.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-08.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-09.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-10.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-11.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-12.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-13.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-14.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/process-15.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-01.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-02.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-03.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-04.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-05.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-06.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-07.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-08.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-09.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-10.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-11.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-12.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-13.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-14.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-15.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-16.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-17.jpg",
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-18.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/representative.jpg",
-    "after": "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/representative.jpg",
+    "after": "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-031-kolon-sport-myeongdong-flagship-concrete-wall-art",
     "source": "obsidian",
     "case_no": "031",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 031.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 031.md",
     "draft_file": "Wiki/홈페이지/발행대기/kolon-sport-myeongdong-flagship-concrete-wall-art.md",
     "review_required": false,
     "title": "코오롱스포츠 명동 플래그십 스토어 콘채 콘크리트 월아트 시공 (매장 오픈 후기)",
@@ -307,17 +747,31 @@ const PROJECTS = [
     "problem": "• 매장 인테리어 벽체 시공 대상 (기존 면 상태에 대한 구체적 서술은 원문에 명시되지 않음) • 시공 당시(2025년 12월)에는 조명이 없는 상태로 촬영되어 매장 오픈 후 조명이 들어간 사진과 비교됨 • 벽은 공간 내부 인테리어를 돋보이게 하는 배경이 되어야 하며, 자연스럽고 오래 보아도 질리지 않아야 한다는 디자인 원칙 • 벽체 음각의 표현이 조명을 받으면 빈티지한 느낌을 더한다는 점을 확인 • 벽체에는 다양한 치핑 하이퍼텍스쳐, 부분적인 콘크리트 리페어 기술, 채도를 낮추는 채도저감기술, 콘채를 이용한 그라데이션 뿜칠 등이 종합적으로 사용됨",
     "method": "• 하이퍼텍스쳐 치핑 • 부분 콘크리트 리페어 • 채도저감 기법 • 콘채 그라데이션 뿜칠 구체적인 공정 순서와 세부 배합비는 본 노트에 명시되지 않으며, 관련 세부 공정은 아래 연계 사례에 기록되어 있음: • Raw/노출콘크리트 시공기술사례 - 026.md (하이퍼텍스쳐 + 수묵화 워시 + 콘채뿜칠) • Raw/노출콘크리트 시공기술사례 - 028.md (더 거칠게 2단계 텍스쳐 콘채 표현)",
     "result": "• 매장 오픈 후 조명이 설치된 상태에서 촬영한 사진은 시공 중 촬영본보다 확실히 결과물이 돋보인다고 평가됨 • 벽체 음각 표현이 조명 아래에서 빈티지한 느낌을 더하는 효과 확인 • 참고 뉴스 기사: 코오롱FnC의 명동 플래그십 스토어 오픈 소식 (중앙일보, 2026년 1월 보도) — 매장 자체에 대한 상세 정보는 해당 언론 보도 참고",
+    "representative_image": "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-01.jpg",
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-02.jpg",
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-03.jpg",
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-04.jpg",
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-05.jpg",
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-06.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/representative.jpg",
-    "after": "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/representative.jpg",
+    "after": "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-030-ivory-warmtone-concrete-drywall-pattern",
     "source": "obsidian",
     "case_no": "030",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 030.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 030.md",
     "draft_file": "Wiki/홈페이지/발행대기/ivory-warmtone-concrete-drywall-pattern.md",
     "review_required": false,
     "title": "콘채 아이보리 웜톤 노출콘크리트 표현 사례 (그레이톤 대비)",
@@ -330,17 +784,77 @@ const PROJECTS = [
     "problem": "• 바탕면은 석고보드 • 구체적인 현장 위치/용도는 원문에 명시되지 않음 • 아이보리톤 바탕 위에 패턴을 과하게 찍으면 색감의 이질감이 발생할 수 있다는 판단 — 라이트그레이 정도의 옅은 패턴 강도가 적절하다고 결론 • 자연광 촬영 시 각도에 따라 색상이 조금씩 다르게 나타나지만, 그레이톤 바탕과는 확연히 구분된다는 점을 확인",
     "method": "작업순서: 1. 콘채 아이보리 바탕 시공 2. 콘채 그레이 패턴작업 (라이트그레이 또는 미들그레이 사용, 그레이 톤 종류는 상관없음) 3. 저채도 작업 4. 코팅 기술 포인트: 텍스쳐 없이 패턴만으로 에이징(오래된 느낌)을 표현 — 별도의 요철 텍스쳐 작업 없이 패턴 레이어링만으로 결과를 냄. 아이보리톤 바탕 위에는 패턴을 과하지 않게, 라이트그레이 정도 강도로만 찍어야 색감 이질감이 없다는 것이 핵심 노하우로 기록됨.",
     "result": "• 그레이톤 바탕과 확연히 구분되는 웜톤(아이보리) 노출콘크리트 표현 완성 • 좌측(그레이톤 바탕) / 우측(아이보리톤 바탕) 비교 사진으로 톤 차이를 명확히 제시",
+    "representative_image": "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-01.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-02.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-03.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-04.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-05.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-06.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-07.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-08.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-09.jpg",
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-10.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/representative.jpg",
-    "after": "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/representative.jpg",
+    "after": "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-030-ivory-warmtone-concrete-drywall-pattern/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-029-vintage-concrete-drywall-gypsum-board-saturation-technique",
+    "source": "obsidian",
+    "case_no": "029",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 029.md",
+    "draft_file": "Wiki/홈페이지/발행대기/vintage-concrete-drywall-gypsum-board-saturation-technique.md",
+    "review_required": true,
+    "title": "콘채를 이용한 빈티지콘크리트 표현 사례 (석고보드 바탕, 저채도 기법)",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "석고보드 바탕면에 콘채로 다양한 노출콘크리트 표현기법을 적용한 빈티지 콘크리트 표현 사례. 채도감소 강도에 따른 두 가지 비교 예시를 기록.",
+    "problem": "• 바탕면은 석고보드 (구조체 콘크리트가 아님) • 구체적인 현장 위치, 용도, 기존 상태는 원문에 명시되지 않음 • 저채도 기법 적용 시 강도 조절 문제: 채도감소를 과감하게 적용한 경우와 가볍게 적용한 경우 두 가지 사례를 비교 제시 • 텍스쳐를 과감하게 표현하는 방향으로 판단",
+    "method": "1. 석고보드 바탕면에 텍스쳐 표현 작업 2. 저채도 기법 적용 — 좌측은 채도감소를 과감하게, 우측은 가볍게 적용하여 비교 3. 텍스쳐 작업 후 패턴 표현 4. 채도감소 마무리 5. 코팅 구체적 배합비, 재료 사용량, 작업 소요시간은 원문에 명시되지 않음.",
+    "result": "• 저채도 감성벽체 완성 — 빈티지 콘크리트벽 구현 예시로 정리됨 • 채도감소 강도(과감/가볍게)에 따른 표현 차이를 비교 사진으로 제시",
+    "representative_image": "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-01.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-02.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-03.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-04.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-05.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-06.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-07.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-08.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-09.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-10.jpg",
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-11.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/representative.jpg",
+    "after": "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/after-01.jpg",
+    "before": "",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-028-concrete-wall-art-two-stage-rough-texture-vintage",
     "source": "obsidian",
     "case_no": "028",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 028.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 028.md",
     "draft_file": "Wiki/홈페이지/발행대기/concrete-wall-art-two-stage-rough-texture-vintage.md",
     "review_required": false,
     "title": "콘크리트 월아트 사례 - 더 거칠게 2단계 텍스쳐 콘채 표현",
@@ -353,139 +867,229 @@ const PROJECTS = [
     "problem": "원문에 명시되지 않음 (기존 면 상태에 대한 구체적 서술 없음). • \"벽은 배경입니다. 주인공은 그 벽위에 있습니다\"라는 디자인 원칙 하에, 배경이 되는 벽은 저채도이면서도 불규칙한 가운데 일정한 일관성이 느껴져야 한다는 판단 • 낮은 산등성이를 표현하되, 산등성이는 수묵화 느낌의 짙은 색으로, 산 하단은 맑은 농담으로 처리하는 방식을 채택 • 상단과 하단의 바탕면 텍스쳐 질감 차이를 두어 자연스러움을 강조 • 상단부도 일부 거친 면을 허용하여 인위적이지 않은 질감을 의도",
     "method": "• 낮은 산등성이 텍스쳐 표현 • 상단/하단 바탕면 텍스쳐 질감 차등 적용 • 농담을 이용한 저채도기법 적용 (산등성이는 짙게, 하단은 맑게) • 콘채의 농도조절을 통한 미세한 그라데이션 표현 • 침투성 재료 특성을 활용한 수작업 기법으로 저채도 감성벽체 완성 구체적 배합비, 인력 구성, 작업 소요시간 등은 원문에 명시되지 않음.",
     "result": "• 저채도 감성벽체 완성 — \"세상에서 하나뿐인 유니크한 벽\"으로 정리됨 • 단순한 배경이 아닌 작품 수준의 벽면 결과물로 평가됨",
-    "thumbnail": "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/representative.jpg",
-    "after": "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/representative.jpg",
-    "before": "",
-    "images": [],
-    "featured": false
-  },
-  {
-    "id": "obsidian-case-025-exposed-concrete-repair-sample-mockup-color-matching",
-    "source": "obsidian",
-    "case_no": "025",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 025.md",
-    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-repair-sample-mockup-color-matching.md",
-    "review_required": false,
-    "title": "노출콘크리트 콘채 면보수 샘플시공 (색상 매칭 과정)",
-    "location": "",
-    "building": "",
-    "category": "노출콘크리트",
-    "date": "",
-    "period": "",
-    "summary": "노후 노출콘크리트 벽체의 색상/질감 확인을 위한 샘플시공 사례. 구간 선정부터 배합 레시피, 건축주 색상 결정까지 전 과정 기록.",
-    "problem": "• 노후된 노출콘크리트 면 • 벽체 중 일부 구간을 선정하여 샘플 작업 준비 • 본작업 전 색상/질감을 확인하기 위한 목적으로 샘플시공 진행 • 최종 색상은 건축주와 협의를 거쳐 결정",
-    "method": "1. 대상 벽체 구간 선정 2. 보양 작업 3. 1차 샌딩으로 표면 정리 4. 1차 작업: 프라이머와 콘채 뿜칠 (세부 내용은 원문에서 \"이전 포스팅에 정리되어 있다\"고 언급되나 본 노트에는 미기재) 5. 2차 작업: 콘채 재도포 후 코팅 6. 시공배합 레시피: 라이트그레이 콘채 2 : 아이보리 콘채 1 7. 건축주가 최종 색상 선택",
-    "result": "• 시공 후 비교 사진으로 결과 확인 • 원문 결론: \"노출콘크리트는 유지관리가 생명\", 노후 건물이 신축 건물과 같은 외관으로 개선되며 건물 가치 상승에 기여한다는 총평",
-    "thumbnail": "assets/images/case-studies/case-025-exposed-concrete-repair-sample-mockup-color-matching/representative.jpg",
-    "after": "assets/images/case-studies/case-025-exposed-concrete-repair-sample-mockup-color-matching/representative.jpg",
-    "before": "",
-    "images": [],
-    "featured": false
-  },
-  {
-    "id": "obsidian-case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating",
-    "source": "obsidian",
-    "case_no": "023",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 023.md",
-    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating.md",
-    "review_required": false,
-    "title": "제주도 노출콘크리트 곰보·이질감 부위 보수 (스크래핑도장·샌딩·패턴·콘채+코팅)",
-    "location": "",
-    "building": "",
-    "category": "노출콘크리트",
-    "date": "",
-    "period": "",
-    "summary": "현장요청으로 진행한 노출콘크리트 곰보 및 이질감 부위 보수 사례. 스크래핑 도장부터 샌딩, 패턴, 콘채+코팅, 양생까지 5단계 공정과 시공전후 사진을 기록.",
-    "problem": "• 곰보(공극) 부분과 색상 이질감이 느껴지는 구간이 면보수 요청 대상으로 지정됨 • 재시공은 최초 시공과 거의 동일한 절차로 진행됨 • 도장느낌 없는 자연스러운 노출콘크리트를 만들기 위해 과하지 않은 보수가 핵심 포인트로 제시됨 • 다만 \"과하지 않음\"의 기준은 보는 사람마다 의견이 다를 수 있다는 점을 인정하며 접근",
-    "method": "1. 부분 스크래핑 도장 — 이색진 부분 주변으로 헤라를 거의 직각으로 세워 작업. 미세구멍을 막으면서 색상을 전체적으로 일관성 있게 만드는 효과 2. 샌딩 3. 패턴 — 패턴을 찍으며 채도를 낮춤 4. 콘채+코팅 — 콘채를 뿌리고 코팅 5. 양생",
-    "result": "• before/after 비교 사진으로 곰보·이질감 부위가 정리된 것을 확인 • 도장느낌 없는 자연스러운 노출콘크리트 마감으로 완료",
-    "representative_image": "assets/images/case-studies/case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating/representative.jpg",
-    "before_images": [
-      "assets/images/case-studies/case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating/before.jpg"
-    ],
+    "representative_image": "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/representative.jpg",
+    "before_images": [],
+    "process_images": [],
     "after_images": [
-      "assets/images/case-studies/case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating/representative.jpg"
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-01.jpg",
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-02.jpg",
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-03.jpg",
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-04.jpg",
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-05.jpg",
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-06.jpg"
     ],
-    "thumbnail": "assets/images/case-studies/case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating/representative.jpg",
-    "after": "assets/images/case-studies/case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating/representative.jpg",
-    "before": "assets/images/case-studies/case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating/before.jpg",
+    "thumbnail": "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/representative.jpg",
+    "after": "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/after-01.jpg",
+    "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-028-concrete-wall-art-two-stage-rough-texture-vintage/representative.jpg"
+    ]
   },
   {
-    "id": "obsidian-case-021-exposed-concrete-large-hole-crack-mapei-cd1-repair-jointline",
+    "id": "obsidian-case-027-exposed-concrete-interior-restoration-before-after",
     "source": "obsidian",
-    "case_no": "021",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 021.md",
-    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-large-hole-crack-mapei-cd1-repair-jointline.md",
-    "review_required": false,
-    "title": "노출콘크리트 벽체 대형 구멍·균열 보수 (마페이 CD1 + 콘채 + 줄눈 복원)",
+    "case_no": "027",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 027.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-interior-restoration-before-after.md",
+    "review_required": true,
+    "title": "인테리어 현장 노출콘크리트면 복원 사례 (미장느낌 없는 형상복원)",
     "location": "",
     "building": "",
     "category": "노출콘크리트",
     "date": "",
     "period": "",
-    "summary": "미장으로 메운 대형 구멍과 균열이 진행 중인 노출콘크리트 벽체를 커팅·프라이머·마페이 CD1·콘채로 보수하고, 없어진 줄눈까지 복원한 종합 면보수 사례.",
-    "problem": "• 콘크리트 벽체에 커다란 구멍을 미장으로 메운 흔적 존재 • 미장면이 얇아 크랙(균열)이 진행 중 • 색상 이질감과 전체적인 균열로 긴급보수가 필요한 상태 • 다른 부위도 미장 땜빵이 되어 있었으나 균열과 이질감이 남아있음 • 유로폼 노출콘크리트면의 줄눈이 일부 소실된 상태 • 노출콘크리트 면마감을 위해 이질감 없는 벽체 보수가 필요하다고 판단 • 균열부는 단순 메움이 아니라 커팅 후 프라이머·전용 보수재로 구조적으로 보강해야 한다고 판단 (프라이머 사용을 권장사항으로 명시) • 마페이 CD1은 균열보수와 박막미장이 가능하고 강도가 우수한 재료로 선정 • CD1은 급결성 재료라 한 번에 많은 양을 비비면 시공이 어려워 소량씩 배합해야 한다고 판단 • 색상 이질감을 줄이기 위해 균열부 외의 여분 보수 흔적은 스크레퍼로 제거 • 콘크리트 원색은 회색이 아니라 채도가 낮은 무채색이며 다양한 색과 패턴이 혼합되어 있어, 콘채만으로 완전히 동일한 색을 재현하기는 어렵다고 판단 • 없어진 줄눈을 복원하면 더 자연스러운 유로폼 노출콘크리트가 된다고 판단",
-    "method": "1. 균열부 커팅 2. 커팅부위에 수성프라이머 도포 3. 균열보수는 마페이 CD1으로 진행 (급결성이므로 조금씩 배합하여 미장칼 또는 헤라로 시공) 4. CD1 1차 보수 후 스크레퍼로 여분의 보수 흔적 제거 (색상 이질감 최소화를 위해 균열부 외 잉여분 제거) 5. 콘채 라이트그레이+아이보리를 1:1로 섞어 얇게 미장 또는 올퍼티 (최대한 얇게 색상만 올리는 정도) 6. 콘채로 바탕 색상 형성 후 건조시키며 색상 확인 7. 줄눈 복원: 줄눈 작업 부위 테이핑(필요시 두꺼운 테이핑) → 줄눈부 프라이머 작업 → 자작 수공구로 유로폼 라인 재현 → 줄눈부 샌딩 8. 이후 전체 콘채시공 진행, 균열보수·미장면 보수·콘채작업이 끝나면 코팅으로 마무리",
-    "result": "• 미장으로 메워진 대형 구멍과 균열부가 콘채로 리페어되어 색상 이질감이 완화됨 • 없어진 줄눈이 복원되어 유로폼 노출콘크리트 특유의 라인이 살아남 • 완벽한 리페어를 위해서는 건조 후 샌딩과 후속 색조작업이 추가로 필요하다는 점이 언급됨 (본 노트 시점에서는 균열보수~줄눈복원까지 진행, 최종 전체 마감 완료 결과는 별도 공정으로 이어짐)",
-    "thumbnail": "assets/images/case-studies/case-021-exposed-concrete-large-hole-crack-mapei-cd1-repair-jointline/representative.jpg",
-    "after": "assets/images/case-studies/case-021-exposed-concrete-large-hole-crack-mapei-cd1-repair-jointline/representative.jpg",
+    "summary": "노출콘크리트면을 유지해야 하지만 현장 여건상 이질감이 발생한 벽체를, 콘채를 이용한 박막미장·샌딩·패턴 작업으로 미장느낌 없이 자연스럽게 복원한 사례.",
+    "problem": "• 미장으로 사춤(줄눈/이음부 채움)을 하고 면정리를 진행한 상태 • 그러나 미장 부위와 기존 콘크리트면 사이의 이질감이 남아있음 (원문: \"콘크리트면과의 이질감은 어쩔수 없습니다\") • 노출콘크리트면을 유지해야 하는 요구조건과, 미장 보수로 인한 이질감이라는 현실적 제약 사이의 간극을 해결해야 하는 과제 • 콘채를 이용해 박막미장, 샌딩, 패턴 작업을 조합하여 이질감을 해소하기로 판단 • 상단부는 자연스러운 곡선을 유지시키는 방향으로 처리",
+    "method": "1. 콘채를 이용한 박막미장 2. 샌딩 3. 패턴 찍기 (구체적 패턴 종류/도구는 원문에 명시되지 않음) 4. 상단부는 곡선을 자연스럽게 유지 세부 배합비, 소요 시간, 사용 장비 등은 원문에 명시되지 않음.",
+    "result": "• Before/After 사진으로 결과를 제시 — 콘채 면복원 후 미장느낌이 없는 콘크리트 형상 복원 결과로 정리됨 • 원문 표현: \"미장느낌없는 콘크리트 형상복원 사례\"",
+    "representative_image": "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-01.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-02.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-03.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-04.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-05.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-06.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-07.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-08.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-09.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-10.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-11.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-12.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-13.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-14.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-15.jpg",
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-16.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/representative.jpg",
+    "after": "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/representative.jpg"
+    ]
   },
   {
-    "id": "obsidian-case-019-exposed-concrete-plaster-patch-repair-conche-repair",
+    "id": "obsidian-case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray",
     "source": "obsidian",
-    "case_no": "019",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 019.md",
-    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-plaster-patch-repair-conche-repair.md",
+    "case_no": "026",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 026.md",
+    "draft_file": "Wiki/홈페이지/발행대기/concrete-wall-art-hypertexture-ink-wash-gradient-spray.md",
     "review_required": false,
-    "title": "미장 땜빵부 이질감 콘채 리페어 (레미탈 보수면 재작업)",
+    "title": "콘채를 이용한 콘크리트 월아트 시공사례 (하이퍼텍스쳐 + 수묵화 워시 + 그라데이션 뿜칠)",
     "location": "",
     "building": "",
     "category": "노출콘크리트",
     "date": "",
     "period": "",
-    "summary": "미장공이 레미탈로 땜빵한 노출콘크리트 보수면의 이질감을 콘채로 재작업한 사례. 패턴찍기, 필름 질감 맞추기 등 세부 리페어 기법과 관급공사 품질 이슈를 함께 다룸.",
-    "problem": "• 당초 미장공이 레미탈로 땜빵 보수한 부위에서 색상·질감 이질감 발생 • 미장 땜빵은 주로 레미탈로 시공되어 콘크리트 원래 면과 재질 차이가 남 • 노출콘크리트 면보수를 안 할 수도 없는 상황에서, 레미탈 땜빵의 이질감을 콘채로 보정하는 방식 채택 • 관급공사 현장에서는 레미탈 또는 견출시멘트만으로 보수 시 감독관 지적을 피하기 어렵다는 업계 배경 설명 • 노출콘크리트는 \"곰보나 균열이 자연스럽게 드러나야 한다\"는 의견도 있으나, 현실적으로 면보수·색조작업이 필요하다는 현장 판단",
-    "method": "1. 1차 콘채(미들그레이+아이보리, 조합 비율은 현장 여건에 따라 다름)로 면정리 2. 2차 패턴찍기로 질감 보정 3. 작업면 상단부와 미장 땜빵부위를 비교하여 보정 필요 여부 판단 4. 아이보리를 불규칙 패턴으로 추가하여 미장 땜빵면과의 이질감 완화 5. (두 번째 사례) 당초 미장공의 면보수부에 필름으로 질감 맞추기 (디테일이 필요 없으면 생략 가능) 6. 열풍건조 후 색상 확인 7. 아이보리 패턴, 검정색 패턴(산화철분말, 미들그레이 단독, 먹물 등으로 스폰지 패턴을 찍어 뭉게구름 표현) 적용 8. 최종적으로 전면 샌딩 후 전체 콘채뿜칠과 코팅으로 색조작업 완성 (본 노트 시점에서는 미완료 상태로 기록됨)",
-    "result": "• 두 사례 모두 콘채 아이보리를 가볍게 뿌려 주변부와의 이질감을 완화 • 노트 작성 시점 기준 \"완벽하지 않지만\" 이후 전면 샌딩·전체 콘채뿜칠·코팅을 거쳐 최종 완성 예정이라고 기록됨(본 노트에는 최종 완료 결과 미기재)",
-    "thumbnail": "assets/images/case-studies/case-019-exposed-concrete-plaster-patch-repair-conche-repair/representative.jpg",
-    "after": "assets/images/case-studies/case-019-exposed-concrete-plaster-patch-repair-conche-repair/representative.jpg",
-    "before": "",
+    "summary": "상업용 매장 내부에 콘채를 활용해 입체감 있는 하이퍼텍스쳐, 채도를 낮추는 수묵화 워시기법, 그라데이션 뿜칠 등 복합 기법으로 수묵산수화 느낌의 콘크리트 월아트를 구현한 사례.",
+    "problem": "• 매장 벽체에 디자인 의도(수묵산수화 느낌)를 구현하기 위한 신규 아트 작업 대상 면 • 구체적인 기존 면 상태(재질/오염 여부 등)는 원문에 명시되지 않음 • 디자인 회사(시안사)의 요청: 수묵산수화 느낌으로, 인위적인 느낌이 없는 자연스러운 콘크리트 물성이 느껴지도록 구현 • 텍스쳐 치핑은 1~4단까지 단계적인 음양각이 느껴지도록 하는 것이 목표 • 산등성이 라인은 살아있으면서 수묵산수화의 느낌이 나도록 하는 것이 기술적 과제로 제시됨 • 인테리어 현장 특성상 야간에만 작업 가능한 조건이었으나, 오히려 타 작업팀 간섭이 없어 유리하게 작용 • 현장에서 다양한 의견을 수렴하고 일부 구간 샘플시공을 병행하며 진행",
+    "method": "작업은 A파트(텍스쳐 치핑)와 B파트(색조코팅작업)로 나누어 순서대로 진행됨. A파트 — 텍스쳐 치핑 (하이퍼텍스쳐를 위한 디자인 치핑작업) 1. 맨 하단 기단부 1단은 거칠게 치핑 2. 치핑만으로는 산등성이 선형을 살리기 어려워, 라인 살리는 작업을 별도로 진행 B파트 — 색조작업의 순서 1. 채도 낮추기 (명암 주기 · 수묵화 워시) 2. 색조작업 (콘채를 이용한 그라데이션 뿜칠) 3. 코팅작업 (음각부 내부까지 코팅 미스트 뿜칠)",
+    "result": "• 수묵산수화 느낌의 자연스러운 콘크리트 물성 표현 달성 • 콘채가 노출콘크리트 면보수뿐 아니라 다양한 기법으로 디자이너의 의도를 표현하는 데 활용 가능함을 보여주는 사례로 정리됨",
+    "representative_image": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/before-01.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-01.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg",
+    "after": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-01.jpg",
+    "before": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg"
+    ]
   },
   {
-    "id": "obsidian-case-018-exposed-concrete-crack-repair-conche-middlegray-ivory",
+    "id": "obsidian-case-024-exposed-concrete-stain-coating-look-binder-buildup-warning",
     "source": "obsidian",
-    "case_no": "018",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 018.md",
-    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-crack-repair-conche-middlegray-ivory.md",
-    "review_required": false,
-    "title": "노출콘크리트 균열보수 콘채 시공 (미들그레이·아이보리, 6개소 비교)",
+    "case_no": "024",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 024.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-stain-coating-look-binder-buildup-warning.md",
+    "review_required": true,
+    "title": "노출콘크리트 스테인 '도장 느낌(도막감)' 발생 원인과 이종자재 혼합 주의사항",
     "location": "",
     "building": "",
     "category": "노출콘크리트",
     "date": "",
     "period": "",
-    "summary": "노출콘크리트 면보수 중 현장요청으로 진행한 균열부 보수 사례. 콘채 미들그레이·아이보리를 이용해 6개소의 균열보수 전후를 비교 기록.",
-    "problem": "• 노출콘크리트 면에 균열이 다수 존재 • 균열보수는 면보수의 필수사항이나, 색상을 이질감 없이 맞추는 깔끔한 균열보수는 쉽지 않은 작업으로 설명됨 • 균열부를 콘채로 채우기 전 색상을 먼저 맞추는 것이 중요하다고 판단 • 이질적인 느낌을 없애기 위해 아이보리·라이트그레이 등을 가볍게 뿜칠하고, 필요시 샌딩·뿜칠을 반복해 색상 조정 • 채도를 낮추기 위해 검정색·백색(산화철 분말안료)이 필요할 수 있다고 판단 • 초미세분말인 콘채는 두꺼운 미장에는 부적합하며, 얇은 박막·미세균열보수에 적합하다고 판단",
-    "method": "1. 콘채를 물과 섞어 교반 (건조가 빠른 편이라 소량씩 교반) 2. 균열부를 고무헤라 등으로 조금 두껍게 패칭(땜빵) 3. 약 10분 경과 후 스크레퍼로 긁어냄 — 콘크리트 면이 나오도록 하되 한 번에 많이 긁지 않고 조금씩 진행 4. 스크레퍼 작업 후 샌드페이퍼로 주변부와 함께 가볍게 샌딩 (무리한 샌딩 지양, 주변부와 어울리도록 조절) 5. 샌딩 후 주변색과 조화되도록 아이보리 또는 라이트그레이 콘채를 물과 함께 가볍게 뿜칠 6. 색상 맞춤은 반복 작업을 통해 숙련도를 높이는 방식으로 진행",
-    "result": "• 6개소의 균열부에서 보수 전/후 비교 사진 확보 • 균열부가 이질감 없이 주변 콘크리트 면과 어우러지는 방식으로 마감됨",
-    "thumbnail": "assets/images/case-studies/case-018-exposed-concrete-crack-repair-conche-middlegray-ivory/representative.jpg",
-    "after": "assets/images/case-studies/case-018-exposed-concrete-crack-repair-conche-middlegray-ivory/representative.jpg",
+    "summary": "침투형 콘크리트 스테인(콘체)을 덧바를 때 바인더가 축적되어 페인트처럼 보이는 도막감이 생기는 원리와, 먹물·타사 조색제를 섞으면 안 되는 화학적 이유를 설명하는 기술 해설.",
+    "problem": "원문에 명시되지 않음 (특정 현장의 시공 전 상태를 다루는 글이 아님). • 더 진한 톤을 원해 콘체를 2회, 3회 과도하게 덧바르면, 안료는 일부 침투하지만 바인더(수지)는 침투하지 못하고 표면에 축적됨 • 이 바인더 축적 층이 콘크리트 기공을 메워 인위적인 광택과 막(Film)을 형성 — 이것이 '페인트 느낌(도막감)'의 정체 • 페인트(안료 중 + 바인더 상, 표면 은폐 목적)와 침투형 스테인/잉크 타입(안료 상 + 바인더 극소, 질감 유지 목적)의 근본적 차이를 대비 설명 • 건축용 먹물을 섞을 경우: 먹물에 포함된 합성수지 바인더, 부동액(글리콜), 방부제 등이 콘체의 바인더 시스템과 화학적으로 충돌 — 안료 응집·분리, 건조 후 끈적임, 부착 실패로 이어질 수 있음 • 타사 수성 조색제/페인트를 섞을 경우: 서로 다른 바인더 시스템이 호환되지 않아 ①상용성 불량(젤리처럼 엉김) ②도막감 심화 ③분필 현상(Chalking, 마른 표면을 문지르면 안료가 그대로 묻어나오는 하자)이 발생할 수 있음. 분필 현상은 표면 전체 재샌딩 외에는 해결책이 없다고 명시됨",
+    "method": "• 특정 현장의 시공 공정 기록이 아니므로 원문에 명시되지 않음 • 다만 일반 원칙으로 다음이 언급됨: 콘크리트 타설 후 벽체 샌딩은 침투형 자재가 기공 속으로 스며들게 하기 위한 전제 조건 (박리제·표면 유분이 침투를 막기 때문) • 안료와 바인더의 비율(P/B Ratio)을 정밀하게 제어하는 것이 질감을 살리면서 원하는 톤을 구현하는 핵심 노하우로 언급됨",
+    "result": "특정 현장의 시공 결과 기록이 아니므로 원문에 명시되지 않음. 글의 결론은 \"질감은 살리면서 원하는 톤을 구현하려면 안료·바인더 비율을 정밀 제어할 수 있는 전문 기술력이 필요하다\"는 원칙 정리로 마무리됨.",
+    "representative_image": "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/representative.png",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/after-01.png",
+      "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/after-02.png",
+      "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/after-03.png",
+      "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/after-04.png",
+      "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/after-05.png"
+    ],
+    "thumbnail": "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/representative.png",
+    "after": "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/after-01.png",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning/representative.png"
+    ]
+  },
+  {
+    "id": "obsidian-case-022-exposed-concrete-jeju-lightgray-common-area-showcase",
+    "source": "obsidian",
+    "case_no": "022",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 022.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-jeju-lightgray-common-area-showcase.md",
+    "review_required": true,
+    "title": "제주도 노출콘크리트 콘채 라이트그레이 단독 시공 쇼케이스",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "공용구간 등 깔끔한 느낌을 원할 때 권장되는 콘채 라이트그레이 단독 시공 사례를 소개하는 쇼케이스성 노트. 무광코팅 마감의 반광 효과와 시공 철학을 다룸.",
+    "problem": "원문에 특정 현장의 시공 전 상태(오염, 손상 등)에 대한 설명이 없음 — 완성된 라이트그레이 시공 결과 위주의 소개 사진으로 구성됨. • 공용구간에서 깔끔한 느낌을 원하는 경우 아이보리를 섞지 않고 라이트그레이 단독 시공을 권장 • 도장느낌 없는 자연스러운 노출콘크리트를 원한다면 콘채 스프레이 시공 방식을 권장 • 재료를 진하고 두껍게 칠하면 퍼티작업 흔적은 사라지지만 표면질감도 함께 사라지고 페인트를 칠한 느낌이 난다는 트레이드오프를 설명 — 따라서 두껍게 칠하지 않는 것을 원칙으로 함",
+    "method": "구체적인 배합비, 교반 비율, 뿜칠 장비, 공정 순서 등은 본 노트에 명시되어 있지 않음. \"콘채 스프레이 시공\"이라는 방식만 언급됨.",
+    "result": "• 콘채 라이트그레이 단독 시공 결과, 콘크리트 오리지널의 자연스러운 질감이 유지되며 전체적으로 일관성 있는 색감 확보 • 무광코팅으로 마무리하되 조명이 반사되면 미세한 반광이 느껴져 깔끔한 인상을 줌 • 바탕의 질감이 그대로 드러나는 시공법이라 일부 구간에서는 퍼티 작업 흔적이 노출된다는 의견도 있었다고 언급됨",
+    "representative_image": "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-01.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-02.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-03.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-04.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-05.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-06.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-07.jpg",
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-08.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/representative.jpg",
+    "after": "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/after-01.jpg",
+    "before": "",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-022-exposed-concrete-jeju-lightgray-common-area-showcase/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-020-exposed-concrete-conche-mix-recipe-saturation-guide",
+    "source": "obsidian",
+    "case_no": "020",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 020.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-conche-mix-recipe-saturation-guide.md",
+    "review_required": true,
+    "title": "콘채 면보수 배합 레시피와 채도 조절 가이드 (미들그레이·백시멘트·아이보리)",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "노출콘크리트 면보수시 주로 사용하는 콘채 미들그레이2:백시멘트1:아이보리1 배합비의 원리와, 채도 개념을 활용한 콘크리트 색상 제어 노하우를 정리한 기술 메모.",
+    "problem": "원문에 명시되지 않음 (특정 현장의 시공 전 상태를 다룬 노트가 아니라 배합 원리를 설명하는 기술 메모임). • 콘채 미들그레이 단독 사용 시 색이 어둡고 탁한 회색이 나올 수 있음 → 백시멘트를 섞어 톤을 밝고 맑게 보정, 기존 콘크리트의 중성 회색톤에 근접시킴 • 콘채 단독은 색 입자가 균일해 너무 깨끗하게 보여 리얼한 콘크리트 느낌에서 벗어남 → 백시멘트로 표면을 뿌옇게 하여 자연스러운 채도감 확보 • 백시멘트는 콘채와 프라이머 사이 점착력 보완, 피막 조절 역할도 하여 얇은 퍼티 시공성을 높임 • 백시멘트를 넣으면 건조 후 색상이 코팅 전과 크게 달라지지 않아 예측 가능한 색감 확보 가능 • \"미들그레이+백시멘트\"는 중성 회색톤(차분/자연스러움), \"라이트그레이 단독\"은 더 밝고 푸른기 도는 회색(차가운 느낌)으로 용도가 다름 — 전자는 \"바탕\", 후자는 \"표현\"의 역할로 구분 • 노출콘크리트의 실제 색은 채도가 거의 없는 중성톤이므로, 채도가 높은 색(연노랑, 연파랑 등)을 쓰면 도장처럼 인위적으로 보인다는 원칙 제시",
+    "method": "현장 적용 순서로 다음이 제시됨: 1. 미들그레이+백시멘트+아이보리로 1차 전체 베이스 시공 2. 라이트그레이+아이보리로 레이어 분사 (농담 조절) 3. (선택) 백시멘트만 단독으로 뿌려 백화 얼룩 효과 연출 4. (선택) 검정색 패턴찍기 — 산화철분말, 미들그레이 단독, 먹물 등으로 스펀지 패턴을 찍어 구름 형상 표현 5. (필수) 최종 무광코팅 기본 배합비: 콘채 미들그레이 2 : 백시멘트 1 : 아이보리 1 (면보수 주 사용 비율). 보통은 라이트그레이 1 : 아이보리 1도 병행 사용.",
+    "result": "원문에 명시되지 않음 (특정 시공 결과가 아닌 배합·색채 이론 설명 노트).",
+    "representative_image": "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-01.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-02.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-03.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-04.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-05.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-06.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-07.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-08.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-09.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-10.jpg",
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-11.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/representative.jpg",
+    "after": "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/after-01.jpg",
+    "before": "",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-020-exposed-concrete-conche-mix-recipe-saturation-guide/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating",
     "source": "obsidian",
     "case_no": "017",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 017.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 017.md",
     "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-jeju-interior-wall-patching-thin-coating.md",
     "review_required": false,
     "title": "제주도 실내벽체 노출콘크리트 패칭·샌딩·박막코팅 시공",
@@ -498,40 +1102,177 @@ const PROJECTS = [
     "problem": "• 벽면에 글자, 그라인더 컵자국 등 흔적이 남아있음 • 창틀 주변 사춤공간 등 미장이 필요한 부분 존재 • 일부 벽은 감당이 안 될 정도로 손상이 심해 전면 퍼티가 필요한 구간도 있음 • 자연스러운 노출콘크리트 벽체를 위해 패칭과 샌딩에 우선순위를 둠 • 퍼티작업은 가급적 피하고, 감당이 안되는 경우에만 전면 퍼티 적용 (자연스러움을 우선하는 판단) • 창틀 사춤 미장부는 필요한 경우에 한해 최대한 얇게 퍼티 후 샌딩, 이색감 없도록 조색 • 코팅은 가급적 얇게 밀착 시공 — 두꺼운 코팅은 절대 금물로 명시 (자연스러움을 해친다는 판단) • 실내는 아이보리톤 조색으로 따뜻한 느낌, 외부·진출입로는 라이트그레이로 깔끔한 느낌을 구분 적용",
     "method": "1. 벽면 글자, 컵자국 등을 샌딩으로 제거 2. 손상이 심한 구간만 선별적으로 전면 퍼티 (가급적 최소화) 3. 창틀 주변 사춤 미장부는 필요시에만 얇게 퍼티 후 샌딩, 조색으로 이색감 제거 4. 퍼티·패칭·뿜칠 전부 콘채로 색상 조합하여 가볍게 시공 5. 실내는 아이보리톤, 외부/진출입로는 라이트그레이로 구분 조색 6. 코팅은 얇게 밀착 시공 (두껍게 하지 않음)",
     "result": "• 벽면의 글자, 컵자국 등 흠결이 정리됨 • 통일감 있는 무채색 벽면으로 안정감 형성 • 시공을 한듯 안한듯한 자연스러운 표면질감과 균일한 색상 확보",
+    "representative_image": "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-01.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-02.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-03.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-04.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-05.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-06.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-07.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-08.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-09.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-10.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-11.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-12.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-13.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-14.jpg",
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-15.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/representative.jpg",
-    "after": "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/representative.jpg",
+    "after": "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating/representative.jpg"
+    ]
   },
   {
-    "id": "obsidian-case-016-exposed-concrete-color-tone-demo-iron-oxide-white-cement",
+    "id": "obsidian-case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend",
     "source": "obsidian",
-    "case_no": "016",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 016.md",
-    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-color-tone-demo-iron-oxide-white-cement.md",
-    "review_required": false,
-    "title": "노출콘크리트 색상 톤 변화 시연 (산화철안료·백시멘트·콘채 단계별 비교)",
+    "case_no": "015",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 015.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-entrance-lobby-ivory-lightgray-blend.md",
+    "review_required": true,
+    "title": "주 출입구 현관 노출콘크리트 아이보리+라이트그레이 혼합 콘채 시공",
     "location": "",
     "building": "",
     "category": "노출콘크리트",
     "date": "",
     "period": "",
-    "summary": "어두운 콘크리트벽을 대상으로 산화철분말안료, 백시멘트, 콘채 미들그레이·아이보리를 단계별로 분사하며 색상/톤 변화 과정을 구간별로 비교 시연한 기술 사례.",
-    "problem": "• 대상 벽체는 최초 상태가 전체적으로 어두운 색상의 콘크리트벽 • 고객이 오리지널 질감은 유지하면서 좀 더 따뜻하고 밝은 색상을 원함 • 고객 요구(오리지널 유지 + 따뜻하고 밝은 색상)에 맞는 재료 조합과 시공 순서를 검증하기 위해 비교 시연 진행 • 벽면을 좌(원형 유지)/중앙(산화철분말안료)/우측(백시멘트)으로 구획하여 재료별 침투성·발색을 비교 • 산화철분말안료 대비 백시멘트 분사가 침투가 빠르고 잘 스며드는 것으로 판단됨 • 중앙 구간은 백색톤이 강하고 우측 구간은 다소 어두워 명도/색상 조정이 추가로 필요하다고 판단",
-    "method": "1. 좌측 원형(무처리) / 중앙 산화철분말안료 분사 / 우측 백시멘트 분사, 각 10분 후 샌딩 2. 콘채 미들그레이를 중앙·우측 구간에 분사하여 10분 경과 후 그레이 톤 1회 입힘 3. 콘채 아이보리를 중앙·우측 구간에 1차 추가 분사하여 웜톤 형성 시작 4. 색상 점검 결과 중앙은 백색톤 과다, 우측은 어두움 확인 → 우측 상단 백색 추가 보정, 전체 아이보리 1회 추가 보정 5. 최종적으로 비교를 위해 우측 구간에만 아이보리 추가 분사(과하게 분사하여 차이를 명확히 보이도록 처리)",
-    "result": "• 최초 전체 어두운 컬러 콘크리트벽 대비, 백색·아이보리 콘채 분사를 거치며 따뜻한 톤으로 변화하는 과정을 단계별로 확인 • 사진상으로는 다소 극단적으로 보이나 실제 색상 차이는 미묘한 변화 수준이라고 기록됨",
-    "thumbnail": "assets/images/case-studies/case-016-exposed-concrete-color-tone-demo-iron-oxide-white-cement/representative.jpg",
-    "after": "assets/images/case-studies/case-016-exposed-concrete-color-tone-demo-iron-oxide-white-cement/representative.jpg",
-    "before": "",
+    "summary": "주 출입구 현관 벽체의 색상이 어지러운 노출콘크리트 면을 아이보리와 라이트그레이를 혼합한 콘채로 균일하게 정리한 사례.",
+    "problem": "• 샌딩은 완료되어 표면질감은 양호하나 색상이 균일하지 않고 \"어지러운\" 상태 • 벽체마다 톤 차이가 있음 (일부 구간은 약간 어두운 톤) • 색상이 혼재된 벽면을 도장 느낌 없이 자연스럽게 정리하기 위해 콘채 시공 결정 • 구간별 톤 차이에 따라 라이트그레이:아이보리 배합 비율을 다르게 적용 (어두운 톤 구간은 라이트그레이+아이보리로 웜톤화)",
+    "method": "1. 샌딩 완료된 면에 라이트그레이+아이보리 콘채를 교반하여 뿜칠 2. 구간별로 색상이 어지러운 정도, 톤 차이에 맞춰 배합 조정 3. 실내 구간은 아이보리 비중을 높여 웜톤으로 마감 구체적인 배합 비율 수치, 뿜칠 장비, 공정 소요시간 등은 본 노트에 명시되지 않음.",
+    "result": "• 다양한 색상이 혼재된 느낌의 벽을 어느 정도 정리 • 시공 후 밝은색 톤으로 정돈됨 • 어두운 톤 구간은 콘채 배합으로 웜톤으로 전환됨",
+    "representative_image": "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-01.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-02.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-03.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-04.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-05.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-06.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/after-01.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/after-02.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/after-03.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/after-04.jpg",
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/after-05.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/representative.jpg",
+    "after": "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/after-01.jpg",
+    "before": "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-014-exposed-concrete-slab-stain-repair-right-lower-section",
+    "source": "obsidian",
+    "case_no": "014",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 014.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-slab-stain-repair-right-lower-section.md",
+    "review_required": true,
+    "title": "준공 전 오염된 노출콘크리트 슬래브 콘채 면보수 (부분 비교 시공)",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "준공 전부터 오염이 진행된 노출콘크리트 천장/슬래브 면을 콘채로 부분 비교 시공한 사례. 우측 슬래브 하단만 시공하여 시공전후 색상차를 비교.",
+    "problem": "• 준공 전인데도 노출콘크리트 면 오염이 이미 진행 중 • 현장관리자도 오염 진행을 막기 어려운 상태로 언급됨 • 견출이나 수성페인트 마감도 대안으로 언급되나 채택하지 않음 • 콘크리트 슬래브(천장) 부분은 견출보다 손쉬운 방법으로 보수 가능하다고 판단 • 굳이 깔끔하게 샌딩하지 않고 콘채를 뿌리는 것만으로도 오염부 정돈, 색상 맞춤, 추가 오염 예방이 가능하다고 설명 • 추가 오염 예방을 위해서는 코팅이 필수라는 판단 • 외벽이 노출콘크리트 마감이 아니어도 토목/건축구조물에서 마감 없는 콘크리트 노출부가 많고, 오염에 취약하다는 배경 설명",
+    "method": "• 구체적 배합비, 뿜칠 장비, 공정 순서 등은 본 노트에 명시되어 있지 않음 • \"콘채시공과 콘채코팅으로 해결\"한다는 언급만 있고 세부 단계 기술 없음 • 비교를 위해 슬래브 우측 하단 부분만 시공하고 좌측은 시공 전 상태로 남김",
+    "result": "• 좌측(시공전)과 우측(시공후) 비교 사진으로 색상 차이 확인 가능 • \"샌딩없이 콘크리트의 원형 색감을 찾기는 어렵지만, 오염부의 콘채시공만으로도 고민을 해결할 수 있다\"는 결론",
+    "representative_image": "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-01.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-02.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-03.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-04.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-05.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-06.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-07.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-08.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-09.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-10.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-11.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-12.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-01.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-02.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-03.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-04.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-05.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-06.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-07.jpg",
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-08.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/representative.jpg",
+    "after": "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/after-01.jpg",
+    "before": "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-014-exposed-concrete-slab-stain-repair-right-lower-section/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-013-exposed-concrete-stain-repair-before-after",
+    "source": "obsidian",
+    "case_no": "013",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 013.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-stain-repair-before-after.md",
+    "review_required": true,
+    "title": "오염된 노출콘크리트 콘채 면보수 (시공전후 비교)",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "오염된 노출콘크리트 면을 콘채로 복원한 면보수 사례. 5개 구간의 시공전/시공후 사진 비교 기록.",
+    "problem": "• 노출콘크리트 면이 오염된 상태 • 샌딩만으로는 오염이 모두 해결되지 않음 (원문: \"샌딩도 무지하게 해야 하지만 샌딩으로 모두 해결되지 않습니다\") • 페인트 도장은 원치 않음 — 콘크리트 원래의 자연스러움을 유지하고자 하는 요구 • 이 경우 콘채 시공을 대안으로 고려/적용 • 콘채는 무기질 초미세분말로, 콘크리트 질감을 살리기 위한 재료로 소개됨 • 목표: \"도장느낌 없는\" 자연스러운 노출콘크리트 마감",
+    "method": "• 구체적 배합비/공정 단계는 본 노트에 명시되어 있지 않음 (다른 사례 노트에서 별도로 다룸) • \"자연스러운 노출콘크리트를 위해 수많은 시간과 다양한 복원기술을 동원\"한다는 언급만 있음",
+    "result": "• 시공 후 육안상 \"시공을 한듯 안한듯\" 자연스러운 마감으로 완료 • 시공전후 비교 사진으로만 차이를 명확히 확인 가능하다고 기록됨 • 자연스러움 유지 + 도장 느낌 없는 노출콘크리트 마감 결과 달성",
+    "representative_image": "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/before-01.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/before-02.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/before-03.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/before-04.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/before-05.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/after-01.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/after-02.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/after-03.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/after-04.jpg",
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/after-05.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/representative.jpg",
+    "after": "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/after-01.jpg",
+    "before": "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-013-exposed-concrete-stain-repair-before-after/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-012-exposed-concrete-sanding-grit-process-coating",
     "source": "obsidian",
     "case_no": "012",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 012.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 012.md",
     "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-sanding-grit-process-coating.md",
     "review_required": false,
     "title": "노출콘크리트 샌딩 단계별 공정 및 콘채 코팅 시공사례",
@@ -544,17 +1285,42 @@ const PROJECTS = [
     "problem": "• 정리 전 콘크리트 벽면에 타이, 못, 반생 등 거푸집 부속재 잔존 • 곰보(재료분리)나 균열 등 하자가 있는 상태 • 오염도에 따라 표면 상태가 다른 여러 부위 존재 • 오염 정도와 마감 목표에 따라 샌딩 방수를 세분화하여 선택해야 한다는 기술적 판단 - 오염부 심한 부위: #40방, #60방 - 보통 부위: #100방, #120방 - 부드러운 마감: #180방, #360방",
     "method": "1. 타이, 못, 반생 제거 2. 곰보땜빵, 균열보수 3. 오염도별 샌딩작업 (#40~#360방 중 상태에 맞게 선택) 4. 그라인딩 및 샌딩 완료 후 콘채 시공 전 상태 점검 5. 콘채시공 — 에어 컴프레서 사용 (기본 3.5마력, 추천 5.5마력), 노즐팁 2.5mm 6. 콘채시공 후 코팅제 교반 7. 코팅제 도포",
     "result": "• 자연스러운 유로폼 노출콘크리트 마감 완성 • 최종 마감 사진 다수 첨부(공정 후 벽면 상태)",
+    "representative_image": "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/representative.jpg",
+    "before_images": [],
+    "process_images": [
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/process-01.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/process-02.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/process-03.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/process-04.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/process-05.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/process-06.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-01.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-02.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-03.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-04.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-05.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-06.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-07.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-08.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-09.jpg",
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-10.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/representative.jpg",
-    "after": "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/representative.jpg",
+    "after": "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-012-exposed-concrete-sanding-grit-process-coating/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-011-euroform-joint-line-restoration-process",
     "source": "obsidian",
     "case_no": "011",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 011.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 011.md",
     "draft_file": "Wiki/홈페이지/발행대기/euroform-joint-line-restoration-process.md",
     "review_required": false,
     "title": "유로폼 노출콘크리트 줄눈복원 시공사례",
@@ -567,17 +1333,86 @@ const PROJECTS = [
     "problem": "• 벽면처리 또는 땜빵 과정에서 유로폼 줄눈이 사라진 상태 • 기존 줄눈도 그라인딩·샌딩 과정에서 절반 이상 사라진 상태 • 주요 부위나 공용구간 등 라인이 중요한 부위는 줄눈을 살릴 필요가 있다고 판단됨 • 유로폼 노출콘크리트는 줄눈이 핵심 요소이므로 사라진 줄눈의 복원이 필요하다고 판단 • 새로 만든 줄눈은 처음에는 주변부와 이질감이 있어, 다시 샌딩으로 70~80%를 제거해야 주변부와 자연스럽게 어우러진다는 기술적 판단이 핵심",
     "method": "1. 재료: 콘채 라이트그레이와 아이보리를 반반(1:1) 교반하여 핸디퍼티 정도의 점도로 준비 2. 마스킹테이프와 두께가 있는 테이프로 줄눈 폭(18mm)을 설정 3. 수성프라이머로 시공부위 도포 후 대기 (시간이 없을 경우 열풍건조) 4. 별도 제작한 수공구로 줄눈을 그림 — 줄눈은 3선이 나오도록 시공 5. 줄눈시공 직후 건조 후 샌딩 진행 — 최소 180방 이상 샌드페이퍼 사용 (그 이하 방수는 줄눈이 날아감) 6. 처음에는 저속, 차츰 고속으로 샌딩하여 기시공된 줄눈의 70~80%를 다시 제거 7. 주변부와 이질감이 없는 수준까지 반복 조정",
     "result": "• 줄눈복원 완료 후 주변부와의 이질감이 없는 수준으로 마무리 • 원문 표현: \"미션 클리어\"로 시공 결과 만족도를 표현",
+    "representative_image": "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/before-01.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/before-02.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/process-01.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/process-02.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/process-03.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/process-04.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/after-01.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/after-02.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/after-03.jpg",
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/after-04.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/representative.jpg",
-    "after": "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/representative.jpg",
+    "after": "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/after-01.jpg",
+    "before": "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-011-euroform-joint-line-restoration-process/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-010-exposed-concrete-restoration-marketing-overview",
+    "source": "obsidian",
+    "case_no": "010",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 010.md",
+    "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-restoration-marketing-overview.md",
+    "review_required": true,
+    "title": "자연스러운 노출콘크리트 복원 소개 및 시공사례",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "노출콘크리트 복원 실패사례 경계와 콘채 수묵화 스프레이 기법 소개, 다수의 시공 참고사진을 포함한 홍보성 게시물.",
+    "problem": "원문에 명시되지 않음 (일반론적 서술 위주로, 특정 현장의 시공 전 상태에 대한 구체적 기술 없음) • \"바르기만 하면 된다\", \"간단한 미장만으로 된다\"는 식의 과장 광고를 경계 • 오리지널 감성을 만들려면 표면질감과 색감을 모두 만족해야 한다고 주장 • 노후된 노출콘크리트 구조물 소유자/관리자가 답을 찾지 못해 회색 페인트칠로 덮어버리는 경우가 많다는 문제의식 제시",
+    "method": "• 콘크리트 리페어 기술, 표면조건별 샌딩 기술, 색조작업(콘채), 분사기술, 코팅막 형성 등이 필요하다고 개괄적으로 언급되나 구체적 수치나 절차는 본 노트에 제시되지 않음 • 콘채를 이용한 \"수묵화 스프레이기법\"과 얇은 막의 코팅기술을 결합하여 오리지널 콘크리트벽과 가장 흡사한 노출콘크리트면을 구현한다고 서술 (세부 공정은 별도 노트 009 참고)",
+    "result": "• 처음 본 사람은 시공 여부를 구분하기 어려울 정도의 자연스러운 마감을 목표로 함 • 참고 유튜브 영상 링크 제공: https://youtu.be/Tymb2ut6oKc , https://youtu.be/GEkKL9UNiRg • 다수의 시공사례 참조사진 첨부 (사진별 구체적 설명 텍스트는 없음)",
+    "representative_image": "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/representative.jpg",
+    "before_images": [],
+    "process_images": [
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-01.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-02.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-03.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-04.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-05.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-06.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-07.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-08.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/process-09.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-01.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-02.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-03.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/representative.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-05.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-06.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-07.jpg",
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-08.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/representative.jpg",
+    "after": "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-010-exposed-concrete-restoration-marketing-overview/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-009-conche-wash-spray-technique-guide",
     "source": "obsidian",
     "case_no": "009",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 009.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 009.md",
     "draft_file": "Wiki/홈페이지/발행대기/conche-wash-spray-technique-guide.md",
     "review_required": false,
     "title": "콘채 워시 스프레이 기법 시공 가이드",
@@ -590,17 +1425,94 @@ const PROJECTS = [
     "problem": "원문에 명시되지 않음 (기법 소개 중심으로, 특정 현장의 시공 전 상태는 별도로 서술되지 않음) • \"덮는 것이 아니라 스며들게 한다\"는 원칙 하에 짙고 옅은 농담의 자연스러운 변화를 표현하는 것이 목표 • 수성프라이머를 혼합하는 이유는 단순 희석이 아닌 접착력 보강 목적이라고 명시",
     "method": "1. 사용재료: 콘채, 콘채수성코팅제, 콘채 방수코팅제 (콘채는 라이트그레이:아이보리 1:1 배합 추천) 2. 장비 세팅: 에어컴프레서 압력 유지, 스프레이건 노즐 2.0mm 이상, 도료 점도는 콘채를 물과 1:4로 희석 후 프라이머 10% 첨가하여 교반, 분사거리 20~30cm 유지, 스프레이 패턴 10인치 분사폭 3. 1차 분사: 넓게 겹치면서 얇게 1회 분사, 스며들 듯 분사하여 자연스러운 농담 형성 4. 겹침 효과: 1회 시공이지만 겹침 분사로 2회 분사 효과 발생 5. 부분 보정: 이색지거나 얇은 부위만 선택적으로 추가 분사 6. 건조: 자연 건조 10~20분 7. 마감: 콘채 무광 수성 방수 코팅제를 매우 얇게 도포하여 보호 마감",
     "result": "• 반투명하게 스며든 깊이감 있는 콘크리트 질감 표현 • 수묵화처럼 은은한 농담 표현 (원문 표기: \"숙묵화\"는 \"수묵화\"의 오탈자로 추정) • 덮은 느낌이 아닌 \"살아 숨쉬는 공간\"으로 묘사되는 완성 이미지 제시",
+    "representative_image": "assets/images/case-studies/case-009-conche-wash-spray-technique-guide/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-009-conche-wash-spray-technique-guide/after-01.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-009-conche-wash-spray-technique-guide/representative.jpg",
-    "after": "assets/images/case-studies/case-009-conche-wash-spray-technique-guide/representative.jpg",
+    "after": "assets/images/case-studies/case-009-conche-wash-spray-technique-guide/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-009-conche-wash-spray-technique-guide/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-008-concrete-repair-dilution-ratio-comparison",
+    "source": "obsidian",
+    "case_no": "008",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 008.md",
+    "draft_file": "Wiki/홈페이지/발행대기/concrete-repair-dilution-ratio-comparison.md",
+    "review_required": true,
+    "title": "노출콘크리트 리페어 콘채 희석비율 비교 사례",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "노출콘크리트 색조작업 시 콘채 희석비율(1:3~1:5)에 따른 표면 색감·질감 차이를 비교 설명하는 기술 해설 게시물.",
+    "problem": "• 거푸집 해체 후 타이·핀·반생·못 등을 제거하고 표면을 정리한 상태에서 시간 경과에 따라 표면 오염이 발생 • 원형 그대로의 콘크리트 벽체를 유지하기 어려운 현실 언급 • 타설 상태가 양호한 벽체와, 표면 상태가 좋지 않아 바탕처리에 많은 시간이 필요한 벽체 사례를 대비하여 소개 • 대부분 현장에서 노출콘크리트 면마감에 대한 이해도가 부족하여 공사비가 부족하게 책정되는 경향이 있다고 지적 • 게링(그라인더 작업)이나 샌딩 없이 콘채만 묽게 뿌려도 색조작업 효과가 있음을 확인 • 물조절 실패 시 도장느낌이 과도하게 날 수 있다는 점을 주의사항으로 제시 • 표면상태가 나쁜 벽체는 곰보땜빵, 균열보수, 그라인딩, 샌딩 등 별도의 바탕처리가 반드시 필요하며 콘채만으로는 해결되지 않는다고 명시",
+    "method": "• 콘채를 물과 1:4~1:5 비율로 희석하여 가볍게 뿜칠(색조작업 목적) • 콘채 비율을 높인 배합: 물과 1:3 비율 (더 진한 색조 표현) • 실내공간은 조명 효과로 인해 다소 진한 배합도 고품질로 보일 수 있다는 언급 • 표면상태가 나쁜 경우 두께 맞춤, 곰보땜빵, 균열보수, 그라인딩, 샌딩을 반복적으로 진행해야 한다는 원칙 제시",
+    "result": "• 콘채 시공 및 코팅 완료 사진으로 마무리 • 색조작업 강도(1:3~1:5)에 따라 마감면의 색상·질감 차이가 뚜렷하게 나타남을 비교로 제시 • \"콘크리트 리페어의 기본은 최소한으로만 보수하고 원형의 느낌을 살리는 것\"이라는 원칙 강조",
+    "representative_image": "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/before-01.jpg",
+      "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/before-02.jpg",
+      "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/before-03.png"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/representative.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/representative.jpg",
+    "after": "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/representative.jpg",
+    "before": "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-008-concrete-repair-dilution-ratio-comparison/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-007-conche-pigment-paint-introduction",
+    "source": "obsidian",
+    "case_no": "007",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 007.md",
+    "draft_file": "Wiki/홈페이지/발행대기/conche-pigment-paint-introduction.md",
+    "review_required": true,
+    "title": "감성페인트 피그먼트 페인트 콘채 소개",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "노출콘크리트 감성을 표현하는 피그먼트 페인트 콘채의 개념과 특징을 소개하는 마케팅성 게시물.",
+    "problem": "원문에 명시되지 않음 (특정 시공 현장 없음) • 피그먼트(고체 안료)는 염료와 달리 빛에 강하고 내구성이 뛰어나 색이 바래지 않는다는 자재 특성 소개 • 백시멘트와 혼합하여 에어리스나 롤러 등으로 시공 가능하다는 시공성 소개",
+    "method": "원문에 명시되지 않음 (구체적 배합비, 공정 단계 없음. \"백시멘트와 혼합하여 에어리스나 로울러 등으로 시공\"한다는 개괄적 언급만 있음)",
+    "result": "원문에 명시되지 않음 (특정 현장의 시공 결과가 아닌 일반적 제품 소개)",
+    "representative_image": "assets/images/case-studies/case-007-conche-pigment-paint-introduction/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-007-conche-pigment-paint-introduction/after-01.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-007-conche-pigment-paint-introduction/representative.jpg",
+    "after": "assets/images/case-studies/case-007-conche-pigment-paint-introduction/after-01.jpg",
+    "before": "",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-007-conche-pigment-paint-introduction/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-006-jeju-park-exterior-wall-restoration",
     "source": "obsidian",
     "case_no": "006",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 006.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 006.md",
     "draft_file": "Wiki/홈페이지/발행대기/jeju-park-exterior-wall-restoration.md",
     "review_required": false,
     "title": "제주 공원 노출콘크리트 외벽 노후 복원 시공사례",
@@ -613,40 +1525,114 @@ const PROJECTS = [
     "problem": "• 제주도 공원의 노출콘크리트 외벽이 오염 및 노후된 상태 • 외벽 오염으로 인해 시설물, 부착물에 보양 처리가 필요한 상태 • 콘채는 미장/퍼티마감, 에어스프레이, 에어리스, 롤러, 붓 등 다양한 공법에 사용 가능한 재료로 소개됨 • 물에 프라이머를 섞으면 접착력이 좋아진다는 현장 판단에 따라 다수 시공자가 프라이머를 물에 섞어 사용 • 라이트그레이와 미들그레이가 외벽 면보수에 주로 사용되며, 라이트그레이와 아이보리를 1:1로 섞으면 더 빈티지한 색상 표현 가능",
     "method": "1. 외부 시설물 및 부착물 보양 2. 콘채 라이트그레이를 물과 1:3 비율로 교반 (필요 시 물에 프라이머 첨가) 3. 에어 컴프레서를 이용한 콘채 시공 4. 시공완료 후 코팅제 시공 (원문에서 필수 공정으로 강조됨)",
     "result": "• 오염되었던 외벽이 콘채 시공 후 깨끗한 외벽으로 마무리됨 • 여러 구간에서 시공전/시공후 비교 사진으로 개선 효과 확인 • 라이트그레이+아이보리 배합으로 에어스프레이 시공한 참고 영상 링크 포함 (https://youtu.be/Q05sT1s3ovs, https://youtube.com/shorts/tX1W8lxVm4U)",
+    "representative_image": "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/before-01.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/before-02.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/before-03.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/before-04.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/before-05.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/process-01.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/after-01.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/after-02.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/after-03.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/after-04.jpg",
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/after-05.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/representative.jpg",
-    "after": "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/representative.jpg",
-    "before": "",
+    "after": "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/after-01.jpg",
+    "before": "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/before-01.jpg",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-006-jeju-park-exterior-wall-restoration/representative.jpg"
+    ]
   },
   {
-    "id": "obsidian-case-003-euroform-exposed-concrete-airless-spray-500sqm",
+    "id": "obsidian-case-005-conche-ivory-wall-coating-customer-case",
     "source": "obsidian",
-    "case_no": "003",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 003.md",
-    "draft_file": "Wiki/홈페이지/발행대기/euroform-exposed-concrete-airless-spray-500sqm.md",
-    "review_required": false,
-    "title": "유로폼 노출콘크리트 콘채 에어리스 뿜칠 시공 (약 500㎡)",
+    "case_no": "005",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 005.md",
+    "draft_file": "Wiki/홈페이지/발행대기/conche-ivory-wall-coating-customer-case.md",
+    "review_required": true,
+    "title": "콘채 아이보리 코팅제 벽체도장 고객 시공사례",
     "location": "",
     "building": "",
     "category": "노출콘크리트",
     "date": "",
     "period": "",
-    "summary": "약 500㎡ 규모 유로폼 노출콘크리트 현장에서 콘채를 에어리스 뿜칠로 시공한 기술 사례. 배합비, 뿜칠 장비, 방수코팅까지 전 공정 기록.",
-    "problem": "• 기존 콘크리트 면에 타이자리(폼타이 자국) 보수 필요 • 면갈이는 최소한으로 진행 — 콘크리트의 거친 느낌을 살리기 위함 • 재료분리 등 하자는 콘채 견출작업으로 마무리 • 유로폼 노출이라 줄눈 부분은 살려서 정리 • 1차 면정리 후 면 상태는 양호했으나 색상 이질감이 남아있었음 • 색상의 이질감을 해결하기 위해 콘채 전체 뿜칠 마감 결정 • 배합비 관련 현장 판단: 처음 1:3 비율로 교반하려 했으나 도장 담당자가 \"너무 묽다\"고 판단하여 1:2.5 비율로 조정 • 에어리스 장비 노즐 막힘 방지를 위해 스타킹으로 1차 필터링 진행",
-    "method": "1. 도장공이 보유한 에어리스 장비 사용 (장비가는 대략 400만원대로 기록됨) 2. 노즐은 가장 큰 사이즈 사용 권장 — 이번 현장은 517 노즐 사용 3. 노즐 막힘 대비, 스타킹을 이용한 1차 필터링 4. 콘채와 물 비율 1:2.5로 교반, 3분 이상 교반 후 작업 5. 인력 배치: 1명 교반, 2명은 창호 마스킹테이프 보양 작업 6. 1회 뿜칠 — 사용 재료: 콘채 라이트그레이. 500㎡ 이상 면적 1회 뿜칠에 약 3시간 소요 7. 점심 식사 후 2회 뿜칠 진행 (양생속도가 빠른 편) 8. 2회 뿜칠 다음날 방수코팅 작업 (에어리스로 진행), 2회 코팅",
-    "result": "• 줄눈과 거친 면이 그대로 살아있어 콘크리트 질감 유지 • 라이트그레이는 밝은 느낌의 콘크리트 색상 • 방수코팅 후 색상이 약간 짙어지는 경향 확인 • 다음 주 비계 해체 예정 (해체 후 최종 마감 확인 예정이라는 언급이 있으나, 해체 후 결과는 본 노트에 기록되지 않음)",
-    "thumbnail": "assets/images/case-studies/case-003-euroform-exposed-concrete-airless-spray-500sqm/representative.jpg",
-    "after": "assets/images/case-studies/case-003-euroform-exposed-concrete-airless-spray-500sqm/representative.jpg",
+    "summary": "고객이 직접 촬영해 보내온 콘채 아이보리 + 코팅제 교반 벽체도장 시공사례 소개 및 제품 판매 링크 안내.",
+    "problem": "원문에 명시되지 않음 원문에 명시되지 않음 (구체적 기술적 판단 근거나 문제 상황 서술 없음)",
+    "method": "• 콘채 아이보리와 코팅제를 교반하여 벽체도장 시공 • 구체적 배합비, 장비, 공정 단계는 본 노트에 명시되지 않음",
+    "result": "• 벽체 느낌이 좋다는 고객 평가로 마무리 • 시공이 편리하다는 콘채 아이보리 제품의 특성 소개",
+    "representative_image": "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/representative.jpg",
+    "before_images": [],
+    "process_images": [
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/process-01.jpg",
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/process-02.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/after-01.jpg",
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/after-02.jpg",
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/after-03.jpg",
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/after-04.jpg",
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/after-05.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/representative.jpg",
+    "after": "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-005-conche-ivory-wall-coating-customer-case/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-004-jeju-aewol-conche-delivery-case",
+    "source": "obsidian",
+    "case_no": "004",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 004.md",
+    "draft_file": "Wiki/홈페이지/발행대기/jeju-aewol-conche-delivery-case.md",
+    "review_required": true,
+    "title": "제주 애월현장 콘채 납품 및 배합 사례",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "제주 애월 현장 및 제주도 기념품샵 콘채 납품 사례. 콘채·물·코팅제 1:1:1 배합비를 기록한 짧은 소개성 게시물.",
+    "problem": "원문에 명시되지 않음 (구체적 시공 전 벽체 상태 서술 없음) • 건축주가 콘채와 코팅제를 함께 섞어 교반하는 방식이 가장 좋은 결과를 낸다고 판단 • 일체화된 색조와 깔끔한 마무리를 위한 배합 비율을 도출",
+    "method": "• 콘채 : 물 : 코팅제 = 1 : 1 : 1 비율로 혼합 • 3분간 교반",
+    "result": "• 유로폼 노출콘크리트와 콘채 아이보리 조합으로 빈티지한 느낌 표현 (제주도 기념품샵 사례, 원문 시점 기준 작업 미완료 상태로 기록됨) • 애월현장은 소량 납품 건으로, 결과 사진 등 구체적 최종 결과는 본 노트에 기록되지 않음",
+    "representative_image": "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/before-01.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/after-01.jpg",
+      "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/after-02.jpg",
+      "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/after-03.jpg",
+      "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/after-04.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/representative.jpg",
+    "after": "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/after-01.jpg",
+    "before": "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-004-jeju-aewol-conche-delivery-case/representative.jpg"
+    ]
   },
   {
     "id": "obsidian-case-002-office-corridor-concrete-finish-over-paint",
     "source": "obsidian",
     "case_no": "002",
-    "source_note": "Raw/노출콘크리트 시공기술사례 - 002.md",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 002.md",
     "draft_file": "Wiki/홈페이지/발행대기/office-corridor-concrete-finish-over-paint.md",
     "review_required": false,
     "title": "사무실 복도 수성페인트 위 콘채 노출콘크리트 마감 시공",
@@ -659,10 +1645,67 @@ const PROJECTS = [
     "problem": "• 기존 벽체는 수성페인트 마감 상태 • 결로부위가 존재하여 정리 작업 필요 • 깨끗하게 사용했지만 수성페인트 특유의 저렴한 느낌이 있었다고 서술됨 • 벽면의 액자 등 부착물은 보양 처리 대상 • 수성페인트의 저렴한 느낌을 개선하기 위해 콘채 시공을 결정 • 콘채 1회 시공만으로는 색이 잘 나오지 않아 2회 도포가 필요하다는 판단 • 롤러 시공 시 콘채와 물 비율은 1:1로 교반",
     "method": "1. 결로부위 정리 2. 액자 등 부착물 보양 3. 액자 주변은 붓으로 시공 4. 콘채와 물을 1:1 비율로 믹서 교반, 롤러로 시공 5. 1회 시공 후 기존 수성페인트 바탕면이 살짝 비치는 상태 확인 6. 콘채 아이보리 색상으로 2회 시공 진행",
     "result": "• 아이보리 색상으로 2회 시공 후 복도가 다소 어두워 색이 뚜렷하게 표현되지는 않았으나 전반적으로 만족스러운 느낌으로 마감 • 살짝 거칠면서 빈티지한 질감 표현 • 시공 시 페인트 냄새가 전혀 나지 않아 창문을 닫고도 시공 가능한 수준이라고 기록됨 (양생을 위해 실제로는 창문을 열고 진행)",
+    "representative_image": "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/before-01.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/before-02.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/before-03.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/before-04.jpg"
+    ],
+    "process_images": [
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/process-01.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/process-02.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/process-03.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/process-04.jpg"
+    ],
+    "after_images": [
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/after-01.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/after-02.jpg",
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/representative.jpg"
+    ],
     "thumbnail": "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/representative.jpg",
-    "after": "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/representative.jpg",
+    "after": "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/after-01.jpg",
+    "before": "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-002-office-corridor-concrete-finish-over-paint/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-001-concrete-vintage-finish-interior-showcase",
+    "source": "obsidian",
+    "case_no": "001",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 001.md",
+    "draft_file": "Wiki/홈페이지/발행대기/concrete-vintage-finish-interior-showcase.md",
+    "review_required": true,
+    "title": "콘채 노출콘크리트 내부작업 색조 통일 시공사례",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "유로폼 노출콘크리트 내부 면마감을 콘채로 시공한 사례. 색조 통일과 콘크리트 질감 유지 결과를 중심으로 소개.",
+    "problem": "원문에 명시되지 않음 (시공 전 면 상태에 대한 구체적 서술 없음) • 색조의 통일성을 유지하면서 콘크리트의 빈티지 느낌을 살리는 것이 목표로 언급됨 • \"너무 평탄하면 오히려 자연스러움을 느낄 수 없다\"는 판단하에 약간 거친 느낌을 그대로 살림",
+    "method": "원문에 명시되지 않음 (배합비, 장비, 공정 순서 등 구체적 시공 방법 미기재. DIY 셀프시공이 가능하며 시공방법은 유튜브 검색을 참고하라는 안내만 있음)",
+    "result": "• 유로폼 노출콘크리트 면마감으로 콘채 작업 시 도장느낌이 거의 없음 • 색조의 통일성 유지 및 콘크리트의 빈티지 느낌 표현 • 누가 보아도 색조작업을 한 느낌이 없다는 평가 • 물을 섞어 쓰는 자재 특성상 면적당 자재비가 저렴하다는 언급",
+    "representative_image": "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/after-01.jpg",
+      "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/after-02.jpg",
+      "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/after-03.jpg",
+      "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/after-04.jpg",
+      "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/after-05.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/representative.jpg",
+    "after": "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/after-01.jpg",
     "before": "",
     "images": [],
-    "featured": false
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-001-concrete-vintage-finish-interior-showcase/representative.jpg"
+    ]
   }
 ];

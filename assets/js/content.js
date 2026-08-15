@@ -25,8 +25,9 @@
      type:        case                             → item.type ('technical' | 'case')
      date:        2026-08-14                       → item.date
      description: 한 줄 요약                        → item.description
-     representative_image: after-01.jpg            → item.images.thumbnail
+     representative_image: representative.jpg      → item.images.thumbnail
      before_images:        [before-01.jpg]         → item.images.beforeImages
+     process_images:       [process-01.jpg]        → item.images.processImages
      after_images:         [after-01.jpg]          → item.images.afterImages
      ---
      (본문 마크다운)                                 → item.body (HTML)
@@ -39,8 +40,9 @@
        date,          // 'YYYY-MM' 또는 'YYYY-MM-DD'
        sortKey,       // 정렬용으로 보정한 'YYYY-MM-DD'
        description,   // 목록 카드에 노출되는 한 줄 요약
-       images: { thumbnail, cover, before, gallery[], beforeImages[], afterImages[] },
-                      // thumbnail = 대표 이미지 = 완성(AFTER) 사진
+       images: { thumbnail, cover, before, gallery[],
+                 beforeImages[], processImages[], afterImages[] },
+                      // thumbnail = 대표 이미지 = 옵시디언 노트의 '대표사진'
                       // 선택 규칙은 assets/js/case-images.js 한 곳에만 있습니다
        body,          // 상세 본문 HTML ('' 이면 상세페이지가 자체 구성)
        tags[],        // 검색 키워드
@@ -89,12 +91,13 @@ function contentSortKey(date) {
 
 /* 시공사례(PROJECTS 항목) → 통합 항목
    이미지 선택은 case-images.js 의 정규화 모델에만 맡깁니다.
-   (대표 이미지 = 완성/AFTER 사진) */
+   (대표 이미지 = 옵시디언 Raw 노트의 '대표사진') */
 function projectToContent(p) {
   var ci = (typeof CaseImages !== 'undefined')
     ? CaseImages.normalize(p)
     : { representativeImage: p.thumbnail || p.after || '',
         beforeImages: p.before ? [p.before] : [],
+        processImages: [],
         afterImages: p.after ? [p.after] : [],
         galleryImages: (p.images || []).slice() };
 
@@ -113,6 +116,7 @@ function projectToContent(p) {
       before: ci.beforeImages[0] || '',
       gallery: ci.galleryImages,
       beforeImages: ci.beforeImages,
+      processImages: ci.processImages,
       afterImages: ci.afterImages
     },
     body: '',
@@ -148,6 +152,7 @@ function resourceToContent(r) {
       before: '',
       gallery: [],
       beforeImages: [],
+      processImages: [],
       afterImages: []
     },
     body: r.content || '',

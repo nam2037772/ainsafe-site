@@ -33,10 +33,12 @@
     if (typeof CaseImages !== 'undefined') return CaseImages.normalize(p);
     return {
       representativeImage: (p && (p.thumbnail || p.after)) || '',
+      representativeImages: p && (p.thumbnail || p.after) ? [p.thumbnail || p.after] : [],
       beforeImages: p && p.before ? [p.before] : [],
+      processImages: [],
       afterImages: p && p.after ? [p.after] : [],
       galleryImages: (p && p.images ? p.images.slice() : []),
-      hasBefore: !!(p && p.before), hasAfter: !!(p && p.after),
+      hasBefore: !!(p && p.before), hasProcess: false, hasAfter: !!(p && p.after),
       showComparison: !!(p && p.before), source: 'fallback'
     };
   }
@@ -501,8 +503,9 @@
     var headMeta = [p.category, p.building, p.location, fmtDate(p.date), p.period]
       .filter(Boolean).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
 
-    /* 4·5. 시공 전 / 시공 후 — 여러 장 지원, 원본 비율 유지 */
-    function compareColumn(kind, ko, en, list) {
+    /* 4·5·6. 시공 전 / 시공 중 / 시공 후 — 옵시디언 노트의 분류와 순서를 그대로 따릅니다.
+       사진이 없는 구간('사진없음')은 통째로 만들지 않습니다. */
+    function phaseSection(kind, ko, en, list) {
       if (!list.length) return '';
       return '<div class="ba-set__col ba-set__col--' + kind + '">' +
         '<h3 class="ba-set__ttl"><span class="ba-set__tag">' + en + '</span>' + esc(ko) + '</h3>' +
@@ -515,16 +518,24 @@
       '</div>';
     }
 
-    var compareHtml = '';
+    var phasesHtml = '';
     if (ci.showComparison) {
-      var cols = compareColumn('before', '시공 전', 'BEFORE', ci.beforeImages) +
-                 compareColumn('after', '시공 후', 'AFTER', ci.afterImages);
-      var single = !(ci.hasBefore && ci.hasAfter);
-      compareHtml =
-        '<section class="wrap ba-set-wrap" aria-label="시공 전후 비교">' +
-          '<div class="ba-set' + (single ? ' ba-set--single' : '') + '">' + cols + '</div>' +
+      var phases = phaseSection('before', '시공 전', 'BEFORE', ci.beforeImages) +
+                   phaseSection('process', '시공 중', 'PROCESS', ci.processImages) +
+                   phaseSection('after', '시공 후', 'AFTER', ci.afterImages);
+      phasesHtml =
+        '<section class="wrap ba-set-wrap" aria-label="시공 단계별 사진">' +
+          '<div class="ba-set ba-set--phases">' + phases + '</div>' +
         '</section>';
     }
+
+    /* 대표사진 — 노트에 여러 장이 적혀 있으면 적힌 순서대로 이어 붙입니다. */
+    var repList = ci.representativeImages.length ? ci.representativeImages : [img(ci.representativeImage)];
+    var repHtml = repList.map(function (src, i) {
+      return '<figure class="detail__figure"><img src="' + esc(img(src)) +
+        '" alt="' + esc(p.title) + ' 대표 사진' + (repList.length > 1 ? ' ' + (i + 1) : '') +
+        '" loading="lazy" /></figure>';
+    }).join('');
 
     root.innerHTML =
       /* 1. 제목 + 2. 기본 정보 */
@@ -534,12 +545,9 @@
         (headMeta ? '<p class="detail__meta">' + headMeta + '</p>' : '') +
         '<p class="lead">' + esc(p.summary) + '</p>' +
       '</div>' +
-      /* 3. 대표(완성) 이미지 */
-      '<figure class="detail__figure"><img src="' + esc(img(ci.representativeImage)) +
-        '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" /></figure>' +
-      /* 4·5. 시공 전 / 시공 후 */
-      compareHtml +
-      /* 6. 기존 본문 */
+      /* 3. 대표 이미지 */
+      repHtml +
+      /* 4. 작업내용 — 기술 본문 */
       '<div class="wrap detail__grid">' +
         '<div class="detail__body">' +
           blocks.map(function (b) {
@@ -555,7 +563,9 @@
           }).join('') + '</dl>' +
           '<a class="btn btn--dark btn--block" href="contact.html">같은 유형으로 상담하기</a>' +
         '</aside>' +
-      '</div>';
+      '</div>' +
+      /* 5·6·7. 시공 전 → 시공 중 → 시공 후 */
+      phasesHtml;
 
     // 관련 시공사례
     var rel = $('#relatedWorks');

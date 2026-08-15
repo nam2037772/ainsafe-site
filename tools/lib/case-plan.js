@@ -1,0 +1,103 @@
+/* ============================================================
+   tools/lib/case-plan.js
+   ------------------------------------------------------------
+   에릭 검수본 Raw 노트 + 발행대기 노트를 합쳐, 사이트가 쓸
+   "사례 계획(plan)" 한 벌을 만듭니다.
+
+     Raw (이미지 분류의 정본)  ─┐
+                               ├→ plan ─→ 이미지 내려받기 (fetch-case-images.js)
+     발행대기 (제목·본문)      ─┘         └→ projects.js 재작성 (rebuild-cases.js)
+
+   ▶ 이미지 파일 이름은 에릭이 적어 둔 "순서"를 그대로 씁니다.
+       representative.jpg
+       before-01.jpg  before-02.jpg …
+       process-01.jpg process-02.jpg …
+       after-01.jpg   after-02.jpg  …
+     같은 사진이 대표와 시공후에 함께 쓰이면 먼저 정해진 경로를 다시 씁니다.
+     (= 같은 파일을 두 번 내려받지 않습니다)
+   ============================================================ */
+'use strict';
+
+const { CASE_IMAGE_ROOT } = require('./case-source');
+const { loadRawCases, auditRawCase } = require('./raw-cases');
+
+/** URL 에서 확장자를 얻습니다. 알 수 없으면 .jpg 로 둡니다. */
+function extensionOf(url) {
+  const clean = String(url).split(/[?#]/)[0];
+  const m = /\.(jpe?g|png|gif|webp|avif)$/i.exec(clean);
+  return m ? '.' + m[1].toLowerCase().replace('jpeg', 'jpg') : '.jpg';
+}
+
+/**
+ * 사례 하나의 이미지 배치를 정합니다.
+ * @returns {{ dir, representative, before[], process[], after[], downloads[] }}
+ *   각 항목은 { url, file, path } 이며 downloads 는 중복을 뺀 실제 내려받기 목록입니다.
+ */
+function planImages(rawCase, slug) {
+  const dir = `${CASE_IMAGE_ROOT}/case-${rawCase.case_no}-${slug}`;
+  const seen = new Map();          // url → 사이트 경로
+  const downloads = [];
+
+  const assign = (url, file) => {
+    if (seen.has(url)) return { url, file: seen.get(url).split('/').pop(), path: seen.get(url), reused: true };
+    const p = `${dir}/${file}`;
+    seen.set(url, p);
+    downloads.push({ url, path: p });
+    return { url, file, path: p, reused: false };
+  };
+
+  /* 대표사진 — 카드에는 첫 장만 씁니다. 노트에 여러 장이 적혀 있으면
+     나머지도 대표 구간에 적힌 순서대로 함께 보여 줍니다. (골라내지 않습니다) */
+  const repList = rawCase.images.representative.list.map((img, i) =>
+    assign(img.url, i === 0
+      ? 'representative' + extensionOf(img.url)
+      : `representative-${String(i + 1).padStart(2, '0')}${extensionOf(img.url)}`));
+
+  const role = (key, prefix) => rawCase.images[key].list.map((img, i) =>
+    assign(img.url, `${prefix}-${String(i + 1).padStart(2, '0')}${extensionOf(img.url)}`));
+
+  return {
+    dir,
+    representative: repList[0] || null,
+    extraRepresentative: repList.slice(1),
+    before: role('before', 'before'),
+    process: role('process', 'process'),
+    after: role('after', 'after'),
+    downloads
+  };
+}
+
+/**
+ * Raw 전체 + 발행대기 색인 → 사례 계획 목록.
+ * Raw 에 있는 사례만 만듭니다. (지워진 번호는 되살리지 않습니다)
+ */
+function buildCasePlans(vaultDir, drafts) {
+  const raws = loadRawCases(vaultDir);
+  const plans = [];
+  const problems = [];
+
+  raws.forEach((raw) => {
+    const draft = drafts[raw.case_no];
+    if (!draft) {
+      problems.push({ case_no: raw.case_no, level: 'error', text: '발행대기 노트가 없어 제목·본문을 만들 수 없습니다' });
+      return;
+    }
+    auditRawCase(raw).forEach((i) => problems.push({ case_no: raw.case_no, level: i.level, text: i.text }));
+
+    const images = planImages(raw, draft.slug);
+    plans.push({
+      case_no: raw.case_no,
+      slug: draft.slug,
+      id: `obsidian-case-${raw.case_no}-${draft.slug}`,
+      raw,
+      draft,
+      images,
+      /* '사진없음' 이거나 실제 사진이 없는 구간 — 화면에서 숨겨야 합니다 */
+      hidden: ['before', 'process', 'after'].filter((k) => images[k].length === 0)
+    });
+  });
+
+  return { plans, problems };
+}
+
+module.exports = { extensionOf, planImages, buildCasePlans };

@@ -13,6 +13,9 @@
      4. id 중복 / 별칭(PROJECT_ALIASES) 대상이 실재하는가
      5. 통합 아카이브(CONTENT) 가 모든 항목을 만들어 내는가
      6. 검색·분류 필터가 항목을 잃지 않는가
+     7. 옵시디언 Raw 노트(에릭 검수본)와 사이트 데이터가 정확히 일치하는가
+        — 사례 수 / 대표사진 / 시공 전·중·후 목록과 그 순서
+        (vault 를 찾을 수 없으면 이 항목만 건너뜁니다)
    ============================================================ */
 'use strict';
 
@@ -63,7 +66,7 @@ assert(typeof CaseImages === 'object' && CaseImages, 'CaseImages 전역 노출')
 /* ── 2·3. 이미지 역할 정규화 + 파일 존재 ───────────────────── */
 console.log('\n[2] 이미지 역할 정규화');
 const rows = [];
-let missing = 0, noRep = 0, explicit = 0, withBefore = 0;
+let missing = 0, noRep = 0, explicit = 0, withBefore = 0, remote = 0;
 
 PROJECTS.forEach((p) => {
   const ci = CaseImages.normalize(p);
@@ -71,27 +74,24 @@ PROJECTS.forEach((p) => {
   if (ci.source === 'explicit') explicit++;
   if (ci.hasBefore) withBefore++;
 
-  [ci.representativeImage, ...ci.beforeImages, ...ci.afterImages, ...ci.galleryImages]
-    .filter(Boolean)
-    .filter((s) => !/^https?:\/\//i.test(s))
-    .forEach((s) => {
-      if (!fs.existsSync(path.join(ROOT, s))) { missing++; fail(`${p.id} — 파일 없음: ${s}`); }
-    });
-
-  /* 대표 이미지는 시공 전 사진이어서는 안 됩니다 (완성/AFTER 가 기본). */
-  if (ci.hasBefore && ci.hasAfter && ci.beforeImages.indexOf(ci.representativeImage) > -1) {
-    fail(`${p.id} — 대표 이미지가 시공 전 사진으로 지정됨`);
-  }
+  const all = [...ci.representativeImages, ...ci.beforeImages,
+               ...ci.processImages, ...ci.afterImages, ...ci.galleryImages].filter(Boolean);
+  all.forEach((s) => {
+    if (/^https?:\/\//i.test(s)) { remote++; fail(`${p.id} — 원격 이미지가 남아 있음: ${s}`); return; }
+    if (!fs.existsSync(path.join(ROOT, s))) { missing++; fail(`${p.id} — 파일 없음: ${s}`); }
+  });
 
   rows.push({
     case_no: p.case_no, id: p.id, source: ci.source,
     rep: ci.representativeImage, before: ci.beforeImages.length,
-    after: ci.afterImages.length, gallery: ci.galleryImages.length,
-    compare: ci.showComparison
+    process: ci.processImages.length, after: ci.afterImages.length,
+    gallery: ci.galleryImages.length, compare: ci.showComparison
   });
 });
 assert(noRep === 0, `모든 사례에 대표 이미지 존재 (${PROJECTS.length}건)`);
 assert(missing === 0, '참조 이미지 파일 모두 존재');
+assert(remote === 0, '모든 이미지가 사이트 내부 경로 (원격 링크 없음)');
+assert(explicit === PROJECTS.length, `모든 사례가 Raw 노트의 명시 분류 사용 (${explicit}/${PROJECTS.length})`);
 assert(fs.existsSync(path.join(ROOT, FALLBACK_IMAGE)), `대체 이미지 존재: ${FALLBACK_IMAGE}`);
 
 /* ── 4. id / 별칭 ──────────────────────────────────────────── */
@@ -134,15 +134,91 @@ assert(CONTENT.every((i) => typeof i.searchText === 'string' && i.searchText.len
 assert(CONTENT.filter((i) => i.searchText.indexOf('노출콘크리트') > -1).length > 0,
   "검색 '노출콘크리트' 결과 있음");
 
+/* ── 7. 옵시디언 Raw 노트와의 대조 ─────────────────────────
+   에릭이 분류한 대표/시공전/시공중/시공후 를 사이트가 그대로 쓰고 있는지
+   순서까지 한 장씩 맞춰 봅니다. vault 가 없으면 이 항목만 건너뜁니다. */
+console.log('\n[6] 옵시디언 Raw 노트 대조');
+let rawChecked = false;
+try {
+  const { resolveVault, loadDrafts } = require('./lib/case-source');
+  const { buildCasePlans } = require('./lib/case-plan');
+  const vault = resolveVault();
+  const { plans } = buildCasePlans(vault, loadDrafts(vault));
+  rawChecked = true;
+
+  const planByCase = {};
+  plans.forEach((pl) => { planByCase[pl.case_no] = pl; });
+  const publishable = plans.filter((pl) => pl.images.representative);
+
+  assert(PROJECTS.length === publishable.length,
+    `사례 수 일치: 사이트 ${PROJECTS.length}건 = 발행 가능한 Raw ${publishable.length}건 (Raw 전체 ${plans.length}건)`);
+
+  const held = plans.filter((pl) => !pl.images.representative).map((pl) => pl.case_no);
+  if (held.length) console.log(`    · 대표사진이 없어 보류 중인 Raw 사례: ${held.join(', ')}`);
+
+  const orphan = PROJECTS.filter((p) => !planByCase[p.case_no]);
+  assert(orphan.length === 0,
+    `모든 사례에 Raw 원본 존재${orphan.length ? ' — ' + orphan.map((p) => p.case_no).join(', ') : ''}`);
+
+  const same = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
+  let repBad = 0, orderBad = 0, hiddenBad = 0;
+  PROJECTS.forEach((p) => {
+    const pl = planByCase[p.case_no];
+    if (!pl) return;
+    const ci = CaseImages.normalize(p);
+    const want = (role) => pl.images[role].map((x) => x.path);
+
+    if (ci.representativeImage !== (pl.images.representative || {}).path) {
+      repBad++; fail(`${p.case_no} — 대표 이미지가 Raw 의 대표사진과 다름`);
+    }
+    [['before', '시공 전'], ['process', '시공 중'], ['after', '시공 후']].forEach(([role, ko]) => {
+      const got = ci[role + 'Images'];
+      if (!same(got, want(role))) { orderBad++; fail(`${p.case_no} — ${ko} 목록/순서가 Raw 와 다름`); }
+      /* '사진없음' 인 구간은 빈 배열이어야 하고, 화면에서 만들어지지 않습니다 */
+      if (pl.raw.images[role].declaredNone && got.length) {
+        hiddenBad++; fail(`${p.case_no} — ${ko} 는 '사진없음' 인데 사진이 들어 있음`);
+      }
+    });
+  });
+  assert(repBad === 0, '대표 이미지 = Raw 의 대표사진 (전 사례)');
+  assert(orderBad === 0, '시공 전 · 중 · 후 목록과 순서가 Raw 와 동일');
+  assert(hiddenBad === 0, "'사진없음' 구간은 비어 있음 (화면에서 숨김)");
+
+  /* 에릭이 뺀 사진이 사이트에 남아 있지 않은지 */
+  const wanted = new Set();
+  plans.forEach((pl) => pl.images.downloads.forEach((d) => wanted.add(d.path)));
+  const caseRoot = path.join(ROOT, 'assets/images/case-studies');
+  const strays = [];
+  if (fs.existsSync(caseRoot)) {
+    fs.readdirSync(caseRoot).forEach((d) => {
+      const dir = path.join(caseRoot, d);
+      if (!fs.statSync(dir).isDirectory()) return;
+      fs.readdirSync(dir).forEach((f) => {
+        const rel = `assets/images/case-studies/${d}/${f}`;
+        if (!wanted.has(rel)) strays.push(rel);
+      });
+    });
+  }
+  assert(strays.length === 0,
+    `Raw 에 없는 이미지 파일 없음${strays.length ? ' — ' + strays.slice(0, 5).join(', ') : ''}`);
+} catch (e) {
+  if (e.code === 'ENORAW' || e.code === 'ENODRAFT') {
+    console.log('  · 옵시디언 vault 를 찾을 수 없어 건너뜁니다. (--vault= 또는 AINSAFE_VAULT)');
+  } else {
+    fail('Raw 대조 중 오류: ' + e.message);
+  }
+}
+
 /* ── 요약표 ───────────────────────────────────────────────── */
-console.log('\n[6] 사례별 이미지 역할');
-console.log('  no   출처       대표  전  후  기타  비교구간  id');
+console.log('\n[7] 사례별 이미지 역할');
+console.log('  no   출처       대표  전  중  후  기타  단계구간  id');
 rows.sort((a, b) => String(b.case_no).localeCompare(String(a.case_no))).forEach((r) => {
   console.log(
     '  ' + String(r.case_no).padEnd(5) +
     r.source.padEnd(11) +
     (r.rep ? ' O  ' : ' -  ').padEnd(6) +
     String(r.before).padEnd(4) +
+    String(r.process).padEnd(4) +
     String(r.after).padEnd(4) +
     String(r.gallery).padEnd(6) +
     (r.compare ? 'Y' : '-').padEnd(10) +
@@ -150,6 +226,8 @@ rows.sort((a, b) => String(b.case_no).localeCompare(String(a.case_no))).forEach(
   );
 });
 
-console.log(`\n명시 분류 완료 ${explicit}건 / 자동 추론 ${PROJECTS.length - explicit}건 · 시공 전 사진 보유 ${withBefore}건`);
+const totalShots = rows.reduce((n, r) => n + r.before + r.process + r.after, 0);
+console.log(`\n명시 분류 ${explicit}건 / 자동 추론 ${PROJECTS.length - explicit}건 · 시공 전 사진 보유 ${withBefore}건 · 단계별 사진 ${totalShots}장`);
+if (!rawChecked) console.log('※ Raw 대조를 건너뛴 결과입니다.');
 console.log(`\n검사 ${checks}건 중 실패 ${failures}건`);
 process.exit(failures ? 1 : 0);

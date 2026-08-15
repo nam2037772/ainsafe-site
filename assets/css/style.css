@@ -72,6 +72,10 @@ body {
 }
 
 img, video, iframe { display: block; max-width: 100%; height: auto; }
+/* hidden 속성은 언제나 숨김이어야 합니다.
+   .btn 등 display 를 지정한 클래스가 브라우저 기본 [hidden] 규칙을 이겨서
+   "더 보기" 버튼이 다 펼친 뒤에도 남아 있던 문제를 막습니다. */
+[hidden] { display: none !important; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
@@ -934,10 +938,11 @@ body.is-locked { overflow: hidden; }
 .detail__figure { margin-block: 0 clamp(40px, 5vw, 72px); }
 .detail__figure img { width: 100%; height: clamp(220px, 46vw, 560px); object-fit: cover; }
 
-/* 시공 전 / 시공 후 비교 — 모바일 세로 적층, 데스크톱 좌우 대조.
+/* 시공 전 / 시공 중 / 시공 후 — 옵시디언 노트의 순서대로 위에서 아래로 읽습니다.
    사진은 원본 비율을 유지하며 잘라내지 않습니다. */
 .ba-set-wrap { padding-bottom: clamp(40px, 5vw, 72px); }
 .ba-set { display: grid; gap: clamp(24px, 3vw, 40px); align-items: start; }
+.ba-set--phases { gap: clamp(36px, 4.5vw, 64px); }
 .ba-set__col { min-width: 0; }
 .ba-set__ttl {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
@@ -950,6 +955,7 @@ body.is-locked { overflow: hidden; }
   font-family: var(--font-en); font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
   background: var(--color-concrete-light); color: var(--ink-2);
 }
+.ba-set__col--process .ba-set__tag { background: var(--ink-2); color: var(--color-white); }
 .ba-set__col--after .ba-set__tag { background: var(--color-black); color: var(--color-white); }
 .ba-set__shots { display: grid; gap: clamp(12px, 1.6vw, 20px); }
 .ba-set__shot { margin: 0; background: var(--color-concrete-light); }
@@ -1044,6 +1050,7 @@ body.is-locked { overflow: hidden; }
   .footer__grid { grid-template-columns: repeat(2, 1fr); gap: 40px 28px; }
   .detail__gallery { grid-template-columns: repeat(2, 1fr); }
   .channels { grid-template-columns: repeat(2, 1fr); }
+  .ba-set--phases .ba-set__shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 900px) {
@@ -1060,6 +1067,9 @@ body.is-locked { overflow: hidden; }
   .detail__grid { grid-template-columns: minmax(0, 1fr) 320px; }
   .ba-set { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ba-set--single { grid-template-columns: minmax(0, 1fr); }
+  /* 단계별 구간은 좌우로 나누지 않고 위에서 아래로 읽습니다 (전 → 중 → 후). */
+  .ba-set--phases { grid-template-columns: minmax(0, 1fr); }
+  .ba-set--phases .ba-set__shots { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid--3 { grid-template-columns: repeat(3, 1fr); }
   .grid--4 { grid-template-columns: repeat(4, 1fr); }
   .channels { grid-template-columns: repeat(4, 1fr); }

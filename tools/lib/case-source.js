@@ -16,6 +16,21 @@ const vm = require('vm');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const PROJECTS_FILE = path.join(REPO_ROOT, 'assets', 'js', 'projects.js');
 const CASE_IMAGE_ROOT = 'assets/images/case-studies';
+const DRAFT_DIR = path.join('Wiki', '홈페이지', '발행대기');
+
+/** 기본 vault 위치 — 저장소 옆의 Vault/에릭_vault. --vault= 로 덮어쓸 수 있습니다. */
+const DEFAULT_VAULT = path.resolve(REPO_ROOT, '..', '..', 'Vault', '에릭_vault');
+
+/** 명령줄 --이름=값 을 읽습니다. */
+function argValue(name, fallback) {
+  const hit = process.argv.find((a) => a.startsWith('--' + name + '='));
+  return hit ? hit.slice(name.length + 3).replace(/^["']|["']$/g, '') : fallback;
+}
+
+/** 이 저장소의 도구들이 공통으로 쓰는 vault 경로 결정 규칙. */
+function resolveVault() {
+  return path.resolve(argValue('vault', process.env.AINSAFE_VAULT || DEFAULT_VAULT));
+}
 
 /* ── 프론트매터 ────────────────────────────────────────────── */
 
@@ -72,6 +87,57 @@ function parseFrontmatter(raw) {
   return data;
 }
 
+/* ── 발행대기 노트 ─────────────────────────────────────────── */
+
+/** '## 제목' 으로 나뉜 본문을 { 제목: 내용 } 으로 만듭니다. */
+function parseDraftSections(raw) {
+  const text = String(raw).replace(/^﻿/, '').replace(/\r\n/g, '\n');
+  const body = text.replace(/^---\n[\s\S]*?\n---\n?/, '');
+  const out = {};
+  let key = null;
+  let buf = [];
+  const flush = () => { if (key) out[key] = buf.join('\n').trim(); buf = []; };
+  body.split('\n').forEach((line) => {
+    const h = /^##\s+(.*)$/.exec(line);
+    if (h) { flush(); key = h[1].trim(); return; }
+    buf.push(line);
+  });
+  flush();
+  return out;
+}
+
+/**
+ * 발행대기 폴더를 사례 번호로 색인합니다.
+ *   { '045': { slug, file, frontmatter, sections, path } }
+ * 사례 번호는 프론트매터 case_no 를 3자리로 맞춰 씁니다.
+ */
+function loadDrafts(vaultDir) {
+  const dir = path.join(vaultDir, DRAFT_DIR);
+  if (!fs.existsSync(dir)) {
+    const err = new Error('발행대기 폴더를 찾을 수 없습니다: ' + dir);
+    err.code = 'ENODRAFT';
+    throw err;
+  }
+  const index = {};
+  fs.readdirSync(dir).filter((f) => f.endsWith('.md')).forEach((f) => {
+    const full = path.join(dir, f);
+    const raw = fs.readFileSync(full, 'utf8');
+    const fm = parseFrontmatter(raw);
+    if (String(fm.type || '') !== 'case' || !fm.case_no) return;
+    const no = String(fm.case_no).padStart(3, '0');
+    index[no] = {
+      case_no: no,
+      slug: fm.slug || path.basename(f, '.md'),
+      file: DRAFT_DIR.replace(/\\/g, '/') + '/' + f,
+      path: full,
+      raw,
+      frontmatter: fm,
+      sections: parseDraftSections(raw)
+    };
+  });
+  return index;
+}
+
 /* ── 이미지 경로 해석 ──────────────────────────────────────── */
 
 /**
@@ -118,15 +184,22 @@ function toArray(value) {
 }
 
 /**
- * 노트 프론트매터 → 이미지 역할 3종 (사이트 경로).
+ * 노트 프론트매터 → 이미지 역할 4종 (사이트 경로).
  * 값이 하나도 없으면 null 을 돌려주어 "명시 없음"을 구분합니다.
  */
 function imageRolesFromFrontmatter(fm, imageDir) {
   const rep = resolveImage(fm.representative_image || fm.featured_image || '', imageDir);
-  const before = toArray(fm.before_images).map((v) => resolveImage(v, imageDir)).filter(Boolean);
-  const after = toArray(fm.after_images).map((v) => resolveImage(v, imageDir)).filter(Boolean);
-  if (!rep && !before.length && !after.length) return null;
-  return { representative_image: rep, before_images: before, after_images: after };
+  const list = (key) => toArray(fm[key]).map((v) => resolveImage(v, imageDir)).filter(Boolean);
+  const before = list('before_images');
+  const process = list('process_images');
+  const after = list('after_images');
+  if (!rep && !before.length && !process.length && !after.length) return null;
+  return {
+    representative_image: rep,
+    before_images: before,
+    process_images: process,
+    after_images: after
+  };
 }
 
 /* ── projects.js 읽기 / 쓰기 ───────────────────────────────── */
@@ -146,7 +219,7 @@ const KEY_ORDER = [
   'id', 'source', 'case_no', 'source_note', 'draft_file', 'review_required',
   'title', 'location', 'building', 'category', 'date', 'period',
   'summary', 'problem', 'method', 'result',
-  'representative_image', 'before_images', 'after_images',
+  'representative_image', 'before_images', 'process_images', 'after_images',
   'thumbnail', 'after', 'before', 'images', 'featured'
 ];
 
@@ -178,7 +251,13 @@ module.exports = {
   REPO_ROOT,
   PROJECTS_FILE,
   CASE_IMAGE_ROOT,
+  DRAFT_DIR,
+  DEFAULT_VAULT,
+  argValue,
+  resolveVault,
   parseFrontmatter,
+  parseDraftSections,
+  loadDrafts,
   caseImageDir,
   draftSlug,
   resolveImage,
