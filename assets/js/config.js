@@ -7,10 +7,10 @@
    ============================================================ */
 
 const COMPANY = {
-  name: '주식회사 아인산업안전',
+  name: '주식회사 아인산업안전',          // 법인 등기상 정식 회사명 (회사정보 표기용)
   shortName: '아인산업안전',
-  nameEn: 'AIN INDUSTRIAL SAFETY',
-  slogan: '제주 노출콘크리트 보수 전문',
+  nameEn: 'JEJU CONCRETE RESTORATION',
+  slogan: '노출콘크리트 면보수 · 특수방수 전문',
   tel: '1660-4019',
   telHref: 'tel:16604019',
   email: 'ainsafe@naver.com',
@@ -23,12 +23,14 @@ const COMPANY = {
   siteUrl: 'https://nam2037772.github.io/ainsafe-site/'
 };
 
-/* 외부 채널 — 새 탭으로 열림 (target=_blank, rel=noopener noreferrer) */
+/* 외부 채널 — 새 탭으로 열림 (target=_blank, rel=noopener noreferrer)
+   ※ shop 은 일반 쇼핑몰이 아니라 '시공에 쓰는 자재를 파는 곳'으로만 안내합니다.
+     '온라인몰' 같은 일반 명칭은 쓰지 않고, 무엇을 살 수 있는지 드러나는 문구를 씁니다. */
 const EXTERNAL_LINKS = {
   shop: {
     url: 'https://ainsafety.com/',
-    label: '온라인몰',
-    desc: '아인산업안전 공식 온라인몰입니다.'
+    label: '노출콘크리트 · 방수 자재 구매',
+    desc: '보수재, 방수재, 발수제 등 시공에 쓰는 자재를 직접 구매하실 수 있습니다.'
   },
   blog: {
     url: 'https://blog.naver.com/ainsafe',
@@ -64,9 +66,9 @@ const CONTACT_CHANNELS = {
   externalForm: ''
 };
 
-/* 시공사례 · 기술자료 카테고리 (필터에서 사용) */
-const CATEGORIES = ['노출콘크리트', '균열보수', '인젝션', '특수방수', '안전시설'];
-const RESOURCE_CATEGORIES = ['노출콘크리트', '균열보수', '인젝션', '특수방수', '안전시설', '건축자재', '시공기준', '현장관리'];
+/* 시공사례 · 기술자료 원본 분류 (글을 쓸 때 적는 이름).
+   화면 필터는 assets/js/content.js 의 UNIFIED_CATEGORIES 를 씁니다. */
+const RESOURCE_CATEGORIES = ['노출콘크리트', '균열보수', '인젝션', '특수방수', '표면보호'];
 
 /* 이미지가 없을 때 사용할 대체 이미지 (경로는 각 페이지 기준 상대경로로 보정됨) */
 const FALLBACK_IMAGE = 'assets/images/hero/concrete-detail.jpg';

@@ -1,4 +1,4 @@
-# 주식회사 아인산업안전 — 제주 노출콘크리트 보수 전문 홈페이지
+# 주식회사 아인산업안전 — 노출콘크리트 면보수 · 특수방수 전문 홈페이지
 
 무채색 건축 포트폴리오 톤의 정적 웹사이트입니다.
 빌드 도구·서버·데이터베이스 없이 **HTML + CSS + Vanilla JS** 로만 동작하며, GitHub Pages에 그대로 올리면 됩니다.
@@ -9,14 +9,14 @@
 
 ```
 ainsafe-site/
-├─ index.html          메인 (히어로 · 전문성 · 기술 · 전후비교 · 사례 · 강점 · 연관분야 · 기술자료 · 채널 · 상담)
-├─ concrete.html       노출콘크리트 (공정별 기준 · 시공 흐름)
+├─ index.html          메인 (전문성 선언 → 두 분야 → 실제 시공사례 → 기술자료 → 자재 → 상담)
+├─ concrete.html       노출콘크리트 면보수 (공정별 기준 · 시공 흐름)
 ├─ waterproof.html     특수방수 (인젝션 · 배면그라우팅 · 액상고무)
-├─ safety.html         안전시설 (시공 범위 · 연계 시공)
-├─ resources.html      기술자료 — 통합 콘텐츠 목록 ★ (기술문서 + 시공사례 / 검색 · 카테고리 · 유형 필터)
-├─ resource.html       기술문서 상세  → resource.html?id=아이디
+├─ projects.html       시공사례 목록 ★ (실제 현장 기록 / 검색 · 시공 전후 비교 우선)
 ├─ project.html        시공사례 상세  → project.html?id=아이디
-├─ projects.html       시공사례만 모아 보는 화면 (기존 주소 유지용. 상단 메뉴에는 없음)
+├─ resources.html      기술자료 목록 ★ (공정별 판단 기준 / 검색 · 분야 필터)
+├─ resource.html       기술자료 상세  → resource.html?id=아이디
+├─ materials.html      관련 자재 구매 (보수재 · 방수재 · 발수제 안내 → 외부 구매처 연결)
 ├─ about.html          회사소개
 ├─ contact.html        상담문의 · 견적문의
 ├─ privacy.html        개인정보처리방침
@@ -82,7 +82,7 @@ resources.html ←──┤                              ↓
 | `id` | 원본 데이터의 id (그대로) |
 | `type` | `'technical'` (기술문서) \| `'case'` (시공사례) |
 | `title` | 제목 |
-| `category` | 통합 필터값 — 노출콘크리트 / 균열·보수 / 특수방수 / 안전시설·자재 |
+| `category` | 통합 필터값 — 노출콘크리트 / 균열·보수 / 특수방수 / 표면보호 |
 | `categoryRaw` | 원본 데이터에 적힌 분류 (상세페이지 표기용) |
 | `date` | `YYYY-MM` 또는 `YYYY-MM-DD` (`sortKey` 로 보정해 함께 정렬) |
 | `description` | 목록 카드 한 줄 요약 (원본의 `summary`) |
@@ -98,19 +98,31 @@ resources.html ←──┤                              ↓
 
 | 통합 필터 | 여기에 들어오는 기존 분류 |
 | --- | --- |
-| 노출콘크리트 | 노출콘크리트, 시공기준 |
+| 노출콘크리트 | 노출콘크리트, 면보수, 색상재현, 시공기준 |
 | 균열·보수 | 균열보수 |
-| 특수방수 | 인젝션, 특수방수 |
-| 안전시설·자재 | 안전시설, 건축자재, 현장관리 |
+| 특수방수 | 인젝션, 누수보수, 특수방수 |
+| 표면보호 | 표면보호, 발수 |
 
-### `resources.html` 이 지원하는 주소
+### 두 아카이브 — 같은 코드, 다른 자료
+
+시공사례와 기술자료는 `main.js` 의 `initContentPage()` **한 벌**로 그립니다.
+어느 쪽을 보여줄지는 마크업이 정합니다.
+
+```html
+<div id="contentGrid" data-content-type="case">      <!-- projects.html : 시공사례만 -->
+<div id="contentGrid" data-content-type="technical"> <!-- resources.html : 기술자료만 -->
+```
+
+- 시공사례는 **시공 전 사진이 있는 사례를 앞에** 둡니다.
+  (사례에는 날짜가 없는 경우가 많아 최신순 정렬이 의미가 없고, 비교가 가능한 기록이
+  먼저 보이는 편이 이 화면의 목적에 맞기 때문입니다)
+- 실제로 쓰이는 분류가 하나뿐이면 필터 줄은 자동으로 숨겨집니다.
 
 | 주소 | 결과 |
 | --- | --- |
-| `resources.html` | 전체 (기술문서 + 시공사례) |
-| `resources.html?type=case` | 시공사례만 |
-| `resources.html?type=technical` | 기술문서만 |
-| `resources.html?category=노출콘크리트` | 카테고리 필터 |
+| `projects.html` | 시공사례 전체 |
+| `resources.html` | 기술자료 전체 |
+| `projects.html?category=노출콘크리트` | 카테고리 필터 |
 | `resources.html?category=인젝션` | 예전 분류명 → `특수방수` 로 자동 변환 |
 | `resources.html?q=곰보` | 검색어를 넣은 상태로 열기 |
 
@@ -221,7 +233,7 @@ node tools/check-cases.js                          # 배포 전 검증 — 실�
   title: '제주 ○○빌딩 층조인트 면보수',
   location: '제주시',                    // 현장 위치(선택). 상세페이지에만 표시, 분류 기준 아님
   building: '근린생활시설',
-  category: '노출콘크리트',              // 노출콘크리트 | 균열보수 | 인젝션 | 특수방수 | 안전시설
+  category: '노출콘크리트',              // 노출콘크리트 | 균열보수 | 인젝션 | 특수방수 | 표면보호
   date: '2026-08',                       // 최신순 정렬 기준
   period: '4일',                         // 모르면 '' → 화면에 표시되지 않음
   summary: '파라펫 층조인트 단차 제거 및 색상 재현',
@@ -251,8 +263,8 @@ node tools/check-cases.js                          # 배포 전 검증 — 실�
 }
 ```
 
-카테고리: 노출콘크리트 / 균열보수 / 인젝션 / 특수방수 / 안전시설 / 건축자재 / 시공기준 / 현장관리
-(통합 필터 이름 — 노출콘크리트 / 균열·보수 / 특수방수 / 안전시설·자재 — 을 그대로 적어도 됩니다)
+카테고리: 노출콘크리트 / 균열보수 / 인젝션 / 특수방수 / 표면보호
+(통합 필터 이름 — 노출콘크리트 / 균열·보수 / 특수방수 / 표면보호 — 을 그대로 적어도 됩니다)
 
 > 추가한 항목은 `기술자료`(resources.html) 통합 목록에 **시공사례와 함께** 자동으로 나옵니다.
 > 별도 등록 작업은 없습니다.
@@ -308,7 +320,6 @@ HTML 안의 아래 속성만 바꾸면 원하는 위치에 목록을 넣을 수 
 
 - [ ] 사업자등록번호 (`config.js`)
 - [ ] 실제 도메인 주소 (canonical / sitemap / robots / config)
-- [ ] 안전시설물 시공 사진 → `assets/images/projects/` 에 추가 후 `projects.js` 에 `category: '안전시설'` 항목 등록
 - [ ] 카카오톡 상담 채널 주소 (개설 시)
 - [ ] 시공사례의 건축물 종류 · 작업 기간 등 실제 정보 보완
 - [ ] 회사 로고 고해상도 파일(현재 `assets/images/brand/logo.png` 사용 중)

@@ -20,18 +20,20 @@ window.SITE = {
      전화번호를 바꿀 때는 tel(화면표시) 과 telHref(전화걸기) 를 함께 바꿉니다.
      telHref 에는 숫자만 적습니다.  예) '1660-4019' → telHref: 'tel:16604019' */
   company: {
-    name:      '주식회사 아인산업안전',       // 정식 회사명 (푸터·저작권에 표시)
+    name:      '주식회사 아인산업안전',       // 법인 등기상 정식 회사명 (푸터·저작권에 표시)
     shortName: '아인산업안전',                // 헤더 로고에 표시되는 짧은 이름
-    enName:    'Jeju Concrete Restoration',  // 로고 아래 영문 (원치 않으면 비워도 됨)
+    enName:    'Concrete Repair & Waterproofing', // 로고 아래 영문 (원치 않으면 비워도 됨)
     tel:       '1660-4019',                  // 화면에 보이는 전화번호
     telHref:   'tel:16604019',               // 클릭 시 전화 거는 번호 (숫자만)
     email:     'ainsafe@naver.com',          // 이메일 (사진상담 버튼에 사용)
     address:   '제주특별자치도 서귀포시 성산읍 풍천로 142, 103호',
-    tagline:   '제주 노출콘크리트 보수 전문',   // 푸터 아래 한 줄 소개
+    tagline:   '노출콘크리트 면보수 · 특수방수 전문',   // 푸터 아래 한 줄 소개
     blog:      'https://blog.naver.com/ainsafe',
     youtube:   'https://www.youtube.com/@%EC%95%84%EC%9D%B8%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84',
     instagram: 'https://www.instagram.com/ericswallart/',
-    shop:      'https://ainsafety.com/'      // 온라인몰 (없으면 '' 로 비웁니다)
+    /* 자재 구매처. 일반 쇼핑몰이 아니라 '시공에 쓰는 자재를 파는 곳'으로만 안내합니다.
+       화면에는 '온라인몰' 같은 일반 명칭 대신 무엇을 살 수 있는지 드러나는 문구를 씁니다. */
+    shop:      'https://ainsafety.com/'
   },
 
   /* ── 2. Hero (첫 화면) ────────────────────────────────────────────────────
@@ -39,9 +41,9 @@ window.SITE = {
      사진을 추가하려면 { } 한 줄을 복사해 붙이고 쉼표로 이어줍니다.
      빼려면 해당 { } 줄을 지웁니다. (1장만 남기면 자동 넘김이 멈춥니다) */
   hero: {
-    title: '콘크리트 본연의 표정을,<br>다시 되살립니다',   // 큰 제목
-    en:    'Exposed Concrete Restoration',              // 제목 아래 영문
-    sub:   '제주 노출콘크리트 면보수 · 색상 재현 · 균열 보수 전문', // 한 줄 설명
+    title: '노출콘크리트 면보수와<br>특수방수, 두 가지만 합니다',   // 큰 제목
+    en:    'Exposed Concrete Repair · Specialty Waterproofing', // 제목 아래 영문
+    sub:   '곰보 · 층조인트 · 오염 · 균열 · 누수 — 덮지 않고 다시 만들어 넣는 보수', // 한 줄 설명
     images: [
       { src: 'assets/images/hero/hero-1.jpg', alt: '노출콘크리트 면보수를 마친 실내 벽면' },
       { src: 'assets/images/hero/hero-2.jpg', alt: '노출콘크리트 외벽 복원 시공 현장' },
@@ -56,7 +58,7 @@ window.SITE = {
     heading:  '덧칠로 가릴 수 없기에,<br>보수의 기준이 다릅니다.',
     paragraphs: [
       '노출콘크리트는 타설 순간의 결과가 그대로 외관이 됩니다. 곰보 하나, 층조인트 한 줄이 건물 전체의 인상을 바꿉니다. 아인산업안전은 결함을 덮는 대신, 주변 면의 질감과 색을 읽어 다시 만들어 넣는 방식으로 보수합니다.',
-      '해풍과 잦은 강우라는 제주의 조건은 육지와 다른 열화 양상을 만듭니다. 현장 확인에서 시작해 공법을 제안하고, 건축기술자가 직접 검토한 계획으로 시공합니다.'
+      '표면을 되살려도 물길이 남아 있으면 결과는 오래가지 않습니다. 그래서 면보수와 특수방수, 이 두 가지만 다룹니다. 다른 일로 넓히지 않는 대신 표면을 읽는 눈과 누수 경로를 찾는 감각을 계속 쌓습니다.'
     ],
     moreText:  '회사소개',
     moreLink:  'about.html',
@@ -70,107 +72,95 @@ window.SITE = {
      no(번호)·title(이름)·text(설명)·link(눌렀을 때 이동할 페이지) */
   serviceSection: {
     eyebrow: 'Service',
-    heading: '전문 분야',
-    desc:    '표면 보수만으로 끝나지 않는 현장이 있습니다. 물길을 막고, 사용하는 사람의 안전까지 이어서 시공합니다.'
+    heading: '두 가지 전문 분야',
+    desc:    '표면을 되살리는 일과 물길을 막는 일. 이 둘은 서로 이어져 있어 한 계획 안에서 다뤄야 결과가 오래갑니다.'
   },
   services: [
-    { no: '01', title: '노출콘크리트 보수', text: '곰보·기포·층조인트를 인접 면과 같은 인상으로 되돌립니다. 부분이 아니라 면 단위로 계획할 때 결과가 안정적입니다.', link: 'concrete.html' },
-    { no: '02', title: '인젝션 및 누수 보수', text: '누수는 새는 자리와 들어온 자리가 다릅니다. 경로를 먼저 추적한 뒤 우레탄·에폭시 인젝션으로 물길을 차단합니다.', link: 'waterproof.html' },
-    { no: '03', title: '특수방수', text: '형상이 복잡한 부위는 이음매 없는 액상고무 도막으로 마감합니다. 옥상·파라펫·관통부까지 하나로 처리합니다.', link: 'waterproof.html#liquid' },
-    { no: '04', title: '안전시설 시공', text: '기준에 맞는 안전난간·방호울·표지를 설치합니다. 시공 이후의 사용 안전까지 하나의 계획으로 정리합니다.', link: 'safety.html' }
+    { no: '01', title: '노출콘크리트 면보수', text: '곰보·기포·층조인트를 인접 면과 같은 인상으로 되돌립니다. 부분이 아니라 면 단위로 계획할 때 결과가 안정적입니다.', link: 'concrete.html' },
+    { no: '02', title: '색상 · 질감 재현', text: '조색은 현장에서, 건조 후 상태를 기준으로 맞춥니다. 폼타이 자국과 거푸집 결까지 같은 밀도로 재현합니다.', link: 'concrete.html#color' },
+    { no: '03', title: '누수 인젝션', text: '누수는 새는 자리와 들어온 자리가 다릅니다. 경로를 먼저 추적한 뒤 우레탄·에폭시 인젝션으로 물길을 차단합니다.', link: 'waterproof.html' },
+    { no: '04', title: '액상고무 특수방수', text: '형상이 복잡한 부위는 이음매 없는 액상고무 도막으로 마감합니다. 옥상·파라펫·관통부까지 하나로 처리합니다.', link: 'waterproof.html#liquid' }
   ],
 
   /* ── 5. 강점 (Feature) ────────────────────────────────────────────────────
      features 는 배열입니다. no·title·text 로 이루어집니다. */
   featureSection: {
     eyebrow: 'Feature',
-    heading: '제주 현장 대응',
+    heading: '왜 전문업체인가',
     intro:   '사진만으로 판단하지 않습니다. 결함의 원인을 먼저 정리한 뒤, 왜 이 방법인지 설명할 수 있는 계획으로 시공합니다.',
     image:   'assets/images/about/about-2.jpg',
-    imageAlt:'제주 현장의 노출콘크리트 벽면'
+    imageAlt:'면보수를 마친 노출콘크리트 벽면의 질감 디테일'
   },
   features: [
-    { no: '01', title: '제주 전 지역 현장 대응', text: '제주시·서귀포시, 성산·애월 등 읍면 지역까지 직접 이동해 현장에서 상태를 확인합니다.' },
-    { no: '02', title: '해풍과 강우를 전제로 한 공법', text: '염분과 높은 습도는 양생과 색 발현에 영향을 줍니다. 육지 기준을 그대로 적용하지 않습니다.' },
-    { no: '03', title: '건축기술자의 직접 검토', text: '결함의 원인을 먼저 정리한 뒤 공법을 제안합니다. 설명할 수 없는 시공은 하지 않습니다.' },
-    { no: '04', title: '보수·방수·안전 연계 시공', text: '표면 보수와 방수, 안전시설을 한 계획으로 묶어 가설 비용과 공기를 함께 줄입니다.' }
+    { no: '01', title: '표면을 읽는 데 시간을 씁니다', text: '결함부만 보지 않고 벽면 전체의 톤 범위와 질감 밀도를 먼저 기록합니다. 보수 계획은 그다음입니다.' },
+    { no: '02', title: '색과 질감은 승인 후 진행', text: '시험 도포와 건조 확인을 거쳐 승인을 받은 뒤 전면 작업에 들어갑니다. 도포 직후의 색은 진짜가 아닙니다.' },
+    { no: '03', title: '누수는 경로부터 찾습니다', text: '물이 떨어지는 지점은 대개 종착지입니다. 유입 지점을 먼저 찾고, 강우 후 재확인까지 마쳐야 시공이 끝납니다.' },
+    { no: '04', title: '건축기술자의 직접 검토', text: '결함의 원인을 먼저 정리한 뒤 공법을 제안합니다. 설명할 수 없는 시공은 하지 않습니다.' }
   ],
 
   /* ── 6. 시공사례 (Works) ──────────────────────────────────────────────────
-     ★ 가장 자주 쓰는 부분입니다.
-     - 새 사례 추가: 아래 { } 한 덩어리를 복사해서 맨 위(또는 원하는 위치)에 붙이고
-                    title / description / image / type 만 바꿉니다.
-     - 사례 삭제: 해당 { } 덩어리를 지웁니다.
-     - 순서 변경: { } 덩어리의 위아래 순서를 바꿉니다. (위에 있을수록 먼저 나옵니다)
-
-     · type(공종) 은 반드시 아래 workTypes 중 하나로 적습니다.
-       ▶ 노출콘크리트 / 인젝션 / 특수방수 / 안전시설 / 기타
-     · 지역은 분류 기준이 아닙니다. 현장 위치가 필요하면 본문(description)이나
-       개별 시공사례 상세(assets/js/projects.js 의 location)에만 적습니다.
-
-     ※ 홈페이지 첫 화면에는 아래 목록에서 앞쪽 homeLimit 개만 보입니다. */
+     ★ 홈 화면의 시공사례 카드는 이 파일이 아니라 실제 사례 데이터에서 가져옵니다.
+       정본: assets/js/projects.js  (옵시디언 Raw 노트에서 자동 생성)
+       대표 이미지 · 시공전/후 판단은 assets/js/case-images.js 규칙을 그대로 씁니다.
+     여기서는 문구와 개수만 조정합니다. */
   worksSection: {
     eyebrow:   'Works',
-    heading:   '시공기술사례',
-    desc:      '제주시 · 서귀포시를 중심으로 수행한 관급 · 민간 현장의 시공 기록입니다.',
+    heading:   '시공 전 · 시공 후',
+    desc:      '보정하지 않은 실제 현장 기록입니다. 결함 상태와 그때 쓴 배합·공법을 사례마다 적어 두었습니다.',
     homeLimit: 3,                 // 홈 화면에 보여줄 개수
-    moreText:  '전체 시공기술사례 보기',
-    // 시공사례는 기술자료 페이지에 통합되었습니다. ?type=case 는 '시공사례만' 보기입니다.
+    moreText:  '전체 시공사례 보기',
+    moreLink:  'projects.html'
+  },
+
+  /* ── 7. 기술자료 (Technical Resources) ────────────────────────────────────
+     목록은 assets/js/resources.js 에서 가져옵니다. 여기서는 문구만 정합니다. */
+  resourcesSection: {
+    eyebrow:   'Technical',
+    heading:   '기술자료',
+    desc:      '무엇을 보고 무엇을 기준으로 판단하는지, 공정별로 공개합니다.',
+    homeLimit: 3,
+    moreText:  '전체 기술자료 보기',
     moreLink:  'resources.html'
   },
-  // 공종(工種) 분류 — 시공사례를 나누는 기준. 지역이 아니라 '무슨 공사'인지로 나눕니다.
-  workTypes: ['전체', '노출콘크리트', '인젝션', '특수방수', '안전시설', '기타'],
-  works: [
-    {
-      title:       '별빛누리공원 노출콘크리트 복원',
-      description: '해풍과 자외선에 백화된 외벽을 인접 면과 같은 색·질감으로 되돌린 현장입니다.',
-      image:       'assets/images/works/work-1.jpg',
-      imageAlt:    '별빛누리공원 노출콘크리트 복원',
-      type:        '노출콘크리트',   // 공종 (workTypes 중 하나)
-      link:        'resources.html'
-    },
-    {
-      title:       '서귀포 공공청사 로비 면보수',
-      description: '이용이 많은 실내 로비의 노출콘크리트 면을 얼룩 없이 정리한 면보수 사례입니다.',
-      image:       'assets/images/works/work-2.jpg',
-      imageAlt:    '서귀포 공공청사 로비 노출콘크리트 면보수',
-      type:        '노출콘크리트',
-      link:        'resources.html'
-    },
-    {
-      title:       '신천리 주택 실내 색상 재현',
-      description: '부분 보수 자국이 드러나지 않도록 벽면 전체의 색과 질감을 다시 맞춘 현장입니다.',
-      image:       'assets/images/works/work-3.jpg',
-      imageAlt:    '신천리 주택 실내 노출콘크리트 색상 재현',
-      type:        '노출콘크리트',
-      link:        'resources.html'
-    }
-  ],
 
-  /* ── 7. 상담 유도 (Contact) ───────────────────────────────────────────────
+  /* ── 8. 관련 자재 구매 (Materials) ────────────────────────────────────────
+     ※ '온라인몰' 같은 일반 명칭은 쓰지 않습니다. 무엇을 살 수 있는지 밝힙니다. */
+  materialsSection: {
+    eyebrow:  'Materials',
+    heading:  '시공에 쓰는 자재를<br>직접 구매하실 수 있습니다',
+    desc:     '보수재, 색상 재현 마감재, 우레탄 인젝션재, 액상고무 방수재, 침투형 발수제 — 저희가 현장에서 실제로 쓰는 자재입니다.',
+    linkText: '보수재 · 방수재 · 발수제 보기',
+    link:     'materials.html'
+  },
+
+  /* ── 9. 상담 유도 (Contact) ───────────────────────────────────────────────
      actions 는 아래쪽 버튼(글자 링크) 배열입니다. */
   contact: {
     eyebrow: 'Contact',
     heading: '콘크리트의 상태는<br>현장마다 다릅니다.',
-    desc:    '현장 사진을 보내주시면 적합한 보수 방향을 검토해 드립니다.<br>제주시 · 서귀포시 전 지역 현장 대응.',
+    desc:    '표면 결함이든 누수든, 현장 사진을 보내주시면 적합한 보수 방향을 검토해 드립니다.<br>제주시 · 서귀포시 전 지역 현장 대응.',
     hours:   '평일 09:00 – 18:00 · 주말 및 공휴일 상담 예약'
     // 전화번호는 위 company.tel 을 자동으로 사용합니다.
   },
 
-  /* ── 8. 푸터 링크 ─────────────────────────────────────────────────────────
+  /* ── 10. 푸터 링크 ────────────────────────────────────────────────────────
      external:true 는 새 창(외부 사이트)으로 열리는 링크입니다. */
   footer: {
     serviceLinks: [
       { label: '노출콘크리트 면보수', href: 'concrete.html' },
+      { label: '색상 · 질감 재현',    href: 'concrete.html#color' },
       { label: '균열 보수',          href: 'concrete.html#crack' },
-      { label: '인젝션 특수방수',     href: 'waterproof.html' },
-      { label: '안전시설물',          href: 'safety.html' }
+      { label: '누수 인젝션',         href: 'waterproof.html' },
+      { label: '액상고무 특수방수',   href: 'waterproof.html#liquid' },
+      { label: '발수 · 표면 보호',    href: 'concrete.html#repellent' }
     ],
     siteLinks: [
-      { label: '시공기술사례', href: 'resources.html' },
+      { label: '시공사례',   href: 'projects.html' },
+      { label: '기술자료',   href: 'resources.html' },
+      { label: '자재 구매',  href: 'materials.html' },
       { label: '회사소개',   href: 'about.html' },
       { label: '상담문의',   href: 'contact.html' }
     ]
-    // 채널 링크(온라인몰·블로그·유튜브·인스타그램)는 위 company 정보를 자동으로 사용합니다.
+    // 채널 링크(자재 구매·블로그·유튜브·인스타그램)는 위 company 정보를 자동으로 사용합니다.
   }
 };

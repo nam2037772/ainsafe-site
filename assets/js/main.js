@@ -231,7 +231,7 @@
             '<p class="project-split__meta">' + meta + '</p>' +
             '<h3 class="project-split__ttl">' + esc(p.title) + '</h3>' +
             '<p class="project-split__sum">' + esc(p.summary) + '</p>' +
-            '<a class="link-arrow" href="project.html?id=' + esc(p.id) + '">시공기술사례 자세히 보기</a>' +
+            '<a class="link-arrow" href="project.html?id=' + esc(p.id) + '">시공사례 자세히 보기</a>' +
           '</div>' +
           '<a class="project-split__media" href="project.html?id=' + esc(p.id) + '">' +
             '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
@@ -299,6 +299,9 @@
       .filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
     var alt = item.title + ' 대표 이미지';
+    /* 시공 전 사진이 있는 사례에만 비교 표시를 답니다 (기술문서에는 붙지 않습니다) */
+    var flag = (item.images.beforeImages && item.images.beforeImages.length)
+      ? '<span class="card__flag">BEFORE / AFTER</span>' : '';
 
     return '' +
       '<article class="card reveal">' +
@@ -306,6 +309,7 @@
           '<span class="card__media">' +
             '<img src="' + esc(img(item.images.thumbnail || item.images.cover)) + '" alt="' + esc(alt) + '"' +
             ' loading="lazy" width="800" height="600" />' +
+            flag +
           '</span>' +
           '<span class="card__body">' +
             '<span class="card__meta">' + meta + '</span>' +
@@ -345,14 +349,18 @@
     });
   }
 
-  /* <div data-resources="카테고리명|all" data-limit="4"> */
+  /* <div data-resources="카테고리명|all" data-limit="4">
+     카테고리는 쉼표로 여러 개를 적을 수 있습니다. 예) data-resources="인젝션,특수방수" */
   function initResourceLists() {
     if (!hasResources) return;
     $$('[data-resources]').forEach(function (box) {
       var mode = box.getAttribute('data-resources');
       var limit = parseInt(box.getAttribute('data-limit'), 10) || 4;
       var list = RESOURCES.slice().sort(byDateDesc);
-      if (mode && mode !== 'all') list = list.filter(function (r) { return r.category === mode; });
+      if (mode && mode !== 'all') {
+        var wanted = mode.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+        list = list.filter(function (r) { return wanted.indexOf(r.category) > -1; });
+      }
       list = list.slice(0, limit);
       box.innerHTML = list.length ? list.map(resourceRow).join('')
         : emptyState('등록된 콘텐츠가 없습니다.');
@@ -406,64 +414,7 @@
     }
   }
 
-  /* ── 7. 시공사례 목록 ─────────────────────────────────── */
-  function initProjectsPage() {
-    var grid = $('#projectGrid');
-    if (!grid || !hasProjects) return;
-
-    var requestedCategory = qs('category');
-    var state = {
-      category: CATEGORIES.indexOf(requestedCategory) > -1 ? requestedCategory : 'all',
-      shown: 9
-    };
-    var STEP = 9;
-    var catBox = $('#catFilters');
-    var moreBtn = $('#projectMore');
-    var countEl = $('#projectCount');
-
-    function chip(value, label, active) {
-      return '<button class="filter' + (active ? ' is-on' : '') + '" type="button" role="tab"' +
-             ' aria-selected="' + (active ? 'true' : 'false') + '" data-value="' + esc(value) + '">' + esc(label) + '</button>';
-    }
-    if (catBox) {
-      catBox.innerHTML = chip('all', '전체', state.category === 'all') +
-        CATEGORIES.map(function (c) { return chip(c, c, state.category === c); }).join('');
-    }
-
-    function filtered() {
-      return PROJECTS.slice().sort(byDateDesc).filter(function (p) {
-        return state.category === 'all' || p.category === state.category;
-      });
-    }
-    function render() {
-      var list = filtered();
-      var view = list.slice(0, state.shown);
-      grid.innerHTML = view.length ? view.map(projectCard).join('')
-        : emptyState('선택하신 조건의 콘텐츠를 준비 중입니다. 다른 분류를 선택해 보세요.');
-      if (countEl) countEl.textContent = list.length;
-      if (moreBtn) moreBtn.hidden = state.shown >= list.length;
-    }
-    function bind(box, key) {
-      if (!box) return;
-      box.addEventListener('click', function (e) {
-        var btn = e.target.closest('button[data-value]');
-        if (!btn) return;
-        state[key] = btn.getAttribute('data-value');
-        state.shown = STEP;
-        $$('button', box).forEach(function (b) {
-          var on = b === btn;
-          b.classList.toggle('is-on', on);
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        render();
-      });
-    }
-    bind(catBox, 'category');
-    if (moreBtn) moreBtn.addEventListener('click', function () { state.shown += STEP; render(); });
-    render();
-  }
-
-  /* ── 8. 시공사례 상세 ─────────────────────────────────── */
+  /* ── 7. 시공사례 상세 ─────────────────────────────────── */
   function initProjectDetail() {
     var root = $('#projectDetail');
     if (!root || !hasProjects) return;
@@ -478,11 +429,11 @@
       root.innerHTML = '<div class="wrap notfound">' +
         (isRetired
           ? '<h1 class="h2">이 콘텐츠는 게시가 종료되었습니다.</h1>' +
-            '<p>검증되지 않은 이전 콘텐츠는 더 이상 제공하지 않습니다. 검증된 시공기술사례를 확인해 주세요.</p>' +
-            '<p><a class="btn btn--dark" href="resources.html">시공기술사례 목록으로</a></p>'
-          : '<h1 class="h2">요청하신 시공기술사례를 찾을 수 없습니다.</h1>' +
+            '<p>검증되지 않은 이전 콘텐츠는 더 이상 제공하지 않습니다. 검증된 시공사례를 확인해 주세요.</p>' +
+            '<p><a class="btn btn--dark" href="projects.html">시공사례 목록으로</a></p>'
+          : '<h1 class="h2">요청하신 시공사례를 찾을 수 없습니다.</h1>' +
             '<p>주소가 변경되었거나 삭제된 항목일 수 있습니다.</p>' +
-            '<p><a class="btn btn--dark" href="resources.html">시공기술사례 목록으로</a></p>') +
+            '<p><a class="btn btn--dark" href="projects.html">시공사례 목록으로</a></p>') +
         '</div>';
       return;
     }
@@ -584,22 +535,45 @@
     }
   }
 
-  /* ── 9. 기술자료 통합 목록 (기술문서 + 시공사례) ────────
-     주소 파라미터를 지원합니다.
+  /* ── 8. 콘텐츠 목록 (시공사례 / 기술자료) ────────────────
+     한 벌의 코드로 두 아카이브를 그립니다. 어느 쪽인지는 마크업이 정합니다.
+       <div id="contentGrid" data-content-type="case">      → 시공사례만
+       <div id="contentGrid" data-content-type="technical"> → 기술자료만
+       (값이 없거나 'all' 이면 둘 다)
+
+     주소 파라미터
        ?category=노출콘크리트  (예전 분류명 '인젝션','균열보수' 등도 자동 변환)
-       ?type=case | technical
        ?q=검색어                                                        */
   function initContentPage() {
     var grid = $('#contentGrid');
     if (!grid || !hasContent) return;
 
     var STEP = 12;
+    var baseType = grid.getAttribute('data-content-type') || 'all';
     var reqCategory = unifyCategory(qs('category'));
     var state = {
       category: reqCategory || 'all',
       q: qs('q') || '',
       shown: STEP
     };
+
+    /* 이 화면이 다루는 항목만 미리 추려 둡니다. */
+    var pool = CONTENT.filter(function (item) {
+      return baseType === 'all' || item.type === baseType;
+    });
+
+    /* 시공사례 화면에서는 시공 전 사진이 있는 사례를 앞에 둡니다.
+       사례에는 날짜가 없는 경우가 많아 최신순 정렬이 의미가 없고,
+       비교가 가능한 기록이 먼저 보이는 편이 이 화면의 목적에 맞습니다.
+       (같은 조건 안에서는 CONTENT 의 제목순을 그대로 유지합니다) */
+    if (baseType === 'case') {
+      pool = pool.slice().sort(function (a, b) {
+        var av = (a.images.beforeImages || []).length ? 1 : 0;
+        var bv = (b.images.beforeImages || []).length ? 1 : 0;
+        if (av !== bv) return bv - av;
+        return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+      });
+    }
 
     var catBox  = $('#contentFilters');
     var search  = $('#contentSearch');
@@ -613,16 +587,22 @@
     }
 
     if (catBox) {
-      catBox.innerHTML = chip('all', '전체', state.category === 'all') +
-        usedUnifiedCategories().map(function (c) {
-          return chip(c, c, state.category === c);
-        }).join('');
+      var cats = usedUnifiedCategories(pool);
+      /* 분류가 하나뿐이면 '전체'와 다를 게 없으므로 필터 줄을 통째로 감춥니다. */
+      if (cats.length < 2) {
+        var bar = catBox.closest('.filterbar');
+        if (bar) bar.hidden = true;
+        state.category = 'all';
+      } else {
+        catBox.innerHTML = chip('all', '전체', state.category === 'all') +
+          cats.map(function (c) { return chip(c, c, state.category === c); }).join('');
+      }
     }
     if (search && state.q) search.value = state.q;
 
     function filtered() {
       var q = state.q.trim().toLowerCase();
-      return CONTENT.filter(function (item) {
+      return pool.filter(function (item) {
         if (state.category !== 'all' && item.category !== state.category) return false;
         if (!q) return true;
         return item.searchText.indexOf(q) > -1;
@@ -669,7 +649,7 @@
     render();
   }
 
-  /* ── 10. 기술자료 상세 ────────────────────────────────── */
+  /* ── 9. 기술자료 상세 ────────────────────────────────── */
   function initResourceDetail() {
     var root = $('#resourceDetail');
     if (!root || !hasResources) return;
@@ -679,8 +659,8 @@
 
     if (!r) {
       root.innerHTML = '<div class="wrap notfound">' +
-        '<h1 class="h2">요청하신 시공기술사례를 찾을 수 없습니다.</h1>' +
-        '<p><a class="btn btn--dark" href="resources.html">시공기술사례 목록으로</a></p></div>';
+        '<h1 class="h2">요청하신 기술자료를 찾을 수 없습니다.</h1>' +
+        '<p><a class="btn btn--dark" href="resources.html">기술자료 목록으로</a></p></div>';
       return;
     }
     updateMeta(r.title, r.summary, r.thumbnail || FALLBACK_IMAGE);
@@ -707,7 +687,7 @@
     }
   }
 
-  /* ── 11. 상담 폼 (메일 앱 연결 — 가짜 전송 없음) ──────── */
+  /* ── 10. 상담 폼 (메일 앱 연결 — 가짜 전송 없음) ──────── */
   function initQuoteForm() {
     var form = $('#quoteForm');
     if (!form) return;
@@ -804,9 +784,8 @@
 
     var page = document.body.getAttribute('data-page');
     if (page === 'home') initHome();
-    if (page === 'projects') initProjectsPage();
+    if (page === 'cases' || page === 'resources') initContentPage();
     if (page === 'project') initProjectDetail();
-    if (page === 'resources') initContentPage();
     if (page === 'resource') initResourceDetail();
     initQuoteForm();
     initCompares();

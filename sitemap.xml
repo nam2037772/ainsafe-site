@@ -7,15 +7,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://nam2037772.github.io/ainsafe-site/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/concrete.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/waterproof.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/safety.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/waterproof.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/projects.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/resources.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/materials.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/about.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/contact.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
 
-  <!-- 기술자료 상세 -->
+  <!-- 기술자료 상세 (노출콘크리트 면보수 · 특수방수 공정별 기준) -->
   <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=concrete-repair-001</loc><priority>0.6</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=joint-level-002</loc><priority>0.6</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=color-texture-003</loc><priority>0.6</priority></url>
@@ -23,7 +23,7 @@
   <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=injection-005</loc><priority>0.6</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=liquid-rubber-006</loc><priority>0.6</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=water-repellent-007</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=safety-facility-008</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=repair-material-008</loc><priority>0.6</priority></url>
 
   <!-- 대표 시공사례 상세 -->
   <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-045-songpa-restaurant-industrial-conchae-vintage-wall</loc><priority>0.6</priority></url>

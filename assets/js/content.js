@@ -51,8 +51,9 @@
      }
    ============================================================ */
 
-/* 통합 필터 — 화면에 표시되는 순서대로 */
-var UNIFIED_CATEGORIES = ['노출콘크리트', '균열·보수', '특수방수', '안전시설'];
+/* 통합 필터 — 화면에 표시되는 순서대로.
+   두 전문 분야(노출콘크리트 면보수 · 특수방수)와 그에 딸린 공정만 남깁니다. */
+var UNIFIED_CATEGORIES = ['노출콘크리트', '균열·보수', '특수방수', '표면보호'];
 
 /* 콘텐츠 유형 — 기술문서 / 시공사례 */
 var CONTENT_TYPES = [
@@ -64,15 +65,16 @@ var CONTENT_TYPES = [
    앞으로 새 글을 쓸 때는 통합 필터 이름(UNIFIED_CATEGORIES)을 그대로 써도 됩니다. */
 var CATEGORY_ALIASES = {
   '노출콘크리트': '노출콘크리트',
+  '면보수':       '노출콘크리트',
+  '색상재현':     '노출콘크리트',
   '시공기준':     '노출콘크리트',
   '균열보수':     '균열·보수',
   '균열·보수':    '균열·보수',
   '인젝션':       '특수방수',
+  '누수보수':     '특수방수',
   '특수방수':     '특수방수',
-  '안전시설':     '안전시설',
-  '건축자재':     '안전시설',
-  '현장관리':     '안전시설',
-  '안전시설·자재': '안전시설'
+  '표면보호':     '표면보호',
+  '발수':         '표면보호'
 };
 
 /* 분류 이름을 통합 필터 값으로 바꿉니다. 대응표에 없으면 '' (→ '전체'에서만 노출) */
@@ -190,9 +192,11 @@ var CONTENT = (function () {
   });
 })();
 
-/* 실제로 항목이 존재하는 통합 필터만 반환 (빈 필터를 화면에 두지 않기 위함) */
-function usedUnifiedCategories() {
+/* 실제로 항목이 존재하는 통합 필터만 반환 (빈 필터를 화면에 두지 않기 위함).
+   list 를 넘기면 그 목록 기준으로, 넘기지 않으면 전체 기준으로 계산합니다. */
+function usedUnifiedCategories(list) {
+  var src = list || CONTENT;
   return UNIFIED_CATEGORIES.filter(function (c) {
-    return CONTENT.some(function (item) { return item.category === c; });
+    return src.some(function (item) { return item.category === c; });
   });
 }

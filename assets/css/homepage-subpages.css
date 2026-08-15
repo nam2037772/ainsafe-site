@@ -33,10 +33,12 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .brand{gap:0;min-height:44px}.brand__mark{display:none}.brand__text{line-height:1.15}
 .brand__text strong{font-family:var(--font-serif);font-size:1.12rem;font-weight:500;letter-spacing:.04em;color:var(--ink)!important}
 .brand__text em{margin-top:.25em;font-size:.6rem;font-weight:400;letter-spacing:.28em;color:var(--color-gray-dark)!important}
-.gnb{margin-left:auto;gap:0}.gnb__list{gap:clamp(20px,2vw,32px)}
-.gnb__list>li>a,.gnb__shop,.gnb__quote{min-height:44px;padding:.3em 0;border:0;background:transparent;font-size:.82rem;font-weight:400;letter-spacing:.06em;color:var(--ink-2)}
+.gnb{margin-left:auto;gap:0}.gnb__list{gap:clamp(14px,1.5vw,24px)}
+.gnb__list>li>a,.gnb__shop,.gnb__quote{min-height:44px;padding:.3em 0;border:0;background:transparent;font-size:.82rem;font-weight:400;letter-spacing:.03em;color:var(--ink-2);white-space:nowrap}
 .gnb__list>li>a[aria-current=page]{font-weight:500;color:var(--ink)}
-.gnb__quote{min-height:46px;padding:0 18px;background:#38424c;color:#fff}.gnb__quote:hover{background:#242b32}
+/* 상담문의 버튼 — 위 .gnb__list>li>a 보다 선택자 특이도를 높여야 배경이 적용됩니다 */
+.gnb__list>li>a.gnb__quote{min-height:46px;padding:0 18px;background:#38424c;color:#fff}
+.gnb__list>li>a.gnb__quote:hover{background:#242b32}
 .header__tel{display:none!important}
 .header--overlay:not(.is-solid):not(.is-open) .burger__box i{background:var(--ink)}
 .phero{min-height:clamp(380px,42vw,560px);padding-top:0;align-items:center;background:#dcdad6}
