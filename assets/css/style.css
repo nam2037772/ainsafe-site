@@ -926,8 +926,34 @@ body.is-locked { overflow: hidden; }
 /* ── 13. 상세페이지 ────────────────────────────────────────── */
 .detail__head { padding-block: clamp(40px, 6vw, 88px) clamp(28px, 4vw, 48px); }
 .detail__head .h2 { margin-bottom: 16px; }
+.detail__meta {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+  font-size: 12.5px; letter-spacing: 0.03em; color: var(--color-gray-dark);
+}
+.detail__meta span + span { padding-left: 11px; border-left: 1px solid var(--color-line); }
 .detail__figure { margin-block: 0 clamp(40px, 5vw, 72px); }
 .detail__figure img { width: 100%; height: clamp(220px, 46vw, 560px); object-fit: cover; }
+
+/* 시공 전 / 시공 후 비교 — 모바일 세로 적층, 데스크톱 좌우 대조.
+   사진은 원본 비율을 유지하며 잘라내지 않습니다. */
+.ba-set-wrap { padding-bottom: clamp(40px, 5vw, 72px); }
+.ba-set { display: grid; gap: clamp(24px, 3vw, 40px); align-items: start; }
+.ba-set__col { min-width: 0; }
+.ba-set__ttl {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  margin-bottom: 14px; padding-bottom: 12px;
+  font-size: clamp(16px, 1.7vw, 19px); font-weight: 700; color: var(--ink);
+  border-bottom: 1px solid var(--color-line);
+}
+.ba-set__tag {
+  padding: 5px 10px;
+  font-family: var(--font-en); font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
+  background: var(--color-concrete-light); color: var(--ink-2);
+}
+.ba-set__col--after .ba-set__tag { background: var(--color-black); color: var(--color-white); }
+.ba-set__shots { display: grid; gap: clamp(12px, 1.6vw, 20px); }
+.ba-set__shot { margin: 0; background: var(--color-concrete-light); }
+.ba-set__shot img { display: block; width: 100%; height: auto; }
 .detail__grid { display: grid; gap: clamp(36px, 4vw, 64px); align-items: start; padding-bottom: clamp(48px, 6vw, 96px); }
 .detail__block + .detail__block { margin-top: clamp(28px, 3vw, 44px); }
 .detail__block .h3 { margin-bottom: 12px; }
@@ -1032,6 +1058,8 @@ body.is-locked { overflow: hidden; }
   .contact__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
   .section__head--row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .detail__grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  .ba-set { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ba-set--single { grid-template-columns: minmax(0, 1fr); }
   .grid--3 { grid-template-columns: repeat(3, 1fr); }
   .grid--4 { grid-template-columns: repeat(4, 1fr); }
   .channels { grid-template-columns: repeat(4, 1fr); }

@@ -25,7 +25,9 @@
      type:        case                             → item.type ('technical' | 'case')
      date:        2026-08-14                       → item.date
      description: 한 줄 요약                        → item.description
-     images:      [a.jpg, b.jpg]                   → item.images.*
+     representative_image: after-01.jpg            → item.images.thumbnail
+     before_images:        [before-01.jpg]         → item.images.beforeImages
+     after_images:         [after-01.jpg]          → item.images.afterImages
      ---
      (본문 마크다운)                                 → item.body (HTML)
 
@@ -37,7 +39,9 @@
        date,          // 'YYYY-MM' 또는 'YYYY-MM-DD'
        sortKey,       // 정렬용으로 보정한 'YYYY-MM-DD'
        description,   // 목록 카드에 노출되는 한 줄 요약
-       images: { thumbnail, cover, before, gallery[] },
+       images: { thumbnail, cover, before, gallery[], beforeImages[], afterImages[] },
+                      // thumbnail = 대표 이미지 = 완성(AFTER) 사진
+                      // 선택 규칙은 assets/js/case-images.js 한 곳에만 있습니다
        body,          // 상세 본문 HTML ('' 이면 상세페이지가 자체 구성)
        tags[],        // 검색 키워드
        url,           // 상세 주소 (기존 주소 그대로)
@@ -83,8 +87,17 @@ function contentSortKey(date) {
   return d;
 }
 
-/* 시공사례(PROJECTS 항목) → 통합 항목 */
+/* 시공사례(PROJECTS 항목) → 통합 항목
+   이미지 선택은 case-images.js 의 정규화 모델에만 맡깁니다.
+   (대표 이미지 = 완성/AFTER 사진) */
 function projectToContent(p) {
+  var ci = (typeof CaseImages !== 'undefined')
+    ? CaseImages.normalize(p)
+    : { representativeImage: p.thumbnail || p.after || '',
+        beforeImages: p.before ? [p.before] : [],
+        afterImages: p.after ? [p.after] : [],
+        galleryImages: (p.images || []).slice() };
+
   return {
     id: p.id,
     type: 'case',
@@ -95,10 +108,12 @@ function projectToContent(p) {
     sortKey: contentSortKey(p.date),
     description: p.summary,
     images: {
-      thumbnail: p.thumbnail || p.after || '',
-      cover: p.after || p.thumbnail || '',
-      before: p.before || '',
-      gallery: (p.images || []).slice()
+      thumbnail: ci.representativeImage,
+      cover: ci.representativeImage,
+      before: ci.beforeImages[0] || '',
+      gallery: ci.galleryImages,
+      beforeImages: ci.beforeImages,
+      afterImages: ci.afterImages
     },
     body: '',
     tags: [p.category, p.building, p.location].filter(Boolean),
@@ -131,7 +146,9 @@ function resourceToContent(r) {
       thumbnail: r.thumbnail || '',
       cover: r.thumbnail || '',
       before: '',
-      gallery: []
+      gallery: [],
+      beforeImages: [],
+      afterImages: []
     },
     body: r.content || '',
     tags: (r.tags || []).concat([r.category]).filter(Boolean),

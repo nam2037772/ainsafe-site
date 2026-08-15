@@ -27,12 +27,18 @@ ainsafe-site/
    ├─ js/config.js         회사정보 · 외부링크 · 상담채널  ← 가장 먼저 확인할 파일
    ├─ js/projects.js       시공사례 데이터 (원본)
    ├─ js/resources.js      기술문서 데이터 (원본)
+   ├─ js/case-images.js    시공사례 이미지 역할 정규화 (대표 / 시공 전 / 시공 후) ★
    ├─ js/content.js        통합 콘텐츠 모델 — 위 두 데이터를 하나의 형태로 합칩니다
    ├─ js/main.js           공통 동작 + 페이지별 렌더러
    └─ images/
       ├─ brand/    로고 · SNS 아이콘
       ├─ hero/     히어로 및 공법 설명 이미지
-      └─ projects/ 시공사례 사진 (`-thumb` = 목록용 축소본)
+      ├─ projects/ 시공사례 사진 (`-thumb` = 목록용 축소본)
+      └─ case-studies/case-<번호>-<slug>/  옵시디언 유래 시공기술사례 사진
+└─ tools/                  빌드 도구 없는 사이트를 위한 Node 스크립트 (배포물 아님)
+   ├─ sync-case-images.js  옵시디언 이미지 역할 → projects.js 반영
+   ├─ check-cases.js       시공사례 데이터 검증 (배포 전 실행)
+   └─ lib/case-source.js   프론트매터 파서 · projects.js 읽기/쓰기
 ```
 
 로컬 확인:
@@ -76,7 +82,7 @@ resources.html ←──┤                              ↓
 | `categoryRaw` | 원본 데이터에 적힌 분류 (상세페이지 표기용) |
 | `date` | `YYYY-MM` 또는 `YYYY-MM-DD` (`sortKey` 로 보정해 함께 정렬) |
 | `description` | 목록 카드 한 줄 요약 (원본의 `summary`) |
-| `images` | `{ thumbnail, cover, before, gallery[] }` |
+| `images` | `{ thumbnail, cover, before, gallery[], beforeImages[], afterImages[] }` — `thumbnail` 은 항상 **완성(시공 후) 대표 사진**. 선택 규칙은 `case-images.js` 한 곳에만 있습니다 |
 | `body` | 상세 본문 HTML (기술문서만. 시공사례는 상세페이지가 자체 구성) |
 | `tags` | 검색 키워드 |
 | `url` | 상세 주소 — `project.html?id=…` / `resource.html?id=…` (기존 그대로) |
@@ -123,7 +129,54 @@ images: [assets/images/projects/101-1.jpg]
 ```
 
 변환 결과를 `content.js` 의 `CONTENT` 에 `concat` 하기만 하면 통합 목록에 함께 나옵니다.
-**자동화는 아직 만들지 않았습니다.** 구조만 준비된 상태입니다.
+본문 변환 자동화는 아직 없습니다. **이미지 역할만 자동화되어 있습니다 (아래 1-3).**
+
+---
+
+## 1-3. 시공기술사례 이미지 역할 (대표 / 시공 전 / 시공 후)
+
+옵시디언이 **원본(source of truth)** 이고, 사진의 역할도 옵시디언 노트에서 정합니다.
+
+```
+옵시디언 노트 (Wiki/홈페이지/발행대기/*.md)
+  representative_image / before_images / after_images
+        ↓  node tools/sync-case-images.js --write
+assets/js/projects.js  (같은 이름의 항목으로 저장)
+        ↓  assets/js/case-images.js  ← 이미지 선택 규칙이 있는 유일한 곳
+  { representativeImage, beforeImages[], afterImages[], galleryImages[], showComparison }
+        ↓
+아카이브 카드 대표 이미지        상세페이지 시공 전 / 시공 후 구간
+```
+
+### 대표 이미지 우선순위 (`case-images.js`)
+
+| 순위 | 값 |
+| --- | --- |
+| 1 | `representative_image` (옵시디언에서 명시) |
+| 2 | `after_images[0]` (완성 사진의 첫 장) |
+| 3 | 기존 `thumbnail` → `after` (예전 로직) |
+| 4 | `images[0]` → `before_images[0]` → `before` (본문 첫 이미지) |
+| 5 | `FALLBACK_IMAGE` (기존 대체 이미지) |
+
+- **명시값이 항상 우선**이며, 없으면 예전 동작 그대로입니다. 기존 사례는 깨지지 않습니다.
+- 대표 이미지는 **완성(AFTER) 사진이 기본값**입니다.
+- `showComparison` 이 상세페이지의 시공 전/후 구간 노출을 판단합니다.
+  대표 사진 한 장뿐인 예전 사례는 같은 사진을 두 번 보여주지 않습니다.
+
+### 도구
+
+```bash
+node tools/sync-case-images.js            # 미리보기 (파일 수정 안 함)
+node tools/sync-case-images.js --write    # projects.js 의 이미지 항목 3개만 갱신
+node tools/sync-case-images.js --vault="D:\경로\에릭_vault"   # vault 위치 지정
+node tools/check-cases.js                 # 배포 전 검증 — 실패 시 종료코드 1
+```
+
+`check-cases.js` 가 확인하는 것: 스크립트 문법, 모든 사례의 대표 이미지 존재,
+참조 이미지 파일 실재, id 중복·별칭, 통합 목록 항목 수, 분류·검색 색인,
+그리고 **대표 이미지에 시공 전 사진이 잘못 지정되지 않았는지**.
+
+옵시디언 노트에 적는 방법은 `CONTENT_GUIDE.md` 9-2 절을 참고하세요.
 
 ---
 

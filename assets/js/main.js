@@ -27,6 +27,20 @@
   function fmtDate(d) { return (d || '').replace(/-/g, '.'); }
   function img(src) { return src || FALLBACK_IMAGE; }
 
+  /* 시공기술사례 이미지 역할 정규화 (case-images.js).
+     화면 코드는 직접 thumbnail/after/before 를 고르지 않고 항상 이 결과를 씁니다. */
+  function caseImages(p) {
+    if (typeof CaseImages !== 'undefined') return CaseImages.normalize(p);
+    return {
+      representativeImage: (p && (p.thumbnail || p.after)) || '',
+      beforeImages: p && p.before ? [p.before] : [],
+      afterImages: p && p.after ? [p.after] : [],
+      galleryImages: (p && p.images ? p.images.slice() : []),
+      hasBefore: !!(p && p.before), hasAfter: !!(p && p.after),
+      showComparison: !!(p && p.before), source: 'fallback'
+    };
+  }
+
   /* ── 1. 헤더 / 내비게이션 ─────────────────────────────── */
   function initHeader() {
     var header = $('#header');
@@ -179,15 +193,16 @@
 
   /* ── 5. 카드 및 리스트 마크업 ────────────────────────── */
   function projectCard(p) {
+    var ci = caseImages(p);
     var meta = [p.category, p.building, fmtDate(p.date)].filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
     return '' +
       '<article class="card">' +
         '<a class="card__link" href="project.html?id=' + esc(p.id) + '">' +
           '<span class="card__media">' +
-            '<img src="' + esc(img(p.thumbnail || p.after)) + '" alt="' + esc(p.title) + ' 시공 사진"' +
+            '<img src="' + esc(img(ci.representativeImage)) + '" alt="' + esc(p.title) + ' 시공 완료 사진"' +
             ' loading="lazy" width="800" height="600" />' +
-            (p.before ? '<span class="card__flag">BEFORE / AFTER</span>' : '') +
+            (ci.hasBefore ? '<span class="card__flag">BEFORE / AFTER</span>' : '') +
           '</span>' +
           '<span class="card__body">' +
             '<span class="card__meta">' + meta + '</span>' +
@@ -199,9 +214,12 @@
   }
 
   function featuredProjectCard(p, index) {
+    var ci = caseImages(p);
+    var rep = esc(img(ci.representativeImage));
+    var flag = ci.hasBefore ? '<span class="card__flag">BEFORE / AFTER</span>' : '';
     var meta = [p.category, p.building, fmtDate(p.date)].filter(Boolean)
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
-    
+
     if (index === 0) {
       // Split layout (Left text, Right photo)
       return '' +
@@ -214,8 +232,8 @@
             '<a class="link-arrow" href="project.html?id=' + esc(p.id) + '">시공기술사례 자세히 보기</a>' +
           '</div>' +
           '<a class="project-split__media" href="project.html?id=' + esc(p.id) + '">' +
-            '<img src="' + esc(img(p.after)) + '" alt="' + esc(p.title) + ' 시공 사진" loading="lazy" />' +
-            (p.before ? '<span class="card__flag">BEFORE / AFTER</span>' : '') +
+            '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
+            flag +
           '</a>' +
         '</article>';
     } else if (index === 3) {
@@ -224,8 +242,8 @@
         '<article class="project-banner reveal">' +
           '<a class="project-banner__link" href="project.html?id=' + esc(p.id) + '">' +
             '<div class="project-banner__media">' +
-              '<img src="' + esc(img(p.after)) + '" alt="' + esc(p.title) + ' 시공 사진" loading="lazy" />' +
-              (p.before ? '<span class="card__flag">BEFORE / AFTER</span>' : '') +
+              '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
+              flag +
             '</div>' +
             '<div class="project-banner__body">' +
               '<p class="project-banner__meta">' + meta + '</p>' +
@@ -240,8 +258,8 @@
         '<article class="project-item reveal">' +
           '<a class="project-item__link" href="project.html?id=' + esc(p.id) + '">' +
             '<span class="project-item__media">' +
-              '<img src="' + esc(img(p.after)) + '" alt="' + esc(p.title) + ' 시공 사진" loading="lazy" />' +
-              (p.before ? '<span class="card__flag">BEFORE / AFTER</span>' : '') +
+              '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
+              flag +
             '</span>' +
             '<span class="project-item__body">' +
               '<span class="project-item__meta">' + meta + '</span>' +
@@ -345,7 +363,11 @@
     var stage = $('#ba');
     var nav = $('#baNav');
     if (stage && nav && hasProjects) {
-      var pairs = PROJECTS.filter(function (p) { return p.before && p.after; }).sort(byDateDesc).slice(0, 4);
+      var pairs = PROJECTS.map(function (p) {
+        var ci = caseImages(p);
+        return { p: p, before: ci.beforeImages[0] || '', after: ci.afterImages[0] || ci.representativeImage };
+      }).filter(function (x) { return x.before && x.after; })
+        .sort(function (a, b) { return byDateDesc(a.p, b.p); }).slice(0, 4);
       if (!pairs.length) {
         var section = document.getElementById('compare');
         if (section) section.hidden = true;
@@ -359,10 +381,10 @@
       }
 
       var show = function (i) {
-        var p = pairs[i];
-        beforeEl.src = p.before;
+        var p = pairs[i].p;
+        beforeEl.src = pairs[i].before;
         beforeEl.alt = p.title + ' 시공 전 사진';
-        afterEl.src = p.after;
+        afterEl.src = pairs[i].after;
         afterEl.alt = p.title + ' 시공 후 사진';
         titleEl.textContent = p.title;
         noteEl.textContent = p.problem || p.summary;
@@ -373,9 +395,9 @@
         });
       };
 
-      nav.innerHTML = pairs.map(function (p, i) {
+      nav.innerHTML = pairs.map(function (x, i) {
         return '<button type="button" role="tab" aria-selected="' + (i === 0) + '"' +
-               ' class="' + (i === 0 ? 'is-on' : '') + '">' + esc(p.category) + ' · ' + esc(fmtDate(p.date)) + '</button>';
+               ' class="' + (i === 0 ? 'is-on' : '') + '">' + esc(x.p.category) + ' · ' + esc(fmtDate(x.p.date)) + '</button>';
       }).join('');
       $$('button', nav).forEach(function (b, i) { b.addEventListener('click', function () { show(i); }); });
       show(0);
@@ -463,7 +485,8 @@
       return;
     }
     var p = sorted[idx];
-    updateMeta(p.title, p.category + ' — ' + p.summary, img(p.after));
+    var ci = caseImages(p);
+    updateMeta(p.title, p.category + ' — ' + p.summary, img(ci.representativeImage));
 
     var rows = [
       ['시공 분야', p.category], ['건축물', p.building], ['현장 위치', p.location],
@@ -474,32 +497,55 @@
       ['주요 하자 · 문제점', p.problem], ['적용 공법', p.method], ['시공 결과', p.result]
     ].filter(function (r) { return r[1]; });
 
-    var gallery = (p.images || []).concat(p.before && p.after ? [] : []);
+    /* 2. 기본 정보 — 제목 바로 아래 한 줄 요약 (자세한 항목은 우측 spec 표에) */
+    var headMeta = [p.category, p.building, p.location, fmtDate(p.date), p.period]
+      .filter(Boolean).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
+
+    /* 4·5. 시공 전 / 시공 후 — 여러 장 지원, 원본 비율 유지 */
+    function compareColumn(kind, ko, en, list) {
+      if (!list.length) return '';
+      return '<div class="ba-set__col ba-set__col--' + kind + '">' +
+        '<h3 class="ba-set__ttl"><span class="ba-set__tag">' + en + '</span>' + esc(ko) + '</h3>' +
+        '<div class="ba-set__shots">' + list.map(function (src, i) {
+          return '<figure class="ba-set__shot">' +
+            '<img src="' + esc(src) + '" alt="' + esc(p.title) + ' ' + esc(ko) +
+            (list.length > 1 ? ' ' + (i + 1) : '') + ' 사진" loading="lazy" />' +
+          '</figure>';
+        }).join('') + '</div>' +
+      '</div>';
+    }
+
+    var compareHtml = '';
+    if (ci.showComparison) {
+      var cols = compareColumn('before', '시공 전', 'BEFORE', ci.beforeImages) +
+                 compareColumn('after', '시공 후', 'AFTER', ci.afterImages);
+      var single = !(ci.hasBefore && ci.hasAfter);
+      compareHtml =
+        '<section class="wrap ba-set-wrap" aria-label="시공 전후 비교">' +
+          '<div class="ba-set' + (single ? ' ba-set--single' : '') + '">' + cols + '</div>' +
+        '</section>';
+    }
 
     root.innerHTML =
+      /* 1. 제목 + 2. 기본 정보 */
       '<div class="wrap detail__head">' +
         '<p class="eyebrow">ARCHIVE</p>' +
         '<h1 class="h2">' + esc(p.title) + '</h1>' +
+        (headMeta ? '<p class="detail__meta">' + headMeta + '</p>' : '') +
         '<p class="lead">' + esc(p.summary) + '</p>' +
       '</div>' +
-      (p.before && p.after ?
-        '<div class="wrap"><div class="ba" id="baDetail">' +
-          '<img class="ba__img" src="' + esc(p.after) + '" alt="' + esc(p.title) + ' 시공 후" loading="lazy" />' +
-          '<img class="ba__img ba__img--before" src="' + esc(p.before) + '" alt="' + esc(p.title) + ' 시공 전" loading="lazy" />' +
-          '<span class="ba__divider"></span>' +
-          '<span class="ba__label ba__label--before">BEFORE</span>' +
-          '<span class="ba__label ba__label--after">AFTER</span>' +
-          '<span class="ba__handle"></span>' +
-          '<input class="ba__range" type="range" min="0" max="100" value="50" aria-label="시공 전후 비교 슬라이더" />' +
-        '</div></div>'
-        :
-        '<figure class="detail__figure"><img src="' + esc(img(p.after)) + '" alt="' + esc(p.title) + ' 시공 사진" loading="lazy" /></figure>') +
+      /* 3. 대표(완성) 이미지 */
+      '<figure class="detail__figure"><img src="' + esc(img(ci.representativeImage)) +
+        '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" /></figure>' +
+      /* 4·5. 시공 전 / 시공 후 */
+      compareHtml +
+      /* 6. 기존 본문 */
       '<div class="wrap detail__grid">' +
         '<div class="detail__body">' +
           blocks.map(function (b) {
             return '<section class="detail__block"><h2 class="h3">' + esc(b[0]) + '</h2><p>' + esc(b[1]) + '</p></section>';
           }).join('') +
-          (gallery.length ? '<div class="detail__gallery">' + gallery.map(function (src) {
+          (ci.galleryImages.length ? '<div class="detail__gallery">' + ci.galleryImages.map(function (src) {
             return '<img src="' + esc(src) + '" alt="' + esc(p.title) + ' 추가 사진" loading="lazy" />';
           }).join('') + '</div>' : '') +
         '</div>' +
@@ -510,8 +556,6 @@
           '<a class="btn btn--dark btn--block" href="contact.html">같은 유형으로 상담하기</a>' +
         '</aside>' +
       '</div>';
-
-    setupCompare($('#baDetail') || document.createElement('div'));
 
     // 관련 시공사례
     var rel = $('#relatedWorks');
