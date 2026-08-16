@@ -25,9 +25,27 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .lead{font-size:clamp(1.06rem,1.7vw,1.35rem);font-weight:400;line-height:1.7}
 .link-arrow{gap:.7em;min-height:44px;font-size:.82rem;font-weight:400;letter-spacing:.16em;text-transform:uppercase;border-color:var(--ink)}
 .link-arrow:hover,.link-arrow:focus-visible{gap:1.2em;opacity:.6}
-.btn{min-height:50px;padding:12px 26px;background:#38424c;border-color:#38424c;font-size:.82rem;font-weight:400;letter-spacing:.1em}
-.btn--dark:hover{--btn-bg:#242b32;--btn-bd:#242b32}
-.btn--line{--btn-bg:transparent;--btn-fg:var(--ink);--btn-bd:var(--line)}
+/* 버튼 — style.css 의 토큰 계약(--btn-bg / --btn-fg / --btn-bd)을 그대로 따릅니다.
+   ★ background/border-color 를 직접 선언하면 안 됩니다.
+     이 파일이 나중에 로드되므로 직접 선언이 style.css 의 background:var(--btn-bg) 를 이기고,
+     변형 클래스(--line/--light/--ghost)는 배경만 잃은 채 원래 배경 기준의 글자색을 유지해
+     "짙은 글자 + 청회색 배경"(대비 1.77:1)이 됩니다. 반드시 토큰으로만 바꿉니다. */
+.btn{--btn-bg:#38424c;--btn-bd:#38424c;min-height:50px;padding:12px 26px;font-size:.82rem;font-weight:400;letter-spacing:.1em}
+.btn--dark{--btn-bg:#38424c;--btn-bd:#38424c}
+.btn--dark:hover,.btn--dark:focus-visible{--btn-bg:#242b32;--btn-bd:#242b32}
+/* 변형 클래스는 반드시 위 .btn 뒤에 다시 선언합니다.
+   특이도가 같으므로(0,1,0) 나중에 로드되는 이 파일의 .btn 이 style.css 의
+   .btn--light / .btn--ghost 토큰을 이겨버리기 때문입니다. */
+
+/* 보조 버튼(외곽선형) — 밝은 배경 위 짙은 글자. 테두리는 비텍스트 대비 3:1 이상 확보 */
+.btn--line{--btn-bg:transparent;--btn-fg:var(--ink);--btn-bd:var(--color-gray-dark)}
+.btn--line:hover,.btn--line:focus-visible{--btn-bg:var(--ink);--btn-fg:#fff;--btn-bd:var(--ink)}
+
+/* 어두운 섹션(.section--dark) 위에서 쓰는 두 변형 */
+.btn--light{--btn-bg:#fff;--btn-fg:var(--ink);--btn-bd:#fff}
+.btn--light:hover,.btn--light:focus-visible{--btn-bg:transparent;--btn-fg:#fff;--btn-bd:#fff}
+.btn--ghost{--btn-bg:transparent;--btn-fg:#fff;--btn-bd:rgba(255,255,255,.55)}
+.btn--ghost:hover,.btn--ghost:focus-visible{--btn-bg:#fff;--btn-fg:var(--ink);--btn-bd:#fff}
 .header,.header--overlay,.header--overlay.is-solid,.header--overlay.is-open{position:sticky;inset:auto;top:0;z-index:100;height:var(--header-h);background:#fff;border-bottom:1px solid var(--line)}
 .header__bar{width:auto;max-width:var(--wrap);height:100%;padding-inline:var(--gutter);gap:24px}
 .brand{gap:0;min-height:44px}.brand__mark{display:none}.brand__text{line-height:1.15}
@@ -36,9 +54,16 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .gnb{margin-left:auto;gap:0}.gnb__list{gap:clamp(14px,1.5vw,24px)}
 .gnb__list>li>a,.gnb__shop,.gnb__quote{min-height:44px;padding:.3em 0;border:0;background:transparent;font-size:.82rem;font-weight:400;letter-spacing:.03em;color:var(--ink-2);white-space:nowrap}
 .gnb__list>li>a[aria-current=page]{font-weight:500;color:var(--ink)}
-/* 상담문의 버튼 — 위 .gnb__list>li>a 보다 선택자 특이도를 높여야 배경이 적용됩니다 */
-.gnb__list>li>a.gnb__quote{min-height:46px;padding:0 18px;background:#38424c;color:#fff}
-.gnb__list>li>a.gnb__quote:hover{background:#242b32}
+/* 상담문의 버튼 — 위 .gnb__list>li>a 보다 선택자 특이도를 높여야 배경·글자색이 적용됩니다 */
+.gnb__list>li>a.gnb__quote{min-height:46px;padding:0 18px;background:#38424c}
+.gnb__list>li>a.gnb__quote,
+.gnb__list>li>a.gnb__quote:link,
+.gnb__list>li>a.gnb__quote:visited,
+.gnb__list>li>a.gnb__quote:hover,
+.gnb__list>li>a.gnb__quote:focus,
+.gnb__list>li>a.gnb__quote:active{color:#fff}
+.gnb__list>li>a.gnb__quote:hover,
+.gnb__list>li>a.gnb__quote:focus-visible{background:#242b32}
 .header__tel{display:none!important}
 .header--overlay:not(.is-solid):not(.is-open) .burger__box i{background:var(--ink)}
 .phero{min-height:clamp(380px,42vw,560px);padding-top:0;align-items:center;background:#dcdad6}

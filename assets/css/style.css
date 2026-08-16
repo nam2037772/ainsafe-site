@@ -194,6 +194,14 @@ p { margin: 0; }
 .btn--line:hover { --btn-bd: var(--color-black); }
 .btn--block { width: 100%; }
 
+/* ── CTA 글자색 — 모든 상태를 명시합니다 ─────────────────────────
+   상속이나 브라우저 기본 :visited 색에 기대지 않습니다. 값은 항상 --btn-fg
+   토큰에서 가져오므로 변형별(--dark/--light/--ghost/--line) 조합이 그대로 유지되고,
+   어떤 상태에서도 배경과 같은 색이 되는 일이 없습니다. */
+.btn, .btn:link, .btn:visited, .btn:hover, .btn:focus, .btn:active {
+  color: var(--btn-fg);
+}
+
 /* ── 5. 헤더 & 내비게이션 ──────────────────────────────────── */
 .header {
   position: fixed; inset: 0 0 auto; z-index: 100;
@@ -241,12 +249,26 @@ p { margin: 0; }
 }
 .gnb__shop:hover { border-color: var(--color-black); }
 .gnb__shop::after { display: none !important; }
+/* 상담문의 버튼.
+   ★ 선택자가 위 `.gnb__list > li > a`(특이도 0,2,1)보다 높아야 합니다.
+     `.gnb__quote`(0,1,0)만 쓰면 color 가 var(--ink-2)=#252525 로 덮여
+     배경 #111111 위 짙은 회색 글자(1.23:1)가 되고, hover 시 배경이 #252525 로
+     바뀌면서 글자와 같은 색(1.0:1)이 되어 완전히 사라집니다. */
+.gnb__list > li > a.gnb__quote,
 .gnb__quote {
   display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px;
   font-size: 14px; font-weight: 600;
-  background: var(--color-black); color: var(--color-white);
+  background: var(--color-black);
 }
+.gnb__list > li > a.gnb__quote,
+.gnb__list > li > a.gnb__quote:link,
+.gnb__list > li > a.gnb__quote:visited,
+.gnb__list > li > a.gnb__quote:hover,
+.gnb__list > li > a.gnb__quote:focus,
+.gnb__list > li > a.gnb__quote:active,
+.gnb__quote { color: var(--color-white); }
 .gnb__quote::after { display: none !important; }
+.gnb__list > li > a.gnb__quote:hover,
 .gnb__quote:hover { background: var(--color-charcoal); }
 .gnb__tel { display: none; }
 
@@ -1029,9 +1051,19 @@ body.is-locked { overflow: hidden; }
   display: flex; align-items: center; justify-content: center;
   min-height: 52px; font-size: 14.5px; font-weight: 600;
 }
-.cta-bar__tel { background: var(--color-white); color: var(--color-black); }
-.cta-bar__photo { background: var(--color-concrete-light); color: var(--color-black); }
-.cta-bar__quote { background: var(--color-black); color: var(--color-white); }
+/* 하단 고정 CTA — 상태별 글자색을 모두 명시합니다 (상속 · 기본 :visited 색 방지) */
+.cta-bar__tel, .cta-bar__tel:link, .cta-bar__tel:visited,
+.cta-bar__tel:hover, .cta-bar__tel:focus, .cta-bar__tel:active {
+  background: var(--color-white); color: var(--color-black);
+}
+.cta-bar__photo, .cta-bar__photo:link, .cta-bar__photo:visited,
+.cta-bar__photo:hover, .cta-bar__photo:focus, .cta-bar__photo:active {
+  background: var(--color-concrete-light); color: var(--color-black);
+}
+.cta-bar__quote, .cta-bar__quote:link, .cta-bar__quote:visited,
+.cta-bar__quote:hover, .cta-bar__quote:focus, .cta-bar__quote:active {
+  background: var(--color-black); color: var(--color-white);
+}
 
 .toast {
   position: fixed; left: 50%; bottom: 76px; z-index: 160;

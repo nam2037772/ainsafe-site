@@ -701,48 +701,57 @@
       return;
     }
 
+    /* 안내 문구에 쓸 항목 이름은 화면의 <label> 에서 그대로 읽습니다 */
+    function labelOf(el) {
+      var lb = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
+      return (lb ? lb.textContent : el.name || '').replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var required = $$('[required]', form);
+
+      /* 1) 필수 항목 검증 — 비어 있으면 메일 앱을 열지 않습니다 */
       var bad = null;
-      required.forEach(function (el) {
+      $$('[required]', form).forEach(function (el) {
         var ok = el.type === 'checkbox' ? el.checked : el.value.trim() !== '';
         el.setAttribute('aria-invalid', ok ? 'false' : 'true');
         if (!ok && !bad) bad = el;
       });
       if (bad) {
         bad.focus();
-        var validationMessages = {
-          'f-name': '성함 / 회사명을 입력해 주세요.',
-          'f-phone': '연락처를 입력해 주세요.',
-          'f-agree': '개인정보 수집 및 이용에 동의해 주세요.'
-        };
-        toast(validationMessages[bad.id] || '필수 항목을 확인해 주세요.');
+        toast(bad.type === 'checkbox'
+          ? '개인정보 수집 및 이용에 동의해 주세요.'
+          : labelOf(bad) + '을(를) 입력해 주세요.');
         return;
       }
-      var get = function (n) { var el = form.elements[n]; return el ? el.value.trim() : ''; };
+
+      /* 2) 메일 본문 구성 — 한글과 사용자 입력은 encodeURIComponent 로 인코딩 */
+      var get = function (n) {
+        var el = form.elements[n];
+        return el ? String(el.value).trim() : '';
+      };
+      var subject = '[홈페이지 견적문의] ' + get('type') + ' - ' + get('name');
       var body = [
-        '아인산업안전 홈페이지에서 작성된 문의입니다.',
+        '안녕하세요.',
+        '아인산업안전 홈페이지를 통해 견적문의를 드립니다.',
         '',
         '성함 / 회사명: ' + get('name'),
         '연락처: ' + get('phone'),
-        '현장 위치: ' + get('place'),
+        '현장 위치: ' + (get('place') || '(미입력)'),
         '문의 구분: ' + get('type'),
+        '',
         '현장 상태 / 요청사항:',
-        get('message')
+        get('message'),
+        '',
+        '개인정보 수집 및 이용 동의: 동의'
       ].join('\n');
 
-      var mailtoHref = 'mailto:' + COMPANY.email +
-        '?subject=' + encodeURIComponent('[홈페이지 견적문의] ' + get('name') + ' - ' + get('type')) +
+      /* 3) 기본 메일 앱 열기 (정적 사이트이므로 자동 발송은 하지 않습니다) */
+      window.location.href = 'mailto:' + COMPANY.email +
+        '?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
-      var mailtoLink = document.createElement('a');
-      mailtoLink.href = mailtoHref;
-      mailtoLink.hidden = true;
-      mailtoLink.setAttribute('data-mailto-launch', '');
-      document.body.appendChild(mailtoLink);
-      mailtoLink.click();
-      mailtoLink.remove();
-      toast('메일 작성창을 열었습니다. 내용을 확인한 후 전송 버튼을 눌러주세요.');
+
+      toast('기본 메일 앱을 열었습니다. 내용을 확인한 뒤 전송해 주세요.');
     });
   }
 
