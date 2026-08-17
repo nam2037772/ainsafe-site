@@ -19,9 +19,17 @@
 <meta name="twitter:title" content="노출콘크리트 면보수 · 특수방수 전문 | 주식회사 아인산업안전" />
 <meta name="twitter:description" content="노출콘크리트 표면 결함 복원과 특수방수 전문. 색상 및 질감 재현, 균열 보수, 누수 인젝션, 액상고무 방수." />
 <meta name="twitter:image" content="https://nam2037772.github.io/ainsafe-site/assets/images/projects/jisan-lightgray.jpg" />
+<!-- 첫 화면 사진을 HTML 에서 바로 찾을 수 있게 미리 알려 줍니다(LCP).
+     ※ data/site-content.js 의 hero.images 첫 장을 바꾸면 아래 preload 와
+        본문 히어로의 첫 <img> 경로도 함께 바꿔 주세요. -->
+<link rel="preload" as="image" href="assets/images/hero/hero-1.jpg" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@300..500&display=swap" rel="stylesheet" />
+<!-- 굵기를 낱개(300;400;500;700)로 적으면 구글이 굵기마다 @font-face 를 따로 보내
+     CSS 만 114KB 가 됩니다. 가변축(300..700)으로 적으면 내려받는 폰트 파일은 그대로인 채
+     CSS 가 46KB 로 줄어듭니다. media="print" → onload 은 이 CSS 가 첫 화면을 막지 않게 합니다. -->
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300..700&family=Noto+Serif+KR:wght@300..500&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300..700&family=Noto+Serif+KR:wght@300..500&display=swap" /></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -336,7 +344,7 @@ ul,ol{list-style:none}
 .footer__brand span{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;display:block;margin:.7em 0 1.8em}
 .footer__brand p{font-size:.86rem;line-height:1.8}
 .footer__brand .tel{font-family:var(--serif);color:#e7e4de;font-size:1.05rem;margin-bottom:.4em}
-.footer__col h4{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#cbc7c0;margin-bottom:1.5em;font-weight:400}
+.footer__col h3{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#cbc7c0;margin-bottom:1.5em;font-weight:400}
 .footer__col li{margin-bottom:.9em}
 .footer__col a{font-size:.86rem;transition:color .3s}
 .footer__col a:hover{color:#f3f1ec}
@@ -420,7 +428,14 @@ ul,ol{list-style:none}
 
 <!-- ═══════════ 히어로 ═══════════ -->
 <section class="hero" id="hero">
-  <div class="hero__slides" id="slides"></div>
+  <!-- 첫 장은 HTML 에 그대로 두어 브라우저가 스크립트를 기다리지 않고 바로 내려받게 합니다.
+       나머지 장은 data/site-content.js 를 읽어 아래 스크립트가 이어 붙입니다.
+       ※ 첫 사진을 바꿀 때는 site-content.js 와 <head> 의 preload 도 함께 바꿔 주세요. -->
+  <div class="hero__slides" id="slides">
+    <div class="hero__slide active">
+      <img src="assets/images/hero/hero-1.jpg" alt="노출콘크리트 면보수를 마친 실내 벽면" fetchpriority="high" decoding="async" />
+    </div>
+  </div>
   <div class="hero__scrim" aria-hidden="true"></div>
 
   <div class="hero__inner">
@@ -429,7 +444,7 @@ ul,ol{list-style:none}
     <p class="hero__sub" id="heroSub"></p>
   </div>
 
-  <div class="hero__dots" id="dots" aria-hidden="true"></div>
+  <div class="hero__dots" id="dots"></div>
 </section>
 
 <!-- ═══════════ ABOUT ═══════════ -->
@@ -548,15 +563,15 @@ ul,ol{list-style:none}
       <p id="footEmail"></p>
     </div>
     <nav class="footer__col" aria-label="전문 분야">
-      <h4>Service</h4>
+      <h3>Service</h3>
       <ul id="footServiceLinks"></ul>
     </nav>
     <nav class="footer__col" aria-label="사이트">
-      <h4>Site</h4>
+      <h3>Site</h3>
       <ul id="footSiteLinks"></ul>
     </nav>
     <nav class="footer__col" aria-label="채널">
-      <h4>Channel</h4>
+      <h3>Channel</h3>
       <ul id="footChannelLinks"></ul>
     </nav>
   </div>
@@ -598,15 +613,25 @@ ul,ol{list-style:none}
     var h=S.hero||{};
     setHTML("heroTitle",h.title); setText("heroEn",h.en); setText("heroSub",h.sub);
     var slides=$("slides"),dots=$("dots");
-    if(slides&&h.images){
-      slides.innerHTML=h.images.map(function(im,i){
+    if(slides&&h.images&&h.images.length){
+      /* 첫 장은 HTML 에 이미 들어 있습니다(브라우저가 먼저 내려받게 하려고).
+         같은 사진을 두 번 받지 않도록 그것을 그대로 쓰고, 둘째 장부터만 붙입니다. */
+      var first=slides.querySelector(".hero__slide img");
+      if(first){
+        /* 콘텐츠 파일에서 첫 사진을 바꿨다면 미리 넣어 둔 것을 갱신합니다. */
+        if(first.getAttribute("src")!==h.images[0].src)first.setAttribute("src",h.images[0].src);
+        if(first.getAttribute("alt")!==h.images[0].alt)first.setAttribute("alt",h.images[0].alt||"");
+      }
+      slides.insertAdjacentHTML("beforeend",h.images.map(function(im,i){
+        if(i===0&&first)return "";
         return '<div class="hero__slide'+(i===0?" active":"")+'"><img src="'+esc(im.src)+
           '" alt="'+esc(im.alt)+'"'+(i===0?' fetchpriority="high"':' loading="lazy"')+' /></div>';
-      }).join("");
+      }).join(""));
     }
     if(dots&&h.images){
       dots.innerHTML=h.images.map(function(im,i){
-        return '<button'+(i===0?' class="active"':"")+' data-i="'+i+'"></button>';
+        return '<button type="button"'+(i===0?' class="active"':"")+' data-i="'+i+
+          '" aria-label="'+(i+1)+'번 사진 보기"></button>';
       }).join("");
     }
 
