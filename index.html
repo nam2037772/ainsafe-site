@@ -245,14 +245,17 @@ ul,ol{list-style:none}
 .sec-head--row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
 .sec-head--row .sec-head__desc{max-width:26em;color:var(--ink-2);font-size:.98rem;line-height:1.9}
 
-.service__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.service__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
 .svc{display:flex;flex-direction:column;padding:0 clamp(22px,2.4vw,40px)}
 .svc + .svc{border-left:1px solid var(--line)}   /* 얇은 세로 구분선만 */
 .svc:first-child{padding-left:0}
 .svc:last-child{padding-right:0}
 .svc__no{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sub);margin-bottom:1.5em}
 .svc__ttl{font-family:var(--serif);font-weight:500;font-size:1.18rem;line-height:1.45}
-.svc__text{margin-top:1.05em;font-size:.9rem;line-height:1.9;color:var(--ink-2);flex:1}
+.svc__items{display:flex;flex-wrap:wrap;list-style:none;margin:1.15em 0 0;padding:0;
+  font-size:.8rem;letter-spacing:.04em;color:var(--sub)}
+.svc__items li + li{margin-left:.9em;padding-left:.9em;border-left:1px solid var(--line)}
+.svc__text{margin-top:1.05em;max-width:30em;font-size:.9rem;line-height:1.9;color:var(--ink-2);flex:1}
 .svc__go{display:inline-block;margin-top:1.9em;font-size:.74rem;letter-spacing:.18em;
   text-transform:uppercase;color:var(--ink);transition:opacity .3s}
 .svc__go::after{content:" →"}
@@ -348,7 +351,7 @@ ul,ol{list-style:none}
   .nav{gap:clamp(22px,2.5vw,28px)}
   .brand,.nav a{flex-shrink:0}
   .nav .tel{white-space:nowrap}
-  .service__grid{grid-template-columns:repeat(2,1fr);gap:36px 26px}
+  /* Service 는 기본이 2열이므로 태블릿에서 재배치하지 않습니다. */
   .works__grid{grid-template-columns:repeat(2,1fr)}
   .footer__grid{grid-template-columns:1fr 1fr}
   .footer__brand{grid-column:1/-1;margin-bottom:16px}
@@ -622,9 +625,14 @@ ul,ol{list-style:none}
     setText("svcEyebrow",ss.eyebrow); setText("svcHeading",ss.heading); setText("svcDesc",ss.desc);
     var sg=$("serviceGrid");
     if(sg&&S.services)sg.innerHTML=S.services.map(function(s){
+      var items=(s.items&&s.items.length)
+        ? '<ul class="svc__items">'+s.items.map(function(it){
+            return '<li>'+esc(it)+'</li>';}).join("")+'</ul>'
+        : "";
       return '<a class="svc reveal" href="'+esc(s.link)+'">'+
         '<p class="svc__no">'+esc(s.no)+'</p>'+
         '<h3 class="svc__ttl">'+esc(s.title)+'</h3>'+
+        items+
         '<p class="svc__text">'+esc(s.text)+'</p>'+
         '<span class="svc__go">View More</span></a>';
     }).join("");
