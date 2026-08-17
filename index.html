@@ -640,7 +640,7 @@ ul,ol{list-style:none}
     /* 강점 */
     var fs=S.featureSection||{};
     setAttr("featureImg","src",fs.image); setAttr("featureImg","alt",fs.imageAlt);
-    setText("featEyebrow",fs.eyebrow); setText("featHeading",fs.heading); setText("featIntro",fs.intro);
+    setText("featEyebrow",fs.eyebrow); setHTML("featHeading",fs.heading); setText("featIntro",fs.intro);
     var fl=$("featList");
     if(fl&&S.features)fl.innerHTML=S.features.map(function(f){
       return '<div class="feat"><span class="feat__no">'+esc(f.no)+'</span>'+
