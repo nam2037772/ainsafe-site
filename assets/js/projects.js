@@ -12,7 +12,16 @@
    · 사진을 바꾸려면 이 파일이 아니라 Raw 노트를 고치고 도구를 다시 실행하세요.
    ============================================================ */
 
-const PROJECT_ALIASES = {};
+/* 026·027 은 발행대기 노트의 case_no 가 서로 뒤바뀌어 있어, 월아트 본문이
+   복원 사례의 사진 위에 얹혀 있었습니다. Raw 노트 기준으로 바로잡으면서
+   두 사례의 번호·slug 가 맞바뀌었습니다. 예전 주소는 내용이 옮겨간 쪽으로
+   보냅니다. (내용 기준 — slug 가 가리키던 그 내용으로) */
+const PROJECT_ALIASES = {
+  "obsidian-case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray":
+    "obsidian-case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray",
+  "obsidian-case-027-exposed-concrete-interior-restoration-before-after":
+    "obsidian-case-026-exposed-concrete-interior-restoration-before-after"
+};
 
 const RETIRED_PROJECT_IDS = [
   "concrete-case-013-stain-repair",
@@ -888,10 +897,57 @@ const PROJECTS = [
     ]
   },
   {
-    "id": "obsidian-case-027-exposed-concrete-interior-restoration-before-after",
+    "id": "obsidian-case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray",
     "source": "obsidian",
     "case_no": "027",
     "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 027.md",
+    "draft_file": "Wiki/홈페이지/발행대기/concrete-wall-art-hypertexture-ink-wash-gradient-spray.md",
+    "review_required": false,
+    "title": "콘채를 이용한 콘크리트 월아트 시공사례 (하이퍼텍스쳐 + 수묵화 워시 + 그라데이션 뿜칠)",
+    "location": "",
+    "building": "코오롱스포츠 명동 플래그십 스토어",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "상업용 매장 내부에 콘채를 활용해 입체감 있는 하이퍼텍스쳐, 채도를 낮추는 수묵화 워시기법, 그라데이션 뿜칠 등 복합 기법으로 수묵산수화 느낌의 콘크리트 월아트를 구현한 사례.",
+    "problem": "• 매장 벽체에 디자인 의도(수묵산수화 느낌)를 구현하기 위한 신규 아트 작업 대상 면 • 구체적인 기존 면 상태(재질/오염 여부 등)는 원문에 명시되지 않음 • 디자인 회사(시안사)의 요청: 수묵산수화 느낌으로, 인위적인 느낌이 없는 자연스러운 콘크리트 물성이 느껴지도록 구현 • 텍스쳐 치핑은 1~4단까지 단계적인 음양각이 느껴지도록 하는 것이 목표 • 산등성이 라인은 살아있으면서 수묵산수화의 느낌이 나도록 하는 것이 기술적 과제로 제시됨 • 인테리어 현장 특성상 야간에만 작업 가능한 조건이었으나, 오히려 타 작업팀 간섭이 없어 유리하게 작용 • 현장에서 다양한 의견을 수렴하고 일부 구간 샘플시공을 병행하며 진행",
+    "method": "작업은 A파트(텍스쳐 치핑)와 B파트(색조코팅작업)로 나누어 순서대로 진행됨. A파트 — 텍스쳐 치핑 (하이퍼텍스쳐를 위한 디자인 치핑작업) 1. 맨 하단 기단부 1단은 거칠게 치핑 2. 치핑만으로는 산등성이 선형을 살리기 어려워, 라인 살리는 작업을 별도로 진행 B파트 — 색조작업의 순서 1. 채도 낮추기 (명암 주기 · 수묵화 워시) 2. 색조작업 (콘채를 이용한 그라데이션 뿜칠) 3. 코팅작업 (음각부 내부까지 코팅 미스트 뿜칠)",
+    "result": "• 수묵산수화 느낌의 자연스러운 콘크리트 물성 표현 달성 • 콘채가 노출콘크리트 면보수뿐 아니라 다양한 기법으로 디자이너의 의도를 표현하는 데 활용 가능함을 보여주는 사례로 정리됨",
+    "representative_image": "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg",
+    "before_images": [],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-01.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-02.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-03.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-04.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-05.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-06.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-07.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-08.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-09.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-10.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-11.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-12.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-13.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-14.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-15.jpg",
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-16.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg",
+    "after": "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-01.jpg",
+    "before": "",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg"
+    ]
+  },
+  {
+    "id": "obsidian-case-026-exposed-concrete-interior-restoration-before-after",
+    "source": "obsidian",
+    "case_no": "026",
+    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 026.md",
     "draft_file": "Wiki/홈페이지/발행대기/exposed-concrete-interior-restoration-before-after.md",
     "review_required": true,
     "title": "인테리어 현장 노출콘크리트면 복원 사례 (미장느낌 없는 형상복원)",
@@ -904,68 +960,21 @@ const PROJECTS = [
     "problem": "• 미장으로 사춤(줄눈/이음부 채움)을 하고 면정리를 진행한 상태 • 그러나 미장 부위와 기존 콘크리트면 사이의 이질감이 남아있음 (원문: \"콘크리트면과의 이질감은 어쩔수 없습니다\") • 노출콘크리트면을 유지해야 하는 요구조건과, 미장 보수로 인한 이질감이라는 현실적 제약 사이의 간극을 해결해야 하는 과제 • 콘채를 이용해 박막미장, 샌딩, 패턴 작업을 조합하여 이질감을 해소하기로 판단 • 상단부는 자연스러운 곡선을 유지시키는 방향으로 처리",
     "method": "1. 콘채를 이용한 박막미장 2. 샌딩 3. 패턴 찍기 (구체적 패턴 종류/도구는 원문에 명시되지 않음) 4. 상단부는 곡선을 자연스럽게 유지 세부 배합비, 소요 시간, 사용 장비 등은 원문에 명시되지 않음.",
     "result": "• Before/After 사진으로 결과를 제시 — 콘채 면복원 후 미장느낌이 없는 콘크리트 형상 복원 결과로 정리됨 • 원문 표현: \"미장느낌없는 콘크리트 형상복원 사례\"",
-    "representative_image": "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/representative.jpg",
-    "before_images": [],
-    "process_images": [],
-    "after_images": [
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-01.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-02.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-03.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-04.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-05.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-06.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-07.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-08.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-09.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-10.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-11.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-12.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-13.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-14.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-15.jpg",
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-16.jpg"
-    ],
-    "thumbnail": "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/representative.jpg",
-    "after": "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/after-01.jpg",
-    "before": "",
-    "images": [],
-    "featured": false,
-    "representative_images": [
-      "assets/images/case-studies/case-027-exposed-concrete-interior-restoration-before-after/representative.jpg"
-    ]
-  },
-  {
-    "id": "obsidian-case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray",
-    "source": "obsidian",
-    "case_no": "026",
-    "source_note": "Raw/노출콘 시공기술사례/노출콘크리트 시공기술사례 - 026.md",
-    "draft_file": "Wiki/홈페이지/발행대기/concrete-wall-art-hypertexture-ink-wash-gradient-spray.md",
-    "review_required": false,
-    "title": "콘채를 이용한 콘크리트 월아트 시공사례 (하이퍼텍스쳐 + 수묵화 워시 + 그라데이션 뿜칠)",
-    "location": "",
-    "building": "",
-    "category": "노출콘크리트",
-    "date": "",
-    "period": "",
-    "summary": "상업용 매장 내부에 콘채를 활용해 입체감 있는 하이퍼텍스쳐, 채도를 낮추는 수묵화 워시기법, 그라데이션 뿜칠 등 복합 기법으로 수묵산수화 느낌의 콘크리트 월아트를 구현한 사례.",
-    "problem": "• 매장 벽체에 디자인 의도(수묵산수화 느낌)를 구현하기 위한 신규 아트 작업 대상 면 • 구체적인 기존 면 상태(재질/오염 여부 등)는 원문에 명시되지 않음 • 디자인 회사(시안사)의 요청: 수묵산수화 느낌으로, 인위적인 느낌이 없는 자연스러운 콘크리트 물성이 느껴지도록 구현 • 텍스쳐 치핑은 1~4단까지 단계적인 음양각이 느껴지도록 하는 것이 목표 • 산등성이 라인은 살아있으면서 수묵산수화의 느낌이 나도록 하는 것이 기술적 과제로 제시됨 • 인테리어 현장 특성상 야간에만 작업 가능한 조건이었으나, 오히려 타 작업팀 간섭이 없어 유리하게 작용 • 현장에서 다양한 의견을 수렴하고 일부 구간 샘플시공을 병행하며 진행",
-    "method": "작업은 A파트(텍스쳐 치핑)와 B파트(색조코팅작업)로 나누어 순서대로 진행됨. A파트 — 텍스쳐 치핑 (하이퍼텍스쳐를 위한 디자인 치핑작업) 1. 맨 하단 기단부 1단은 거칠게 치핑 2. 치핑만으로는 산등성이 선형을 살리기 어려워, 라인 살리는 작업을 별도로 진행 B파트 — 색조작업의 순서 1. 채도 낮추기 (명암 주기 · 수묵화 워시) 2. 색조작업 (콘채를 이용한 그라데이션 뿜칠) 3. 코팅작업 (음각부 내부까지 코팅 미스트 뿜칠)",
-    "result": "• 수묵산수화 느낌의 자연스러운 콘크리트 물성 표현 달성 • 콘채가 노출콘크리트 면보수뿐 아니라 다양한 기법으로 디자이너의 의도를 표현하는 데 활용 가능함을 보여주는 사례로 정리됨",
-    "representative_image": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg",
+    "representative_image": "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/representative.jpg",
     "before_images": [
-      "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/before-01.jpg"
+      "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/before-01.jpg"
     ],
     "process_images": [],
     "after_images": [
-      "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-01.jpg"
+      "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/after-01.jpg"
     ],
-    "thumbnail": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg",
-    "after": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/after-01.jpg",
-    "before": "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/before-01.jpg",
+    "thumbnail": "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/representative.jpg",
+    "after": "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/after-01.jpg",
+    "before": "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/before-01.jpg",
     "images": [],
     "featured": false,
     "representative_images": [
-      "assets/images/case-studies/case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray/representative.jpg"
+      "assets/images/case-studies/case-026-exposed-concrete-interior-restoration-before-after/representative.jpg"
     ]
   },
   {
