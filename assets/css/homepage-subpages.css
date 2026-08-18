@@ -109,21 +109,26 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .detail__head{padding-block:clamp(64px,9vw,120px) clamp(36px,5vw,64px)}
 .detail__figure img{height:clamp(280px,52vw,660px)}
 .detail__grid{gap:clamp(48px,8vw,112px);padding-bottom:var(--section-y)}
+.ba-set__ttl{font-family:var(--font-serif);font-weight:500;letter-spacing:-.01em}
 .detail__block p,.doc__body p{line-height:2}.detail__gallery{gap:clamp(18px,2vw,28px);margin-top:48px}
 .doc__body{max-width:70ch}.pager{border-color:var(--line)}
 .project-split__ttl,.project-banner__ttl,.project-item__ttl,.resource-row__ttl{font-family:var(--font-serif);font-weight:400}
 .project-split__media img,.project-banner__media img,.project-item__media img{filter:none}
 .resource-list{border-top:1px solid var(--ink)}.resource-row:hover{background:transparent}
-.footer{padding:clamp(64px,8vw,110px) 0 44px;background:#0e0d0c;color:#8f8b84}
+.footer{padding:clamp(64px,8vw,110px) 0 44px;background:#0e0d0c;color:#c8c4bd}
 .footer__grid{gap:40px;padding-bottom:0}.footer__brand img{display:none}
 .footer__name{font-family:var(--font-serif);font-size:1.15rem;font-weight:500;color:#f3f1ec;letter-spacing:.04em}
-.footer__tag{margin:.7em 0 1.8em;font-size:.75rem}
-.footer__tel a{font-family:var(--font-serif);font-size:1.05rem;font-weight:400;color:#e7e4de}
+.footer__tag{margin:.7em 0 1.8em;font-size:.75rem;color:#b6b2ab}
+.footer__tel a{font-family:var(--font-serif);font-size:1.05rem;font-weight:400;color:#f2f0ec}
 .footer address{font-size:.86rem;line-height:1.8}
-.footer__ttl{font-size:.68rem;font-weight:400;letter-spacing:.22em;color:#cbc7c0}
-.footer__col li{margin-bottom:.9em}.footer__col a{min-height:auto;font-size:.86rem}
+.footer__ttl{font-size:.68rem;font-weight:500;letter-spacing:.22em;color:#efede8}
+.footer__col li{margin-bottom:.9em}
+.footer__col a{min-height:auto;font-size:.86rem;color:#c8c4bd}
+.footer__col a:hover,.footer__col a:focus-visible{color:#fff;border-bottom:1px solid rgba(255,255,255,.7)}
+.footer__brand a{color:#c8c4bd}
+.footer__brand a:hover,.footer__brand a:focus-visible{color:#fff}
 .footer__bottom{margin-top:clamp(48px,6vw,80px);padding-top:28px;border-top-color:rgba(255,255,255,.08)}
-.footer__bottom small{color:#8f8b84;letter-spacing:.06em}.cta-bar{display:none!important}
+.footer__bottom small{color:#a8a49d;letter-spacing:.06em}.cta-bar{display:none!important}
 @media (min-width:900px){
 :root{--header-h:80px}.tech__item{grid-template-columns:1fr 1fr;align-items:center}
 .tech__item:nth-child(even) .tech__media{order:2}
@@ -140,19 +145,21 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .gnb__list>li>a,.gnb__shop,.gnb__quote{display:flex;justify-content:flex-start;width:100%;min-height:56px;padding:0;background:transparent;color:var(--ink)!important;font-size:1rem}
 .gnb__list>li>a::after{display:none}.gnb__tel{display:block;margin-top:22px}body{padding-bottom:0}}
 @media (max-width:899px){
-.phero{min-height:clamp(360px,64vw,500px)}
-.phero::after{content:"";background:linear-gradient(90deg,rgba(248,247,245,.94),rgba(248,247,245,.62) 60%,rgba(248,247,245,.18))}
-.section__head--row{display:block}.section__head--row .section__desc{margin-top:24px}
-.tech__item{gap:30px}.footer__grid{grid-template-columns:repeat(2,1fr)}.footer__brand{grid-column:1/-1}}
-@media (max-width:599px){
-:root{--section-y:clamp(72px,22vw,96px)}
-.brand__text strong{font-size:1rem}.phero{display:flex;min-height:clamp(350px,94svw,410px);padding:0;align-items:flex-end;isolation:isolate}
+.phero{display:flex;min-height:clamp(360px,64vw,500px);padding:0;align-items:flex-end;isolation:isolate}
 .phero::after{content:"";background:linear-gradient(0deg,rgba(14,13,12,.78) 0%,rgba(14,13,12,.55) 44%,rgba(14,13,12,.14) 82%,rgba(14,13,12,.04) 100%)}
 .phero__media img{object-position:center}
 .phero__inner{display:flex;flex-direction:column;align-items:flex-start;width:100%;max-width:none;min-width:0;margin:0;padding:clamp(28px,7vw,36px) var(--gutter) clamp(32px,8vw,42px);color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.28)}
 .phero .eyebrow{margin-bottom:12px;font-size:clamp(.62rem,2.8vw,.7rem);line-height:1.4;letter-spacing:.14em;color:rgba(255,255,255,.84)}
-.phero h1{width:100%;max-width:20ch;font-size:clamp(1.75rem,7.4vw,2.15rem);line-height:1.28;letter-spacing:-.025em;color:#fff;text-wrap:balance;overflow-wrap:normal}
-.phero__desc{margin-top:14px;max-width:32em;font-size:clamp(.86rem,3.6vw,.95rem);line-height:1.7;color:rgba(255,255,255,.92)}
+.phero h1{width:100%;max-width:20ch;line-height:1.28;letter-spacing:-.025em;color:#fff;text-wrap:balance;overflow-wrap:normal}
+.phero__desc{margin-top:14px;max-width:34em;font-size:clamp(.9rem,1.9vw,1rem);line-height:1.75;color:rgba(255,255,255,.92)}
+.section__head--row{display:block}.section__head--row .section__desc{margin-top:24px}
+.tech__item{gap:30px}.footer__grid{grid-template-columns:repeat(2,1fr)}.footer__brand{grid-column:1/-1}}
+@media (max-width:599px){
+:root{--section-y:clamp(72px,22vw,96px)}
+.brand__text strong{font-size:1rem}
+.phero{min-height:clamp(350px,94svw,410px)}
+.phero h1{font-size:clamp(1.75rem,7.4vw,2.15rem)}
+.phero__desc{max-width:32em;font-size:clamp(.86rem,3.6vw,.95rem);line-height:1.7}
 .phero.phero--visual-only{min-height:clamp(260px,72vw,320px)}
 .materials-intro{padding-top:clamp(48px,13vw,64px)}
 .materials-intro__head{margin-bottom:28px}
@@ -171,9 +178,11 @@ body[data-page=resource] .detail__figure{display:none}
 /* ── 자주 받는 질문 ───────────────────────────────────────────
    기존 .facts 와 같은 헤어라인 구분선 패턴입니다. 새 색·새 글꼴 없이
    이미 쓰고 있는 토큰만 씁니다. 답은 이 페이지 본문에 있는 내용만 옮겼습니다. */
+.section__tel{margin-top:20px;font-size:.95rem;line-height:1.7;color:var(--ink-2)}
+.section__tel a{display:inline-flex;align-items:center;min-height:44px;color:var(--ink);border-bottom:1px solid var(--color-line)}
+.section__tel a:hover,.section__tel a:focus-visible{border-bottom-color:var(--ink)}
+
 .qa{display:grid;border-top:1px solid var(--color-line);max-width:64ch}
 .qa>div{padding:26px 0;border-bottom:1px solid var(--color-line)}
-.qa dt{margin:0 0 10px;font-size:clamp(1.02rem,1.6vw,1.18rem);font-weight:700;color:var(--ink);line-height:1.5}
+.qa dt{margin:0 0 10px;font-family:var(--font-serif);font-size:clamp(1.02rem,1.6vw,1.18rem);font-weight:500;letter-spacing:-.01em;color:var(--ink);line-height:1.5}
 .qa dd{margin:0;font-size:.95rem;line-height:1.9;color:var(--color-gray-dark)}
-.qa dd a{border-bottom:1px solid var(--color-line)}
-.qa dd a:hover{border-bottom-color:var(--ink)}
