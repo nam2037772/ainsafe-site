@@ -306,9 +306,15 @@ function guideBody(r, prefix) {
       '<h1 class="h2">' + esc(r.title) + '</h1>' +
       '<p class="lead">' + esc(r.summary) + '</p>' +
     '</div>' +
+    /* 이 표지 사진은 화면에 나오지 않습니다.
+       homepage-subpages.css 의 body[data-page=resource] .detail__figure{display:none}
+       이 가리고 있어서, 우선순위를 높이면 보이지도 않는 사진을 먼저 내려받게 됩니다.
+       (기술자료 8쪽 합계 약 1.5MB) loading="lazy" 로 두면 브라우저가
+       display:none 안의 사진을 받지 않습니다. 마크업은 그대로 두어
+       CSS 를 되돌리면 사진이 다시 보이도록 합니다. */
     (r.thumbnail
       ? '<figure class="detail__figure"><img src="' + prefix + esc(r.thumbnail) + '" alt="' + esc(r.title) +
-        ' 관련 시공 사진" fetchpriority="high"' + sizeAttrs(r.thumbnail) + ' /></figure>'
+        ' 관련 시공 사진" loading="lazy"' + sizeAttrs(r.thumbnail) + ' /></figure>'
       : '') +
     '<div class="wrap doc__body">' + body +
       (r.file ? '<p class="doc__file"><a class="btn btn--line" href="' + prefix + esc(r.file) + '" download>자료 내려받기 (PDF)</a></p>' : '') +
