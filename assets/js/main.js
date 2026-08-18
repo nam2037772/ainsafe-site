@@ -597,33 +597,69 @@
         return;
       }
 
-      /* 2) 메일 본문 구성 — 한글과 사용자 입력은 encodeURIComponent 로 인코딩 */
+      /* 2) 메일 제목 · 본문 구성 — 한글과 사용자 입력은 encodeURIComponent 로 인코딩 */
       var get = function (n) {
         var el = form.elements[n];
-        return el ? String(el.value).trim() : '';
+        /* textarea 는 줄바꿈을 LF 로 돌려줍니다. 본문은 아래에서 CRLF 로 이어 붙이므로
+           여기서 미리 맞춰 두지 않으면 사용자가 적은 줄만 LF 로 남습니다. */
+        return el ? String(el.value).trim().replace(/\r\n?|\n/g, '\r\n') : '';
       };
-      var subject = '[홈페이지 견적문의] ' + get('type') + ' - ' + get('name');
-      var body = [
-        '안녕하세요.',
-        '아인산업안전 홈페이지를 통해 견적문의를 드립니다.',
-        '',
-        '성함 / 회사명: ' + get('name'),
-        '연락처: ' + get('phone'),
-        '현장 위치: ' + (get('place') || '(미입력)'),
-        '문의 구분: ' + get('type'),
-        '',
-        '현장 상태 / 요청사항:',
-        get('message'),
-        '',
-        '개인정보 수집 및 이용 동의: 동의'
-      ].join('\n');
+      var subject = '[홈페이지 상담문의] ' + get('name') + ' - ' + get('type');
 
-      /* 3) 기본 메일 앱 열기 (정적 사이트이므로 자동 발송은 하지 않습니다) */
-      window.location.href = 'mailto:' + COMPANY.email +
-        '?subject=' + encodeURIComponent(subject) +
-        '&body=' + encodeURIComponent(body);
+      /* 줄바꿈은 CRLF 로 넣습니다. 아웃룩 등 일부 메일 앱은 %0A 만 있으면
+         본문을 한 줄로 이어 붙여 버립니다. */
+      var CRLF = '\r\n';
+      function bodyOf(msg) {
+        return [
+          '안녕하세요.',
+          '아인산업안전 홈페이지를 통해 상담문의를 드립니다.',
+          '',
+          '성함 / 회사명: ' + get('name'),
+          '연락처: ' + get('phone'),
+          '현장 위치: ' + (get('place') || '(미입력)'),
+          '문의 구분: ' + get('type'),
+          '',
+          '현장 상태 / 요청사항:',
+          msg || '(미입력)',
+          '',
+          '개인정보 수집 및 이용 동의: 동의'
+        ].join(CRLF);
+      }
+      function mailUrl(msg) {
+        return 'mailto:' + COMPANY.email +
+          '?subject=' + encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(bodyOf(msg));
+      }
 
-      toast('기본 메일 앱을 열었습니다. 내용을 확인한 뒤 전송해 주세요.');
+      /* 3) 주소 길이 제한 — 윈도우의 mailto 처리기는 주소가 길면 아무 반응 없이
+         무시합니다. 한글은 인코딩되면 한 글자가 9자로 늘어나 금방 넘칩니다.
+         넘칠 때는 요청사항 뒷부분만 줄이고, 줄였다는 사실을 본문에 남깁니다. */
+      var MAX_URL = 1800;
+      var CUT_NOTE = '(내용이 길어 일부만 옮겼습니다. 메일에서 이어 적어주세요.)';
+      var message = get('message');
+      var url = mailUrl(message);
+      if (url.length > MAX_URL) {
+        while (message && mailUrl(message + CRLF + CUT_NOTE).length > MAX_URL) {
+          /* CRLF 쌍 가운데를 자르면 \r 하나가 남으므로 함께 떼어냅니다 */
+          message = message.slice(0, Math.max(0, message.length - 40))
+            .replace(/\r$/, '');
+        }
+        url = mailUrl(message + CRLF + CUT_NOTE);
+      }
+
+      /* 4) 기본 메일 앱 열기 (정적 사이트이므로 자동 발송은 하지 않습니다).
+         location.href 를 바꾸는 대신 링크를 만들어 누릅니다 — 카카오톡 · 네이버
+         앱의 인앱 브라우저는 스크립트가 바꾼 주소는 삼키고, 링크 클릭만
+         메일 앱으로 넘겨주는 경우가 많습니다. */
+      var link = document.createElement('a');
+      link.href = url;
+      link.rel = 'noopener';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast('메일 앱에 내용을 담았습니다. 열리지 않으면 ' + COMPANY.email + ' 로 보내주세요.');
     });
   }
   var toastTimer;
