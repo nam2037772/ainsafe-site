@@ -27,6 +27,17 @@
   function fmtDate(d) { return (d || '').replace(/-/g, '.'); }
   function img(src) { return src || FALLBACK_IMAGE; }
 
+  /* 상세 페이지 주소 — 실제 파일입니다 (?id= 를 쓰지 않습니다).
+     content.js · tools/lib/site-data.js 와 같은 규칙이어야 합니다.
+     이 파일은 content.js 없이 쓰이는 페이지(concrete/waterproof 등)에서도
+     불리므로 여기에 따로 둡니다. */
+  function caseHref(id) {
+    return 'case/' + String(id || '').replace(/^obsidian-/, '') + '.html';
+  }
+  function guideHref(id) {
+    return 'guide/' + String(id || '') + '.html';
+  }
+
   /* 시공기술사례 이미지 역할 정규화 (case-images.js).
      화면 코드는 직접 thumbnail/after/before 를 고르지 않고 항상 이 결과를 씁니다. */
   function caseImages(p) {
@@ -200,7 +211,7 @@
       .map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
     return '' +
       '<article class="card">' +
-        '<a class="card__link" href="project.html?id=' + esc(p.id) + '">' +
+        '<a class="card__link" href="' + caseHref(p.id) + '">' +
           '<span class="card__media">' +
             '<img src="' + esc(img(ci.representativeImage)) + '" alt="' + esc(p.title) + ' 시공 완료 사진"' +
             ' loading="lazy" width="800" height="600" />' +
@@ -231,9 +242,9 @@
             '<p class="project-split__meta">' + meta + '</p>' +
             '<h3 class="project-split__ttl">' + esc(p.title) + '</h3>' +
             '<p class="project-split__sum">' + esc(p.summary) + '</p>' +
-            '<a class="link-arrow" href="project.html?id=' + esc(p.id) + '">시공사례 자세히 보기</a>' +
+            '<a class="link-arrow" href="' + caseHref(p.id) + '">시공사례 자세히 보기</a>' +
           '</div>' +
-          '<a class="project-split__media" href="project.html?id=' + esc(p.id) + '">' +
+          '<a class="project-split__media" href="' + caseHref(p.id) + '">' +
             '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
             flag +
           '</a>' +
@@ -242,7 +253,7 @@
       // Banner layout
       return '' +
         '<article class="project-banner reveal">' +
-          '<a class="project-banner__link" href="project.html?id=' + esc(p.id) + '">' +
+          '<a class="project-banner__link" href="' + caseHref(p.id) + '">' +
             '<div class="project-banner__media">' +
               '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
               flag +
@@ -258,7 +269,7 @@
       // Standard asymmetric grid items
       return '' +
         '<article class="project-item reveal">' +
-          '<a class="project-item__link" href="project.html?id=' + esc(p.id) + '">' +
+          '<a class="project-item__link" href="' + caseHref(p.id) + '">' +
             '<span class="project-item__media">' +
               '<img src="' + rep + '" alt="' + esc(p.title) + ' 시공 완료 사진" loading="lazy" />' +
               flag +
@@ -280,7 +291,7 @@
     
     return '' +
       '<article class="resource-row reveal">' +
-        '<a class="resource-row__link" href="resource.html?id=' + esc(r.id) + '">' +
+        '<a class="resource-row__link" href="' + guideHref(r.id) + '">' +
           '<span class="resource-row__cat">' + esc(r.category) + '</span>' +
           '<span class="resource-row__content">' +
             '<span class="resource-row__ttl">' + esc(r.title) + '</span>' +
@@ -325,10 +336,15 @@
   }
 
   /* ── 6-1. 공통 목록 위젯 ──────────────────────────────── */
-  /* <div data-works="featured|카테고리명|all" data-limit="3"> */
+  /* <div data-works="featured|카테고리명|all" data-limit="3">
+
+     data-built 가 붙어 있으면 tools/build-site.js 가 이미 HTML 로 채운
+     상자입니다. 같은 내용을 다시 그리지 않고 그대로 둡니다
+     (링크가 서버 HTML 에 남아 있어야 검색·AI 가 따라올 수 있습니다). */
   function initWorkLists() {
     if (!hasProjects) return;
     $$('[data-works]').forEach(function (box) {
+      if (box.hasAttribute('data-built')) return;
       var mode = box.getAttribute('data-works');
       var limit = parseInt(box.getAttribute('data-limit'), 10) || 3;
       var list;
@@ -354,6 +370,7 @@
   function initResourceLists() {
     if (!hasResources) return;
     $$('[data-resources]').forEach(function (box) {
+      if (box.hasAttribute('data-built')) return;   // 이미 HTML 로 채워진 상자
       var mode = box.getAttribute('data-resources');
       var limit = parseInt(box.getAttribute('data-limit'), 10) || 4;
       var list = RESOURCES.slice().sort(byDateDesc);
@@ -398,7 +415,7 @@
         afterEl.alt = p.title + ' 시공 후 사진';
         titleEl.textContent = p.title;
         noteEl.textContent = p.problem || p.summary;
-        if (moreEl) moreEl.href = 'project.html?id=' + p.id;
+        if (moreEl) moreEl.href = caseHref(p.id);
         $$('button', nav).forEach(function (b, bi) {
           b.classList.toggle('is-on', bi === i);
           b.setAttribute('aria-selected', bi === i ? 'true' : 'false');
@@ -414,126 +431,12 @@
     }
   }
 
-  /* ── 7. 시공사례 상세 ─────────────────────────────────── */
-  function initProjectDetail() {
-    var root = $('#projectDetail');
-    if (!root || !hasProjects) return;
-    var requestedId = qs('id');
-    var id = (typeof PROJECT_ALIASES !== 'undefined' && PROJECT_ALIASES[requestedId]) || requestedId;
-    var idx = -1;
-    var sorted = PROJECTS.slice().sort(byDateDesc);
-    sorted.forEach(function (p, i) { if (p.id === id) idx = i; });
-
-    if (idx < 0) {
-      var isRetired = typeof RETIRED_PROJECT_IDS !== 'undefined' && RETIRED_PROJECT_IDS.indexOf(requestedId) !== -1;
-      root.innerHTML = '<div class="wrap notfound">' +
-        (isRetired
-          ? '<h1 class="h2">이 콘텐츠는 게시가 종료되었습니다.</h1>' +
-            '<p>검증되지 않은 이전 콘텐츠는 더 이상 제공하지 않습니다. 검증된 시공사례를 확인해 주세요.</p>' +
-            '<p><a class="btn btn--dark" href="projects.html">시공사례 목록으로</a></p>'
-          : '<h1 class="h2">요청하신 시공사례를 찾을 수 없습니다.</h1>' +
-            '<p>주소가 변경되었거나 삭제된 항목일 수 있습니다.</p>' +
-            '<p><a class="btn btn--dark" href="projects.html">시공사례 목록으로</a></p>') +
-        '</div>';
-      return;
-    }
-    var p = sorted[idx];
-    var ci = caseImages(p);
-    updateMeta(p.title, p.category + ' — ' + p.summary, img(ci.representativeImage));
-
-    var rows = [
-      ['시공 분야', p.category], ['건축물', p.building], ['현장 위치', p.location],
-      ['시공 시기', fmtDate(p.date)], ['작업 기간', p.period]
-    ].filter(function (r) { return r[1]; });
-
-    var blocks = [
-      ['주요 하자 · 문제점', p.problem], ['적용 공법', p.method], ['시공 결과', p.result]
-    ].filter(function (r) { return r[1]; });
-
-    /* 2. 기본 정보 — 제목 바로 아래 한 줄 요약 (자세한 항목은 우측 spec 표에) */
-    var headMeta = [p.category, p.building, p.location, fmtDate(p.date), p.period]
-      .filter(Boolean).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('');
-
-    /* 4·5·6. 시공 전 / 시공 중 / 시공 후 — 옵시디언 노트의 분류와 순서를 그대로 따릅니다.
-       사진이 없는 구간('사진없음')은 통째로 만들지 않습니다. */
-    function phaseSection(kind, ko, en, list) {
-      if (!list.length) return '';
-      return '<div class="ba-set__col ba-set__col--' + kind + '">' +
-        '<h3 class="ba-set__ttl"><span class="ba-set__tag">' + en + '</span>' + esc(ko) + '</h3>' +
-        '<div class="ba-set__shots">' + list.map(function (src, i) {
-          return '<figure class="ba-set__shot">' +
-            '<img src="' + esc(src) + '" alt="' + esc(p.title) + ' ' + esc(ko) +
-            (list.length > 1 ? ' ' + (i + 1) : '') + ' 사진" loading="lazy" />' +
-          '</figure>';
-        }).join('') + '</div>' +
-      '</div>';
-    }
-
-    var phasesHtml = '';
-    if (ci.showComparison) {
-      var phases = phaseSection('before', '시공 전', 'BEFORE', ci.beforeImages) +
-                   phaseSection('process', '시공 중', 'PROCESS', ci.processImages) +
-                   phaseSection('after', '시공 후', 'AFTER', ci.afterImages);
-      phasesHtml =
-        '<section class="wrap ba-set-wrap" aria-label="시공 단계별 사진">' +
-          '<div class="ba-set ba-set--phases">' + phases + '</div>' +
-        '</section>';
-    }
-
-    /* 대표사진 — 노트에 여러 장이 적혀 있으면 적힌 순서대로 이어 붙입니다. */
-    var repList = ci.representativeImages.length ? ci.representativeImages : [img(ci.representativeImage)];
-    var repHtml = repList.map(function (src, i) {
-      return '<figure class="detail__figure"><img src="' + esc(img(src)) +
-        '" alt="' + esc(p.title) + ' 대표 사진' + (repList.length > 1 ? ' ' + (i + 1) : '') +
-        '" loading="lazy" /></figure>';
-    }).join('');
-
-    root.innerHTML =
-      /* 1. 제목 + 2. 기본 정보 */
-      '<div class="wrap detail__head">' +
-        '<p class="eyebrow">ARCHIVE</p>' +
-        '<h1 class="h2">' + esc(p.title) + '</h1>' +
-        (headMeta ? '<p class="detail__meta">' + headMeta + '</p>' : '') +
-        '<p class="lead">' + esc(p.summary) + '</p>' +
-      '</div>' +
-      /* 3. 대표 이미지 */
-      repHtml +
-      /* 4. 작업내용 — 기술 본문 */
-      '<div class="wrap detail__grid">' +
-        '<div class="detail__body">' +
-          blocks.map(function (b) {
-            return '<section class="detail__block"><h2 class="h3">' + esc(b[0]) + '</h2><p>' + esc(b[1]) + '</p></section>';
-          }).join('') +
-          (ci.galleryImages.length ? '<div class="detail__gallery">' + ci.galleryImages.map(function (src) {
-            return '<img src="' + esc(src) + '" alt="' + esc(p.title) + ' 추가 사진" loading="lazy" />';
-          }).join('') + '</div>' : '') +
-        '</div>' +
-        '<aside class="detail__side">' +
-          '<dl class="spec">' + rows.map(function (r) {
-            return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
-          }).join('') + '</dl>' +
-          '<a class="btn btn--dark btn--block" href="contact.html">같은 유형으로 상담하기</a>' +
-        '</aside>' +
-      '</div>' +
-      /* 5·6·7. 시공 전 → 시공 중 → 시공 후 */
-      phasesHtml;
-
-    // 관련 시공사례
-    var rel = $('#relatedWorks');
-    if (rel) {
-      var related = sorted.filter(function (o) { return o.id !== p.id && o.category === p.category; }).slice(0, 3);
-      if (!related.length) related = sorted.filter(function (o) { return o.id !== p.id; }).slice(0, 3);
-      rel.innerHTML = related.map(projectCard).join('');
-    }
-    // 이전 / 다음
-    var pager = $('#projectPager');
-    if (pager) {
-      var prev = sorted[idx - 1], next = sorted[idx + 1];
-      pager.innerHTML =
-        (prev ? '<a href="project.html?id=' + esc(prev.id) + '">← ' + esc(prev.title) + '</a>' : '<span></span>') +
-        (next ? '<a href="project.html?id=' + esc(next.id) + '">' + esc(next.title) + ' →</a>' : '<span></span>');
-    }
-  }
+  /* ── 7. 시공사례 · 기술자료 상세 ──────────────────────
+     상세 페이지는 tools/build-site.js 가 case/ · guide/ 아래에 실제 파일로
+     만듭니다. 예전에 여기 있던 화면 렌더러(initProjectDetail /
+     initResourceDetail / updateMeta)는 그래서 지웠습니다.
+     옛 주소(project.html?id=, resource.html?id=)는 noindex shim 이
+     assets/js/legacy-routes.js 를 보고 새 주소로 넘겨 줍니다. */
 
   /* ── 8. 콘텐츠 목록 (시공사례 / 기술자료) ────────────────
      한 벌의 코드로 두 아카이브를 그립니다. 어느 쪽인지는 마크업이 정합니다.
@@ -649,44 +552,6 @@
     render();
   }
 
-  /* ── 9. 기술자료 상세 ────────────────────────────────── */
-  function initResourceDetail() {
-    var root = $('#resourceDetail');
-    if (!root || !hasResources) return;
-    var id = qs('id');
-    var r = null;
-    RESOURCES.forEach(function (o) { if (o.id === id) r = o; });
-
-    if (!r) {
-      root.innerHTML = '<div class="wrap notfound">' +
-        '<h1 class="h2">요청하신 기술자료를 찾을 수 없습니다.</h1>' +
-        '<p><a class="btn btn--dark" href="resources.html">기술자료 목록으로</a></p></div>';
-      return;
-    }
-    updateMeta(r.title, r.summary, r.thumbnail || FALLBACK_IMAGE);
-
-    root.innerHTML =
-      '<div class="wrap detail__head">' +
-        '<p class="eyebrow">ARCHIVE</p>' +
-        '<p class="doc__meta"><span>' + esc(r.category) + '</span><span>' + fmtDate(r.date) + '</span></p>' +
-        '<h1 class="h2">' + esc(r.title) + '</h1>' +
-        '<p class="lead">' + esc(r.summary) + '</p>' +
-      '</div>' +
-      (r.thumbnail ? '<figure class="detail__figure"><img src="' + esc(r.thumbnail) + '" alt="' + esc(r.title) + ' 관련 시공 사진" loading="lazy" /></figure>' : '') +
-      '<div class="wrap doc__body">' + r.content +
-        (r.file ? '<p class="doc__file"><a class="btn btn--line" href="' + esc(r.file) + '" download>자료 내려받기 (PDF)</a></p>' : '') +
-        ((r.tags || []).length ? '<ul class="doc__tags">' + r.tags.map(function (t) {
-          return '<li>#' + esc(t) + '</li>'; }).join('') + '</ul>' : '') +
-      '</div>';
-
-    var rel = $('#relatedResources');
-    if (rel) {
-      var related = RESOURCES.filter(function (o) { return o.id !== r.id && o.category === r.category; }).slice(0, 3);
-      if (!related.length) related = RESOURCES.filter(function (o) { return o.id !== r.id; }).slice(0, 3);
-      rel.innerHTML = related.length ? related.map(resourceRow).join('') : emptyState('관련 자료가 없습니다.');
-    }
-  }
-
   /* ── 10. 상담 폼 (메일 앱 연결 — 가짜 전송 없음) ──────── */
   function initQuoteForm() {
     var form = $('#quoteForm');
@@ -754,24 +619,6 @@
       toast('기본 메일 앱을 열었습니다. 내용을 확인한 뒤 전송해 주세요.');
     });
   }
-
-  /* 상세페이지 메타 갱신 (검색엔진이 항목별로 인식하도록) */
-  function updateMeta(title, desc, image) {
-    document.title = title + ' | ' + COMPANY.name;
-    var set = function (sel, attr, val) {
-      var el = $(sel);
-      if (el && val) el.setAttribute(attr, val);
-    };
-    set('meta[name="description"]', 'content', desc);
-    set('meta[property="og:title"]', 'content', title + ' | ' + COMPANY.name);
-    set('meta[property="og:description"]', 'content', desc);
-    var absoluteImage = image ? new URL(image, window.location.href).href : '';
-    set('meta[property="og:image"]', 'content', absoluteImage);
-    var url = window.location.href;
-    set('link[rel="canonical"]', 'href', url);
-    set('meta[property="og:url"]', 'content', url);
-  }
-
   var toastTimer;
   function toast(msg) {
     var el = $('#toast');
@@ -794,8 +641,6 @@
     var page = document.body.getAttribute('data-page');
     if (page === 'home') initHome();
     if (page === 'cases' || page === 'resources') initContentPage();
-    if (page === 'project') initProjectDetail();
-    if (page === 'resource') initResourceDetail();
     initQuoteForm();
     initCompares();
   });

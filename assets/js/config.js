@@ -9,8 +9,14 @@
 const COMPANY = {
   name: '주식회사 아인산업안전',          // 법인 등기상 정식 회사명 (회사정보 표기용)
   shortName: '아인산업안전',
-  nameEn: 'JEJU CONCRETE RESTORATION',
+  /* 영문 표기는 헤더·푸터·구조화데이터가 모두 이 값 하나를 씁니다.
+     (예전에는 config.js 와 site-content.js 에 서로 다른 값이 있었습니다) */
+  nameEn: 'Concrete Repair & Waterproofing',
   slogan: '노출콘크리트 면보수 · 특수방수 전문',
+
+  /* 구조화데이터(ProfessionalService)의 회사 설명 — 여기 한 곳에서만 관리합니다. */
+  description: '노출콘크리트 표면 결함 복원(곰보·기포 보수, 층조인트 단차 보정, 색상 및 질감 재현, 균열 보수)과 특수방수(누수 인젝션, 배면 그라우팅, 액상고무 도막방수, 발수 및 표면 보호) 전문 시공회사',
+
   tel: '1660-4019',
   telHref: 'tel:16604019',
   email: 'ainsafe@naver.com',
@@ -18,8 +24,43 @@ const COMPANY = {
   addressRegion: '제주특별자치도',
   addressLocality: '서귀포시',
   streetAddress: '성산읍 풍천로 142, 103호',
+
+  /* 화면에 보이는 상담시간 문구. 홈·회사소개·상담문의가 모두 이 값을 씁니다. */
   hours: '평일 08:00 – 18:00 (현장 상담 예약제)',
-  businessNumber: '', // TODO: 사업자등록번호 확정 시 입력 (빈 값이면 화면에 표시하지 않음)
+
+  /* 구조화데이터용 영업시간. opens/closes 가 채워져 있을 때만 JSON-LD 에 들어갑니다.
+     TODO: 위 hours 문구와 실제 영업시간을 확정한 뒤 채워 주세요.
+           (확정 전에는 비워 두어 잘못된 시간이 검색엔진에 올라가지 않게 합니다) */
+  openingHours: {
+    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '',   // 예: '08:00'
+    closes: ''   // 예: '18:00'
+  },
+
+  /* 아래 항목은 확인된 값이 없으면 비워 둡니다.
+     빈 값이면 화면에도, 구조화데이터에도 나타나지 않습니다. */
+  businessNumber: '', // TODO: 사업자등록번호
+  representative: '', // TODO: 대표자명
+  foundingDate: '',   // TODO: 설립일 (YYYY 또는 YYYY-MM-DD)
+  geo: { latitude: '', longitude: '' }, // TODO: 사업장 위경도
+
+  /* 전문 분야 — 구조화데이터 knowsAbout */
+  knowsAbout: [
+    '노출콘크리트 면보수',
+    '노출콘크리트 표면 결함 복원',
+    '곰보 및 기포 보수',
+    '층조인트 단차 보정',
+    '색상 및 질감 재현',
+    '콘크리트 균열 보수',
+    '누수 인젝션',
+    '배면 그라우팅',
+    '액상고무 도막방수',
+    '발수 및 표면 보호'
+  ],
+
+  /* ▶ 도메인을 옮길 때 고치는 곳은 여기 한 줄입니다.
+       바꾼 뒤 반드시 node tools/build-site.js --write 를 실행하세요.
+       (canonical · og:url · sitemap · 구조화데이터가 모두 이 값에서 만들어집니다) */
   siteUrl: 'https://nam2037772.github.io/ainsafe-site/'
 };
 

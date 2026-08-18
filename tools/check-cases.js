@@ -118,8 +118,11 @@ const mismatched = caseItems.filter((i) => {
 });
 assert(mismatched.length === 0, '아카이브 썸네일 = 정규화 대표 이미지');
 
-const badUrl = CONTENT.filter((i) => !/^(project|resource)\.html\?id=.+/.test(i.url));
-assert(badUrl.length === 0, '모든 항목의 상세 링크 형식 정상');
+/* 상세 주소는 실제 파일입니다 (?id= 를 쓰지 않습니다).
+   파일 자체가 있는지는 tools/check-site.js 가 확인합니다. */
+const badUrl = CONTENT.filter((i) => !/^(case|guide)\/[A-Za-z0-9._-]+\.html$/.test(i.url));
+assert(badUrl.length === 0,
+  `모든 항목의 상세 링크 형식 정상 (case/…html · guide/…html)${badUrl.length ? ' — ' + badUrl.slice(0, 3).map((i) => i.url).join(', ') : ''}`);
 
 /* ── 6. 필터 / 검색 ───────────────────────────────────────── */
 console.log('\n[5] 분류 · 검색');

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  GitHub Pages 배포 주소: https://nam2037772.github.io/ainsafe-site/
-  (GitHub Pages 하위 경로 배포 시 예: https://사용자명.github.io/저장소명/)
-  새 페이지·기술자료를 추가하면 이 파일에도 <url> 항목을 추가합니다.
+  이 파일은 tools/build-site.js 가 만듭니다. 직접 고치지 마세요.
+  주소는 assets/js/config.js 의 COMPANY.siteUrl 하나에서 나옵니다.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://nam2037772.github.io/ainsafe-site/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
@@ -13,55 +12,54 @@
   <url><loc>https://nam2037772.github.io/ainsafe-site/materials.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/about.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
   <url><loc>https://nam2037772.github.io/ainsafe-site/contact.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
 
-  <!-- 기술자료 상세 (노출콘크리트 면보수 · 특수방수 공정별 기준) -->
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=concrete-repair-001</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=joint-level-002</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=color-texture-003</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=crack-repair-004</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=injection-005</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=liquid-rubber-006</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=water-repellent-007</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/resource.html?id=repair-material-008</loc><priority>0.6</priority></url>
+  <!-- 기술자료 상세 -->
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/concrete-repair-001.html</loc><lastmod>2026-07-10</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/joint-level-002.html</loc><lastmod>2026-06-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/color-texture-003.html</loc><lastmod>2026-05-27</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/crack-repair-004.html</loc><lastmod>2026-04-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/injection-005.html</loc><lastmod>2026-03-22</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/liquid-rubber-006.html</loc><lastmod>2026-02-14</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/water-repellent-007.html</loc><lastmod>2026-01-20</lastmod><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/guide/repair-material-008.html</loc><lastmod>2025-12-05</lastmod><priority>0.6</priority></url>
 
-  <!-- 대표 시공사례 상세 -->
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-045-songpa-restaurant-industrial-conchae-vintage-wall</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-044-jeju-stain-efflorescence-exposed-concrete-repair</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-043-warm-gray-tone-conchae-jeju-house-finish</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-042-floor-joint-exposed-concrete-repair-color-matching</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-041-exposed-concrete-logo-wall-repair-color-correction</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-040-window-surround-exposed-concrete-color-matching-repair</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-039-jeju-new-building-retaining-wall-exposed-concrete-repair</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-038-column-section-repair-conchae-pattern-two-columns</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-037-retaining-wall-conchae-spray-stain-removal</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-036-panel-house-exterior-insulation-conchae-vintage-finish</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-034-gray-tone-concrete-texture-drywall-cafe-gallery</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-033-storefront-drywall-concrete-aging-gray-pattern-technique</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-032-vintage-concrete-storefront-gray-ivory-pattern-layering</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-031-kolon-sport-myeongdong-flagship-concrete-wall-art</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-030-ivory-warmtone-concrete-drywall-pattern</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-029-vintage-concrete-drywall-gypsum-board-saturation-technique</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-028-concrete-wall-art-two-stage-rough-texture-vintage</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-026-exposed-concrete-interior-restoration-before-after</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-024-exposed-concrete-stain-coating-look-binder-buildup-warning</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-022-exposed-concrete-jeju-lightgray-common-area-showcase</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-020-exposed-concrete-conche-mix-recipe-saturation-guide</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-014-exposed-concrete-slab-stain-repair-right-lower-section</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-013-exposed-concrete-stain-repair-before-after</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-012-exposed-concrete-sanding-grit-process-coating</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-011-euroform-joint-line-restoration-process</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-010-exposed-concrete-restoration-marketing-overview</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-009-conche-wash-spray-technique-guide</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-008-concrete-repair-dilution-ratio-comparison</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-007-conche-pigment-paint-introduction</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-006-jeju-park-exterior-wall-restoration</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-005-conche-ivory-wall-coating-customer-case</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-004-jeju-aewol-conche-delivery-case</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-002-office-corridor-concrete-finish-over-paint</loc><priority>0.6</priority></url>
-  <url><loc>https://nam2037772.github.io/ainsafe-site/project.html?id=obsidian-case-001-concrete-vintage-finish-interior-showcase</loc><priority>0.6</priority></url>
+  <!-- 시공사례 상세 -->
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-045-songpa-restaurant-industrial-conchae-vintage-wall.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-044-jeju-stain-efflorescence-exposed-concrete-repair.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-043-warm-gray-tone-conchae-jeju-house-finish.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-042-floor-joint-exposed-concrete-repair-color-matching.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-041-exposed-concrete-logo-wall-repair-color-correction.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-040-window-surround-exposed-concrete-color-matching-repair.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-038-column-section-repair-conchae-pattern-two-columns.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-037-retaining-wall-conchae-spray-stain-removal.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-036-panel-house-exterior-insulation-conchae-vintage-finish.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-034-gray-tone-concrete-texture-drywall-cafe-gallery.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-033-storefront-drywall-concrete-aging-gray-pattern-technique.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-030-ivory-warmtone-concrete-drywall-pattern.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-028-concrete-wall-art-two-stage-rough-texture-vintage.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-026-exposed-concrete-interior-restoration-before-after.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-022-exposed-concrete-jeju-lightgray-common-area-showcase.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-020-exposed-concrete-conche-mix-recipe-saturation-guide.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-014-exposed-concrete-slab-stain-repair-right-lower-section.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-013-exposed-concrete-stain-repair-before-after.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-012-exposed-concrete-sanding-grit-process-coating.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-011-euroform-joint-line-restoration-process.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-010-exposed-concrete-restoration-marketing-overview.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-009-conche-wash-spray-technique-guide.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-008-concrete-repair-dilution-ratio-comparison.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-007-conche-pigment-paint-introduction.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-006-jeju-park-exterior-wall-restoration.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-005-conche-ivory-wall-coating-customer-case.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-004-jeju-aewol-conche-delivery-case.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-002-office-corridor-concrete-finish-over-paint.html</loc><priority>0.6</priority></url>
+  <url><loc>https://nam2037772.github.io/ainsafe-site/case/case-001-concrete-vintage-finish-interior-showcase.html</loc><priority>0.6</priority></url>
 </urlset>

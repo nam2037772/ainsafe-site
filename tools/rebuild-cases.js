@@ -183,25 +183,11 @@ function syncDraft(plan) {
   return true;
 }
 
-/* ── sitemap.xml 의 시공사례 구간만 다시 씁니다 ────────────
-   다른 페이지·기술자료 항목은 손대지 않습니다. */
-const SITEMAP_FILE = path.join(REPO_ROOT, 'sitemap.xml');
-const SITE_URL = 'https://nam2037772.github.io/ainsafe-site/';
-const CASE_BLOCK = /(<!--\s*대표 시공사례 상세\s*-->\n)([\s\S]*?)(?=\n\s*<\/urlset>)/;
-
-function writeSitemap(projects) {
-  if (!fs.existsSync(SITEMAP_FILE)) return false;
-  const text = fs.readFileSync(SITEMAP_FILE, 'utf8');
-  if (!CASE_BLOCK.test(text)) return false;
-  const eol = text.indexOf('\r\n') > -1 ? '\r\n' : '\n';
-  const rows = projects.map((p) =>
-    `  <url><loc>${SITE_URL}project.html?id=${p.id}</loc><priority>0.6</priority></url>`
-  ).join(eol);
-  const next = text.replace(CASE_BLOCK, (all, head) => head + rows);
-  if (next === text) return false;
-  fs.writeFileSync(SITEMAP_FILE, next, 'utf8');
-  return true;
-}
+/* ── sitemap 은 여기서 쓰지 않습니다 ───────────────────────
+   예전에는 이 파일이 sitemap.xml 에 project.html?id=… 주소를 적었습니다.
+   지금은 상세 페이지가 실제 파일(case/…html)이라 주소를 만드는 곳이
+   tools/build-site.js 한 곳으로 모였습니다.
+   이 도구는 projects.js 까지만 책임지고, 이어서 build-site 를 돌립니다. */
 
 /* ── 실행 ──────────────────────────────────────────────────── */
 function main() {
@@ -273,13 +259,14 @@ function main() {
 
   writeProjects({ source: bundle.source, PROJECTS: projects, PROJECT_ALIASES: aliases, RETIRED_PROJECT_IDS: retired });
   console.log('\n' + path.relative(REPO_ROOT, PROJECTS_FILE).replace(/\\/g, '/') + ' 를 다시 썼습니다.');
-  if (writeSitemap(projects)) console.log('sitemap.xml 의 시공사례 주소 ' + projects.length + '건을 갱신했습니다.');
 
   if (SYNC_DRAFTS) {
     const n = plans.filter(syncDraft).length;
     console.log(`발행대기 노트 ${n}건의 이미지 항목을 Raw 기준으로 맞췄습니다.`);
   }
-  console.log('이어서 node tools/check-cases.js 로 검증하세요.');
+  console.log('\n이어서 아래 두 개를 차례로 실행하세요.');
+  console.log('  node tools/build-site.js --write   # 상세 페이지 · 목록 · sitemap 다시 만들기');
+  console.log('  node tools/check-site.js           # 검증');
 }
 
 main();

@@ -9,10 +9,11 @@
      통합 목록(resources.html)에서 함께 보여주는 역할만 합니다.
 
    ▶ 왜 이렇게 했나요?
-     · 기존 파일을 그대로 두므로 기존 주소(project.html?id=, resource.html?id=)가
-       전부 그대로 동작합니다.
      · 사장님이 쓰던 편집 방법(projects.js / resources.js 에 항목 추가)이
        바뀌지 않습니다.
+     · 상세 페이지는 tools/build-site.js 가 case/ · guide/ 아래에 실제 파일로
+       만듭니다. 예전 주소(project.html?id=, resource.html?id=)는 호환용
+       shim 이 새 주소로 넘겨 주므로 밖에 나가 있는 링크도 그대로 동작합니다.
      · 나중에 옵시디언(.md) 원고를 넣을 때는, 아래 "통합 항목 형태" 그대로
        만들어 CONTENT 에 합치기만 하면 됩니다.
 
@@ -83,6 +84,23 @@ function unifyCategory(raw) {
   return v || '';
 }
 
+/* ── 상세 페이지 주소 ─────────────────────────────────────────
+   상세 페이지는 실제 파일입니다. 주소 파라미터(?id=) 를 쓰지 않습니다.
+
+     시공사례  obsidian-case-045-songpa-…  →  case/case-045-songpa-….html
+     기술자료  crack-repair-004            →  guide/crack-repair-004.html
+
+   'obsidian-' 접두만 떼어 이미지 폴더명과 같은 이름을 씁니다.
+     assets/images/case-studies/case-045-songpa-…/
+   ※ tools/lib/site-data.js 의 caseSlug/casePath/guidePath 와 같은 규칙입니다.
+      한쪽을 고치면 다른 쪽도 함께 고쳐 주세요. */
+function caseUrl(id) {
+  return 'case/' + String(id || '').replace(/^obsidian-/, '') + '.html';
+}
+function guideUrl(id) {
+  return 'guide/' + String(id || '') + '.html';
+}
+
 /* 'YYYY-MM' 을 'YYYY-MM-01' 로 보정해 두 데이터의 정렬 기준을 맞춥니다. */
 function contentSortKey(date) {
   var d = String(date || '');
@@ -123,7 +141,7 @@ function projectToContent(p) {
     },
     body: '',
     tags: [p.category, p.building, p.location].filter(Boolean),
-    url: 'project.html?id=' + encodeURIComponent(p.id),
+    url: caseUrl(p.id),
     meta: {
       location: p.location || '',
       building: p.building || '',
@@ -159,7 +177,7 @@ function resourceToContent(r) {
     },
     body: r.content || '',
     tags: (r.tags || []).concat([r.category]).filter(Boolean),
-    url: 'resource.html?id=' + encodeURIComponent(r.id),
+    url: guideUrl(r.id),
     meta: {
       location: '', building: '', period: '',
       problem: '', method: '', result: '',

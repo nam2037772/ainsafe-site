@@ -151,3 +151,13 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .tech__item{display:block;max-width:760px}
 body[data-page=resource] .detail__figure{display:none}
 /* hpds-part-11 */
+
+/* ── 자주 받는 질문 ───────────────────────────────────────────
+   기존 .facts 와 같은 헤어라인 구분선 패턴입니다. 새 색·새 글꼴 없이
+   이미 쓰고 있는 토큰만 씁니다. 답은 이 페이지 본문에 있는 내용만 옮겼습니다. */
+.qa{display:grid;border-top:1px solid var(--color-line);max-width:64ch}
+.qa>div{padding:26px 0;border-bottom:1px solid var(--color-line)}
+.qa dt{margin:0 0 10px;font-size:clamp(1.02rem,1.6vw,1.18rem);font-weight:700;color:var(--ink);line-height:1.5}
+.qa dd{margin:0;font-size:.95rem;line-height:1.9;color:var(--color-gray-dark)}
+.qa dd a{border-bottom:1px solid var(--color-line)}
+.qa dd a:hover{border-bottom-color:var(--ink)}

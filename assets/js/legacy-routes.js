@@ -1,0 +1,117 @@
+/* ============================================================
+   legacy-routes.js — 옛 주소 → 새 주소 (자동 생성 · 직접 고치지 마세요)
+   ------------------------------------------------------------
+   생성: node tools/build-site.js --write
+
+   예전 주소를 그대로 살려 두기 위한 표입니다.
+     project.html?id=<id>   →  case/<slug>.html
+     resource.html?id=<id>  →  guide/<id>.html
+
+   목록에 없는 id 는 은퇴했거나 존재한 적이 없는 주소이므로
+   해당 목록 페이지로 보냅니다. shim 자체는 noindex 입니다.
+   ============================================================ */
+var LEGACY_CASE_ROUTES = {
+  "obsidian-case-045-songpa-restaurant-industrial-conchae-vintage-wall": "case/case-045-songpa-restaurant-industrial-conchae-vintage-wall.html",
+  "obsidian-case-044-jeju-stain-efflorescence-exposed-concrete-repair": "case/case-044-jeju-stain-efflorescence-exposed-concrete-repair.html",
+  "obsidian-case-043-warm-gray-tone-conchae-jeju-house-finish": "case/case-043-warm-gray-tone-conchae-jeju-house-finish.html",
+  "obsidian-case-042-floor-joint-exposed-concrete-repair-color-matching": "case/case-042-floor-joint-exposed-concrete-repair-color-matching.html",
+  "obsidian-case-041-exposed-concrete-logo-wall-repair-color-correction": "case/case-041-exposed-concrete-logo-wall-repair-color-correction.html",
+  "obsidian-case-040-window-surround-exposed-concrete-color-matching-repair": "case/case-040-window-surround-exposed-concrete-color-matching-repair.html",
+  "obsidian-case-039-jeju-new-building-retaining-wall-exposed-concrete-repair": "case/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair.html",
+  "obsidian-case-038-column-section-repair-conchae-pattern-two-columns": "case/case-038-column-section-repair-conchae-pattern-two-columns.html",
+  "obsidian-case-037-retaining-wall-conchae-spray-stain-removal": "case/case-037-retaining-wall-conchae-spray-stain-removal.html",
+  "obsidian-case-036-panel-house-exterior-insulation-conchae-vintage-finish": "case/case-036-panel-house-exterior-insulation-conchae-vintage-finish.html",
+  "obsidian-case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard": "case/case-035-gangnam-clothing-store-conchae-gray-pattern-plasterboard.html",
+  "obsidian-case-034-gray-tone-concrete-texture-drywall-cafe-gallery": "case/case-034-gray-tone-concrete-texture-drywall-cafe-gallery.html",
+  "obsidian-case-033-storefront-drywall-concrete-aging-gray-pattern-technique": "case/case-033-storefront-drywall-concrete-aging-gray-pattern-technique.html",
+  "obsidian-case-032-vintage-concrete-storefront-gray-ivory-pattern-layering": "case/case-032-vintage-concrete-storefront-gray-ivory-pattern-layering.html",
+  "obsidian-case-031-kolon-sport-myeongdong-flagship-concrete-wall-art": "case/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art.html",
+  "obsidian-case-030-ivory-warmtone-concrete-drywall-pattern": "case/case-030-ivory-warmtone-concrete-drywall-pattern.html",
+  "obsidian-case-029-vintage-concrete-drywall-gypsum-board-saturation-technique": "case/case-029-vintage-concrete-drywall-gypsum-board-saturation-technique.html",
+  "obsidian-case-028-concrete-wall-art-two-stage-rough-texture-vintage": "case/case-028-concrete-wall-art-two-stage-rough-texture-vintage.html",
+  "obsidian-case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray": "case/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray.html",
+  "obsidian-case-026-exposed-concrete-interior-restoration-before-after": "case/case-026-exposed-concrete-interior-restoration-before-after.html",
+  "obsidian-case-024-exposed-concrete-stain-coating-look-binder-buildup-warning": "case/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning.html",
+  "obsidian-case-022-exposed-concrete-jeju-lightgray-common-area-showcase": "case/case-022-exposed-concrete-jeju-lightgray-common-area-showcase.html",
+  "obsidian-case-020-exposed-concrete-conche-mix-recipe-saturation-guide": "case/case-020-exposed-concrete-conche-mix-recipe-saturation-guide.html",
+  "obsidian-case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating": "case/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating.html",
+  "obsidian-case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend": "case/case-015-exposed-concrete-entrance-lobby-ivory-lightgray-blend.html",
+  "obsidian-case-014-exposed-concrete-slab-stain-repair-right-lower-section": "case/case-014-exposed-concrete-slab-stain-repair-right-lower-section.html",
+  "obsidian-case-013-exposed-concrete-stain-repair-before-after": "case/case-013-exposed-concrete-stain-repair-before-after.html",
+  "obsidian-case-012-exposed-concrete-sanding-grit-process-coating": "case/case-012-exposed-concrete-sanding-grit-process-coating.html",
+  "obsidian-case-011-euroform-joint-line-restoration-process": "case/case-011-euroform-joint-line-restoration-process.html",
+  "obsidian-case-010-exposed-concrete-restoration-marketing-overview": "case/case-010-exposed-concrete-restoration-marketing-overview.html",
+  "obsidian-case-009-conche-wash-spray-technique-guide": "case/case-009-conche-wash-spray-technique-guide.html",
+  "obsidian-case-008-concrete-repair-dilution-ratio-comparison": "case/case-008-concrete-repair-dilution-ratio-comparison.html",
+  "obsidian-case-007-conche-pigment-paint-introduction": "case/case-007-conche-pigment-paint-introduction.html",
+  "obsidian-case-006-jeju-park-exterior-wall-restoration": "case/case-006-jeju-park-exterior-wall-restoration.html",
+  "obsidian-case-005-conche-ivory-wall-coating-customer-case": "case/case-005-conche-ivory-wall-coating-customer-case.html",
+  "obsidian-case-004-jeju-aewol-conche-delivery-case": "case/case-004-jeju-aewol-conche-delivery-case.html",
+  "obsidian-case-002-office-corridor-concrete-finish-over-paint": "case/case-002-office-corridor-concrete-finish-over-paint.html",
+  "obsidian-case-001-concrete-vintage-finish-interior-showcase": "case/case-001-concrete-vintage-finish-interior-showcase.html",
+  "obsidian-case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray": "case/case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray.html",
+  "obsidian-case-027-exposed-concrete-interior-restoration-before-after": "case/case-026-exposed-concrete-interior-restoration-before-after.html"
+};
+
+var LEGACY_GUIDE_ROUTES = {
+  "concrete-repair-001": "guide/concrete-repair-001.html",
+  "joint-level-002": "guide/joint-level-002.html",
+  "color-texture-003": "guide/color-texture-003.html",
+  "crack-repair-004": "guide/crack-repair-004.html",
+  "injection-005": "guide/injection-005.html",
+  "liquid-rubber-006": "guide/liquid-rubber-006.html",
+  "water-repellent-007": "guide/water-repellent-007.html",
+  "repair-material-008": "guide/repair-material-008.html"
+};
+
+var RETIRED_CASE_IDS = [
+  "concrete-case-013-stain-repair",
+  "concrete-case-003-euroform-airless-spray",
+  "concrete-case-025-sample-mockup",
+  "jeju-starlight-park-001",
+  "jeju-parking-injection-001",
+  "jeju-wall-crack-001",
+  "seogwipo-nh-001",
+  "seongsan-sincheon-ivory-001",
+  "jeju-kcg-office-001",
+  "jisan-lightgray-001",
+  "jeju-surface-001",
+  "jeju-surface-002",
+  "jeju-surface-003",
+  "jeju-crack-004",
+  "jeju-injection-005",
+  "jeju-surface-006",
+  "jeju-crack-007",
+  "jeju-surface-008",
+  "jeju-surface-009",
+  "jeju-surface-010",
+  "jeju-surface-011",
+  "jeju-surface-012",
+  "jeju-surface-013",
+  "jeju-surface-014",
+  "jeju-surface-015",
+  "jeju-crack-016",
+  "jeju-crack-017",
+  "jeju-crack-018",
+  "jeju-crack-019",
+  "jeju-crack-020",
+  "jeju-crack-021",
+  "jeju-crack-022",
+  "jeju-crack-023",
+  "jeju-injection-024",
+  "jeju-injection-025",
+  "jeju-injection-026",
+  "jeju-injection-027",
+  "jeju-injection-028",
+  "jeju-injection-029",
+  "jeju-injection-030",
+  "jeju-injection-031",
+  "jeju-injection-032",
+  "obsidian-case-025-exposed-concrete-repair-sample-mockup-color-matching",
+  "obsidian-case-023-exposed-concrete-jeju-honeycomb-repair-scraping-pattern-coating",
+  "obsidian-case-021-exposed-concrete-large-hole-crack-mapei-cd1-repair-jointline",
+  "obsidian-case-019-exposed-concrete-plaster-patch-repair-conche-repair",
+  "obsidian-case-018-exposed-concrete-crack-repair-conche-middlegray-ivory",
+  "obsidian-case-016-exposed-concrete-color-tone-demo-iron-oxide-white-cement",
+  "obsidian-case-003-euroform-exposed-concrete-airless-spray-500sqm"
+];
