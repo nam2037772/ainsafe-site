@@ -539,11 +539,36 @@ function buildHome() {
 
   /* 히어로 — 모든 장을 정적으로 깔고, 첫 장만 즉시 내려받습니다. */
   const heroImages = (hero.images || []);
-  const slides = heroImages.map((im, i) =>
-    `      <div class="hero__slide${i === 0 ? ' active' : ''}"><img src="${esc(im.src)}" alt="${esc(im.alt)}"` +
-    (i === 0 ? ' fetchpriority="high" decoding="async"' : ' loading="lazy"') +
-    `${sizeAttrs(im.src)} /></div>`
-  ).join('\n');
+  /* 히어로 슬라이드
+     ------------------------------------------------------------
+     첫 장만 바로 내려받고, 둘째 장부터는 주소만 적어 둡니다(data-src).
+
+     왜: 슬라이드는 모두 position:absolute; inset:0 이라 화면 안에 있습니다.
+     opacity:0 이어도 브라우저는 "보이는 영역"으로 판단하므로 loading="lazy"
+     가 통하지 않고, 실제로 둘째·셋째 장이 High 우선순위로 함께 내려왔습니다.
+     느린 모바일 회선에서는 이 둘이 첫 장과 대역폭을 다투어 LCP 를 늦춥니다.
+     (측정: 둘째 장이 6.8초까지 회선을 점유)
+
+     둘째 장은 load 이후에, 나머지는 넘어가기 직전에 채웁니다.
+     화면에 보이는 결과는 이전과 같습니다. */
+  const slides = heroImages.map((im, i) => {
+    const webp = D.webpFor(im.src);
+    const size = sizeAttrs(im.src);
+    if (i === 0) {
+      const source = webp
+        ? `<source srcset="${esc(webp)}" type="image/webp" />`
+        : '';
+      return `      <div class="hero__slide active"><picture>${source}` +
+        `<img src="${esc(im.src)}" alt="${esc(im.alt)}" fetchpriority="high" decoding="async"${size} />` +
+        `</picture></div>`;
+    }
+    const source = webp
+      ? `<source data-srcset="${esc(webp)}" type="image/webp" />`
+      : '';
+    return `      <div class="hero__slide"><picture>${source}` +
+      `<img data-src="${esc(im.src)}" alt="${esc(im.alt)}" decoding="async"${size} />` +
+      `</picture></div>`;
+  }).join('\n');
   const dots = heroImages.map((im, i) =>
     `    <button type="button"${i === 0 ? ' class="active"' : ''} data-i="${i}" aria-label="${i + 1}번 사진 보기"></button>`
   ).join('\n');
@@ -605,6 +630,16 @@ function buildHome() {
     if (item && item.url) channels.push({ label: item.label, href: item.url, external: true });
   });
 
+  /* 화면 아래쪽 사진 — .webp 를 만들어 둔 것만 <picture> 로 감쌉니다.
+     만들어 두지 않은 사진은 지금까지처럼 <img> 하나만 나갑니다. */
+  const lazyPicture = (src, alt) => {
+    const webp = D.webpFor(src);
+    const img = `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async"${sizeAttrs(src)} />`;
+    return webp
+      ? `<picture><source srcset="${esc(webp)}" type="image/webp" />${img}</picture>`
+      : img;
+  };
+
   const orgSchema = buildOrganisationGraph();
   const inlineCss = D.readRepo('assets/css/home-inline.css');
 
@@ -613,6 +648,18 @@ function buildHome() {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 첫 화면 사진을 <head> 맨 앞에서 알려 줍니다(LCP).
+     프리로드 스캐너가 제목·설명·og 태그를 지나기 전에 발견하도록 위로 올렸습니다.
+     .webp 가 있으면 type 을 함께 적어, 지원하지 않는 브라우저가 헛되이
+     내려받지 않게 합니다(그 경우 아래 <picture> 의 JPEG 을 씁니다). -->
+${(() => {
+  const first = heroImages[0];
+  if (!first) return '';
+  const webp = D.webpFor(first.src);
+  return webp
+    ? `<link rel="preload" as="image" href="${esc(webp)}" type="image/webp" fetchpriority="high" />`
+    : `<link rel="preload" as="image" href="${esc(first.src)}" fetchpriority="high" />`;
+})()}
 <title>${esc(S.meta.title)}</title>
 <meta name="description" content="${esc(S.meta.description)}" />
 <link rel="icon" href="assets/images/brand/logo.png" />
@@ -629,8 +676,6 @@ function buildHome() {
 <meta name="twitter:title" content="${esc(S.meta.title)}" />
 <meta name="twitter:description" content="${esc(S.meta.twitterDescription || S.meta.description)}" />
 <meta name="twitter:image" content="${esc(absUrl(SITE_URL, S.meta.image))}" />
-<!-- 첫 화면 사진을 HTML 에서 바로 찾을 수 있게 미리 알려 줍니다(LCP). -->
-<link rel="preload" as="image" href="${esc(heroImages[0] ? heroImages[0].src : '')}" fetchpriority="high" />
 ${R.FONT_LINKS}
 <script type="application/ld+json">
 ${orgSchema}
@@ -696,7 +741,7 @@ ${aboutBody}
       <p class="about__more"><a class="link-arrow" href="${esc(about.moreLink)}">${esc(about.moreText)}</a></p>
     </div>
     <figure class="about__media reveal">
-      <img src="${esc(about.image)}" alt="${esc(about.imageAlt)}" loading="lazy"${sizeAttrs(about.image)} />
+      ${lazyPicture(about.image, about.imageAlt)}
       <figcaption>${esc(about.caption)}</figcaption>
     </figure>
   </div>
@@ -723,7 +768,7 @@ ${services}
 <section class="feature" id="feature">
   <div class="wrap feature__grid">
     <figure class="feature__media reveal">
-      <img src="${esc(fs_.image)}" alt="${esc(fs_.imageAlt)}" loading="lazy"${sizeAttrs(fs_.image)} />
+      ${lazyPicture(fs_.image, fs_.imageAlt)}
     </figure>
     <div class="reveal">
       <p class="eyebrow">${esc(fs_.eyebrow)}</p>
@@ -902,10 +947,30 @@ ${linkList(channels)}
   var slides=Array.prototype.slice.call(document.querySelectorAll(".hero__slide"));
   var dots=Array.prototype.slice.call(document.querySelectorAll(".hero__dots button"));
   var cur=0,timer;
+
+  /* 둘째 장부터는 주소만 적혀 있습니다(data-src). 필요할 때 채웁니다.
+     source 의 srcset 을 먼저 넣어야 브라우저가 WebP 를 고를 수 있습니다. */
+  function fill(n){
+    var el=slides[n];
+    if(!el)return;
+    var s=el.querySelector("source[data-srcset]");
+    if(s){s.srcset=s.getAttribute("data-srcset");s.removeAttribute("data-srcset");}
+    var im=el.querySelector("img[data-src]");
+    if(im){im.src=im.getAttribute("data-src");im.removeAttribute("data-src");}
+  }
+  /* 첫 화면을 다 그린 뒤 다음 장을 미리 준비합니다.
+     (넘어가는 순간에 빈 화면이 보이지 않도록) */
+  if(slides.length>1){
+    if(document.readyState==="complete")fill(1);
+    else window.addEventListener("load",function(){fill(1);});
+  }
+
   function go(n){
     slides[cur].classList.remove("active");
     if(dots[cur])dots[cur].classList.remove("active");
     cur=(n+slides.length)%slides.length;
+    fill(cur);
+    fill((cur+1)%slides.length);   /* 그다음 장도 미리 */
     slides[cur].classList.add("active");
     if(dots[cur])dots[cur].classList.add("active");
   }

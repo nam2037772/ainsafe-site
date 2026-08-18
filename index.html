@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 첫 화면 사진을 <head> 맨 앞에서 알려 줍니다(LCP).
+     프리로드 스캐너가 제목·설명·og 태그를 지나기 전에 발견하도록 위로 올렸습니다.
+     .webp 가 있으면 type 을 함께 적어, 지원하지 않는 브라우저가 헛되이
+     내려받지 않게 합니다(그 경우 아래 <picture> 의 JPEG 을 씁니다). -->
+<link rel="preload" as="image" href="assets/images/hero/hero-1.webp" type="image/webp" fetchpriority="high" />
 <title>노출콘크리트 면보수 · 특수방수 전문 | 주식회사 아인산업안전</title>
 <meta name="description" content="노출콘크리트 표면 결함 복원과 특수방수 전문. 곰보·기포 보수, 층조인트 단차 보정, 색상 및 질감 재현, 균열 보수, 누수 인젝션, 액상고무 방수, 발수·표면 보호. 결함을 덮지 않고 다시 만들어 넣는 보수." />
 <link rel="icon" href="assets/images/brand/logo.png" />
@@ -19,8 +24,6 @@
 <meta name="twitter:title" content="노출콘크리트 면보수 · 특수방수 전문 | 주식회사 아인산업안전" />
 <meta name="twitter:description" content="노출콘크리트 표면 결함 복원과 특수방수 전문. 색상 및 질감 재현, 균열 보수, 누수 인젝션, 액상고무 방수." />
 <meta name="twitter:image" content="https://ainconcrete.com/assets/images/hero/hero-1.jpg" />
-<!-- 첫 화면 사진을 HTML 에서 바로 찾을 수 있게 미리 알려 줍니다(LCP). -->
-<link rel="preload" as="image" href="assets/images/hero/hero-1.jpg" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300..700&family=Noto+Serif+KR:wght@300..500&display=swap" />
@@ -438,6 +441,12 @@ ul,ol{list-style:none}
   .doc{grid-template-columns:1fr;gap:.6em}
   .doc__date{order:3}
 }
+
+/* <picture> 는 레이아웃에 끼어들지 않게 합니다.
+   WebP 를 제안하려고 <img> 를 <picture> 로 감쌌는데, picture 가 inline 박스로
+   남으면 히어로처럼 height:100% 를 쓰는 자리에서 크기가 달라질 수 있습니다.
+   display:contents 면 박스가 사라져 감싸기 전과 완전히 같은 배치가 됩니다. */
+.hero__slide picture,.about__media picture,.feature__media picture{display:contents}
 </style>
 </head>
 <body data-page="home">
@@ -470,9 +479,9 @@ ul,ol{list-style:none}
 <!-- ═══════════ 히어로 ═══════════ -->
 <section class="hero" id="hero">
   <div class="hero__slides" id="slides">
-      <div class="hero__slide active"><img src="assets/images/hero/hero-1.jpg" alt="노출콘크리트 면보수를 마친 실내 벽면" fetchpriority="high" decoding="async" width="773" height="435" /></div>
-      <div class="hero__slide"><img src="assets/images/hero/hero-2.jpg" alt="노출콘크리트 외벽 복원 시공 현장" loading="lazy" width="773" height="435" /></div>
-      <div class="hero__slide"><img src="assets/images/hero/hero-3.jpg" alt="노출콘크리트 벽면 면보수 마감" loading="lazy" width="773" height="435" /></div>
+      <div class="hero__slide active"><picture><source srcset="assets/images/hero/hero-1.webp" type="image/webp" /><img src="assets/images/hero/hero-1.jpg" alt="노출콘크리트 면보수를 마친 실내 벽면" fetchpriority="high" decoding="async" width="773" height="435" /></picture></div>
+      <div class="hero__slide"><picture><source data-srcset="assets/images/hero/hero-2.webp" type="image/webp" /><img data-src="assets/images/hero/hero-2.jpg" alt="노출콘크리트 외벽 복원 시공 현장" decoding="async" width="773" height="435" /></picture></div>
+      <div class="hero__slide"><picture><source data-srcset="assets/images/hero/hero-3.webp" type="image/webp" /><img data-src="assets/images/hero/hero-3.jpg" alt="노출콘크리트 벽면 면보수 마감" decoding="async" width="773" height="435" /></picture></div>
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
 
@@ -502,7 +511,7 @@ ul,ol{list-style:none}
       <p class="about__more"><a class="link-arrow" href="about.html">회사소개</a></p>
     </div>
     <figure class="about__media reveal">
-      <img src="assets/images/about/about-1.jpg" alt="노출콘크리트 표면의 결과 질감 디테일" loading="lazy" width="773" height="581" />
+      <picture><source srcset="assets/images/about/about-1.webp" type="image/webp" /><img src="assets/images/about/about-1.jpg" alt="노출콘크리트 표면의 결과 질감 디테일" loading="lazy" decoding="async" width="773" height="581" /></picture>
       <figcaption>표면의 결, 기포, 줄눈 — 보수는 이 디테일을 다시 만드는 일입니다.</figcaption>
     </figure>
   </div>
@@ -530,7 +539,7 @@ ul,ol{list-style:none}
 <section class="feature" id="feature">
   <div class="wrap feature__grid">
     <figure class="feature__media reveal">
-      <img src="assets/images/about/about-2.jpg" alt="면보수를 마친 노출콘크리트 벽면의 질감 디테일" loading="lazy" width="773" height="435" />
+      <picture><source srcset="assets/images/about/about-2.webp" type="image/webp" /><img src="assets/images/about/about-2.jpg" alt="면보수를 마친 노출콘크리트 벽면의 질감 디테일" loading="lazy" decoding="async" width="773" height="435" /></picture>
     </figure>
     <div class="reveal">
       <p class="eyebrow">Feature</p>
@@ -728,10 +737,30 @@ ul,ol{list-style:none}
   var slides=Array.prototype.slice.call(document.querySelectorAll(".hero__slide"));
   var dots=Array.prototype.slice.call(document.querySelectorAll(".hero__dots button"));
   var cur=0,timer;
+
+  /* 둘째 장부터는 주소만 적혀 있습니다(data-src). 필요할 때 채웁니다.
+     source 의 srcset 을 먼저 넣어야 브라우저가 WebP 를 고를 수 있습니다. */
+  function fill(n){
+    var el=slides[n];
+    if(!el)return;
+    var s=el.querySelector("source[data-srcset]");
+    if(s){s.srcset=s.getAttribute("data-srcset");s.removeAttribute("data-srcset");}
+    var im=el.querySelector("img[data-src]");
+    if(im){im.src=im.getAttribute("data-src");im.removeAttribute("data-src");}
+  }
+  /* 첫 화면을 다 그린 뒤 다음 장을 미리 준비합니다.
+     (넘어가는 순간에 빈 화면이 보이지 않도록) */
+  if(slides.length>1){
+    if(document.readyState==="complete")fill(1);
+    else window.addEventListener("load",function(){fill(1);});
+  }
+
   function go(n){
     slides[cur].classList.remove("active");
     if(dots[cur])dots[cur].classList.remove("active");
     cur=(n+slides.length)%slides.length;
+    fill(cur);
+    fill((cur+1)%slides.length);   /* 그다음 장도 미리 */
     slides[cur].classList.add("active");
     if(dots[cur])dots[cur].classList.add("active");
   }

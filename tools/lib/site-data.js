@@ -168,6 +168,19 @@ function fileExists(rel) {
   return fs.existsSync(path.join(REPO_ROOT, rel));
 }
 
+/* 같은 이름의 .webp 가 옆에 있으면 그 경로를, 없으면 '' 를 돌려줍니다.
+   WebP 는 눈에 띄는 차이 없이 파일을 크게 줄여 주지만(측정 SSIM 0.98 이상),
+   원본에 따라 이득이 거의 없는 사진도 있습니다. 그래서 "만들어 둔 것만" 씁니다.
+     · .webp 가 있으면  → <picture> 로 WebP 를 먼저 제안하고 JPEG 을 남겨 둡니다
+     · .webp 가 없으면  → 지금까지처럼 <img> 하나만 씁니다
+   새로 줄이고 싶은 사진이 생기면 .webp 를 같은 폴더에 넣고 다시 생성하면 됩니다. */
+function webpFor(rel) {
+  if (!rel || /^https?:/i.test(rel)) return '';
+  const webp = String(rel).replace(/\.(jpe?g|png)$/i, '.webp');
+  if (webp === rel) return '';
+  return fileExists(webp) ? webp : '';
+}
+
 function writeFileIfChanged(rel, content) {
   const file = path.join(REPO_ROOT, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -181,5 +194,5 @@ module.exports = {
   loadData, readRepo, fileExists, writeFileIfChanged,
   esc, attr, jsonld, fmtDate, byDateDesc,
   caseSlug, casePath, guidePath, SUB_PREFIX,
-  siteUrlOf, absUrl, imgOr, imageSize, sizeAttrs
+  siteUrlOf, absUrl, imgOr, imageSize, sizeAttrs, webpFor
 };

@@ -314,19 +314,34 @@ console.log('\n[6] 주소 호환');
 /* ── 13. 이미지 참조 ───────────────────────────────────────── */
 console.log('\n[7] 이미지 참조');
 {
+  /* <style>·<script> 안의 글자는 마크업이 아닙니다.
+     (홈은 CSS 를 본문에 넣어 두어, 주석에 적힌 <img> 같은 글자가
+      진짜 이미지로 잘못 잡힐 수 있습니다) */
+  const markupOf = (rel) => pageInfo.get(rel).html
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ');
+
   const broken = [];
   let total = 0, noSize = 0;
   const allPages = ROOT_PAGES.filter(exists).concat(generated);
   allPages.forEach((rel) => {
     const dir = path.posix.dirname(rel.replace(/\\/g, '/'));
-    [...pageInfo.get(rel).html.matchAll(/<img\b([^>]*)>/g)].forEach((m) => {
+    /* src 로 바로 넣은 것과, 넘길 때 채우는 것(data-src)·WebP 후보(srcset)를
+       모두 같은 기준으로 확인합니다 — 어느 쪽이든 파일이 없으면 깨집니다. */
+    [...markupOf(rel).matchAll(/<(?:img|source)\b([^>]*)>/g)].forEach((m) => {
       const tag = m[1];
-      const src = attrOf(tag, /\bsrc="([^"]+)"/);
-      if (!src || /^(https?:|data:)/i.test(src)) return;
-      total++;
-      const target = path.posix.normalize(dir === '.' ? src : dir + '/' + src);
-      if (!exists(target)) broken.push(`${rel} → ${src}`);
-      if (!/\bwidth="/.test(tag) || !/\bheight="/.test(tag)) noSize++;
+      const isImg = /^<img/i.test(m[0]);
+      const refs = ['src', 'data-src', 'srcset', 'data-srcset']
+        .map((k) => attrOf(tag, new RegExp('\\b' + k + '="([^"]+)"')))
+        .filter(Boolean);
+      refs.forEach((src) => {
+        if (/^(https?:|data:)/i.test(src)) return;
+        total++;
+        const target = path.posix.normalize(dir === '.' ? src : dir + '/' + src);
+        if (!exists(target)) broken.push(`${rel} → ${src}`);
+      });
+      /* 크기 속성은 <img> 에만 해당합니다 */
+      if (isImg && refs.length && (!/\bwidth="/.test(tag) || !/\bheight="/.test(tag))) noSize++;
     });
   });
   assert(broken.length === 0,
@@ -336,7 +351,7 @@ console.log('\n[7] 이미지 참조');
   /* alt 누락 — 장식용 빈 alt("") 는 정상입니다 */
   let noAlt = 0;
   allPages.forEach((rel) => {
-    [...pageInfo.get(rel).html.matchAll(/<img\b([^>]*)>/g)].forEach((m) => {
+    [...markupOf(rel).matchAll(/<img\b([^>]*)>/g)].forEach((m) => {
       if (!/\balt=/.test(m[1])) noAlt++;
     });
   });

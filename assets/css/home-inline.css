@@ -312,3 +312,9 @@ ul,ol{list-style:none}
   .doc{grid-template-columns:1fr;gap:.6em}
   .doc__date{order:3}
 }
+
+/* <picture> 는 레이아웃에 끼어들지 않게 합니다.
+   WebP 를 제안하려고 <img> 를 <picture> 로 감쌌는데, picture 가 inline 박스로
+   남으면 히어로처럼 height:100% 를 쓰는 자리에서 크기가 달라질 수 있습니다.
+   display:contents 면 박스가 사라져 감싸기 전과 완전히 같은 배치가 됩니다. */
+.hero__slide picture,.about__media picture,.feature__media picture{display:contents}
