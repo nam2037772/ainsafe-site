@@ -69,6 +69,9 @@ function serviceOf(category) { return SERVICE_BY_CATEGORY[category] || DEFAULT_S
 const ORG_ID = SITE_URL + '#organization';
 const SITE_ID = SITE_URL + '#website';
 
+/* 푸터 사업자 정보 한 줄 — 규칙은 tools/lib/render.js 에 한 곳만 둡니다. */
+const legalLine = () => R.legalLine(COMPANY);
+
 /* 검색결과에 쓰이는 설명문 — 너무 길면 잘립니다. */
 function clamp(text, max) {
   const s = String(text || '').replace(/\s+/g, ' ').trim();
@@ -808,7 +811,8 @@ ${docs}
       <span>${esc(c.nameEn)}</span>
       <p class="tel">${esc(c.tel)}</p>
       <p>${esc(c.address)}</p>
-      <p>${esc(c.email)}</p>
+      <p>${esc(c.email)}</p>${legalLine() ? `
+      <p>${esc(legalLine())}</p>` : ''}
     </div>
     <nav class="footer__col" aria-label="전문 분야">
       <h3>Service</h3>
@@ -929,6 +933,7 @@ function buildOrganisationGraph() {
     '@type': 'ProfessionalService',
     '@id': ORG_ID,
     name: COMPANY.name,
+    legalName: COMPANY.legalName,
     alternateName: COMPANY.shortName,
     description: COMPANY.description,
     telephone: COMPANY.tel,
@@ -960,8 +965,12 @@ function buildOrganisationGraph() {
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '특수방수', description: '누수 경로 추적, 우레탄 인젝션, 배면 그라우팅, 액상고무 도막방수, 발수 및 표면 보호', url: absUrl(SITE_URL, 'waterproof.html') } }
       ]
     },
-    sameAs: ['blog', 'youtube', 'instagram']
-      .map((k) => EXTERNAL_LINKS[k] && EXTERNAL_LINKS[k].url).filter(Boolean)
+    /* 같은 사업자가 운영하는 다른 웹 공간들. 자재 판매 사이트(storeUrl)도
+       여기로만 연결합니다 — 이 사이트의 대표 주소로 쓰지 않습니다. */
+    sameAs: [COMPANY.storeUrl]
+      .concat(['blog', 'youtube', 'instagram']
+        .map((k) => EXTERNAL_LINKS[k] && EXTERNAL_LINKS[k].url))
+      .filter(Boolean)
   };
 
   /* 영업시간은 config.js 의 구조화된 값이 있을 때만 넣습니다.
@@ -977,7 +986,13 @@ function buildOrganisationGraph() {
   /* 아래 값들은 확인되기 전에는 넣지 않습니다 (config.js 의 TODO). */
   if (COMPANY.businessNumber) org.taxID = COMPANY.businessNumber;
   if (COMPANY.foundingDate) org.foundingDate = COMPANY.foundingDate;
-  if (COMPANY.representative) org.founder = { '@type': 'Person', name: COMPANY.representative };
+
+  /* 대표자는 founder 로 넣지 않습니다.
+     확인된 사실은 '현재 대표자'이지 '설립자'가 아닙니다. 둘은 다를 수 있고,
+     schema.org 에는 한국의 '대표이사'에 정확히 대응하는 속성이 없습니다.
+     그래서 사람 이름은 회사소개·푸터의 사업자 정보로만 표시하고,
+     구조화데이터에는 확인되지 않은 관계를 만들지 않습니다. */
+
   if (COMPANY.geo && COMPANY.geo.latitude && COMPANY.geo.longitude) {
     org.geo = {
       '@type': 'GeoCoordinates',

@@ -5,4 +5,4 @@ Allow: /
 User-agent: Yeti
 Allow: /
 
-Sitemap: https://nam2037772.github.io/ainsafe-site/sitemap.xml
+Sitemap: https://ainconcrete.com/sitemap.xml

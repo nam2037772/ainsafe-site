@@ -448,22 +448,46 @@ console.log('\n[10] 낡은 흔적');
   assert(blockingFont.length === 0,
     `첫 화면을 막는 글꼴 요청 없음${blockingFont.length ? ' — ' + blockingFont.join(', ') : ''}`);
 
-  /* 하드코딩된 운영 주소 — 도메인 이전 시 고쳐야 할 곳 */
+  /* 하드코딩된 운영 주소 — 다음 도메인 이전 때 손으로 고쳐야 할 곳.
+     검사 대상 호스트는 config.js 의 siteUrl 에서 뽑습니다. 옛 도메인을 이 파일에
+     적어 두면 이전한 뒤로는 영영 0건만 나오는 죽은 검사가 됩니다. */
+  const host = SITE_URL.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  const hostRe = new RegExp(host.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
   const hardcoded = [];
   const scan = (rel) => {
-    const n = (read(rel).match(/nam2037772\.github\.io/g) || []).length;
+    const n = (read(rel).match(hostRe) || []).length;
     if (n) hardcoded.push(`${rel}:${n}`);
   };
   ROOT_PAGES.filter(exists).forEach(scan);
   generated.forEach(scan);
   ['robots.txt', 'sitemap.xml', 'assets/js/config.js'].filter(exists).forEach(scan);
-  console.log(`    · 하드코딩된 운영 주소가 남은 파일 ${hardcoded.length}개 ` +
+  console.log(`    · 현재 운영 주소(${host})가 박혀 있는 파일 ${hardcoded.length}개 ` +
     `(총 ${hardcoded.reduce((n, s) => n + Number(s.split(':').pop()), 0)}곳)`);
   const nonGenerated = hardcoded.filter((s) => {
     const f = s.slice(0, s.lastIndexOf(':'));
     return generated.indexOf(f) === -1 && f !== 'index.html' && f !== 'sitemap.xml';
   });
   console.log('      손으로 고쳐야 하는 곳: ' + (nonGenerated.join(', ') || '없음'));
+
+  /* 옛 도메인 흔적이 하나도 남지 않았는지 (이전 후 회귀 방지) */
+  const OLD_HOSTS = ['nam2037772.github.io'];
+  const leftover = [];
+  ROOT_PAGES.filter(exists).concat(generated, ['robots.txt', 'sitemap.xml', 'assets/js/config.js'].filter(exists))
+    .forEach((rel) => {
+      OLD_HOSTS.forEach((h) => { if (read(rel).indexOf(h) > -1) leftover.push(`${rel} (${h})`); });
+    });
+  assert(leftover.length === 0,
+    `옛 도메인 흔적 없음${leftover.length ? ' — ' + leftover.slice(0, 5).join(', ') : ''}`);
+
+  /* CNAME 은 siteUrl 의 호스트와 정확히 같아야 합니다.
+     어긋나면 GitHub Pages 가 의도와 다른 주소로 서비스합니다. */
+  if (exists('CNAME')) {
+    const cname = read('CNAME').trim();
+    assert(cname === host, `CNAME(${cname}) == siteUrl 호스트(${host})`);
+    assert(!/^www\./.test(cname), 'CNAME 이 www 없는 대표 주소');
+  } else {
+    fail('CNAME 파일 없음 — 사용자 지정 도메인 배포에 필요합니다');
+  }
 }
 
 /* ── 18. 가로 스크롤 위험 ──────────────────────────────────── */

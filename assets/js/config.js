@@ -7,7 +7,8 @@
    ============================================================ */
 
 const COMPANY = {
-  name: '주식회사 아인산업안전',          // 법인 등기상 정식 회사명 (회사정보 표기용)
+  name: '주식회사 아인산업안전',          // 화면에 쓰는 회사명
+  legalName: '주식회사 아인산업안전',     // 법인 등기상 정식 상호 (구조화데이터 legalName)
   shortName: '아인산업안전',
   /* 영문 표기는 헤더·푸터·구조화데이터가 모두 이 값 하나를 씁니다.
      (예전에는 config.js 와 site-content.js 에 서로 다른 값이 있었습니다) */
@@ -37,12 +38,33 @@ const COMPANY = {
     closes: ''   // 예: '18:00'
   },
 
-  /* 아래 항목은 확인된 값이 없으면 비워 둡니다.
-     빈 값이면 화면에도, 구조화데이터에도 나타나지 않습니다. */
-  businessNumber: '', // TODO: 사업자등록번호
-  representative: '', // TODO: 대표자명
-  foundingDate: '',   // TODO: 설립일 (YYYY 또는 YYYY-MM-DD)
+  /* ── 사업자 정보 (확인된 값) ──────────────────────────────────────────
+     빈 값이면 화면에도, 구조화데이터에도 나타나지 않습니다.
+
+     ※ 법인등록번호는 여기에 두지 않습니다.
+       config.js 는 브라우저가 그대로 내려받는 공개 파일이라, 여기 적는 것은
+       화면에 적는 것과 같습니다. 전자상거래법이 표시를 요구하는 항목은
+       상호 · 대표자 · 주소 · 전화 · 이메일 · 사업자등록번호 · 통신판매업신고번호이며
+       법인등록번호는 포함되지 않습니다. 표시가 필요해지면 그때 추가하세요. */
+  businessNumber: '690-87-00288',          // 사업자등록번호
+  mailOrderNumber: '제2023-제주성산-00026호', // 통신판매업신고번호
+  representative: '김선미',                 // 대표자
+  foundingDate: '2016-02-10',              // 사업 개시일
+
+  /* 확인되지 않은 값 — 비워 둡니다 (추측해서 넣지 않습니다) */
   geo: { latitude: '', longitude: '' }, // TODO: 사업장 위경도
+
+  /* 사업자등록증에 등록된 업태 · 종목. 회사소개의 '등록 업종'에 그대로 씁니다.
+     기술 주제(knowsAbout)와 성격이 달라 따로 둡니다. */
+  registeredBusiness: [
+    '노출콘크리트면보수공사업',
+    '방수공사업',
+    '시설물 유지관리 공사업',
+    '건축공사',
+    '건축자재',
+    '안전용품',
+    '전자상거래 소매업'
+  ],
 
   /* 전문 분야 — 구조화데이터 knowsAbout */
   knowsAbout: [
@@ -58,10 +80,19 @@ const COMPANY = {
     '발수 및 표면 보호'
   ],
 
+  /* 같은 회사가 운영하는 다른 웹사이트(자재 판매).
+     이 사이트의 대표 주소(siteUrl)가 아니라, 같은 사업자의 별도 사이트입니다.
+     구조화데이터에서는 sameAs 로만 연결합니다. */
+  storeUrl: 'https://www.ainsafety.com',
+
   /* ▶ 도메인을 옮길 때 고치는 곳은 여기 한 줄입니다.
        바꾼 뒤 반드시 node tools/build-site.js --write 를 실행하세요.
-       (canonical · og:url · sitemap · 구조화데이터가 모두 이 값에서 만들어집니다) */
-  siteUrl: 'https://nam2037772.github.io/ainsafe-site/'
+       (canonical · og:url · sitemap · 구조화데이터가 모두 이 값에서 만들어집니다)
+
+     ※ 대표 주소는 www 없는 ainconcrete.com 하나입니다.
+       www 를 canonical 로 쓰는 주소를 따로 만들지 않습니다.
+       (저장소 루트의 CNAME 도 같은 값이어야 합니다) */
+  siteUrl: 'https://ainconcrete.com/'
 };
 
 /* 외부 채널 — 새 탭으로 열림 (target=_blank, rel=noopener noreferrer)
@@ -69,7 +100,7 @@ const COMPANY = {
      '온라인몰' 같은 일반 명칭은 쓰지 않고, 무엇을 살 수 있는지 드러나는 문구를 씁니다. */
 const EXTERNAL_LINKS = {
   shop: {
-    url: 'https://ainsafety.com/',
+    url: COMPANY.storeUrl,
     label: '노출콘크리트 · 방수 자재 구매',
     desc: '보수재, 방수재, 발수제 등 시공에 쓰는 자재를 직접 구매하실 수 있습니다.'
   },

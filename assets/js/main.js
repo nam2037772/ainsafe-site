@@ -147,9 +147,16 @@
     var year = $('[data-year]');
     if (year) year.textContent = new Date().getFullYear();
 
+    /* 푸터 사업자 정보 — config.js 에 값이 있는 항목만 이어 붙입니다.
+       (전자상거래법이 표시를 요구하는 항목 기준. 법인등록번호는 대상이 아닙니다) */
     var biz = $('[data-business-number]');
     if (biz) {
-      if (COMPANY.businessNumber) biz.textContent = '사업자등록번호 ' + COMPANY.businessNumber;
+      var legal = [
+        COMPANY.representative ? '대표 ' + COMPANY.representative : '',
+        COMPANY.businessNumber ? '사업자등록번호 ' + COMPANY.businessNumber : '',
+        COMPANY.mailOrderNumber ? '통신판매업신고 ' + COMPANY.mailOrderNumber : ''
+      ].filter(Boolean).join(' · ');
+      if (legal) biz.textContent = legal;
       else biz.remove();
     }
   }

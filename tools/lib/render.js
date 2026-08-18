@@ -65,6 +65,19 @@ ${items}
 </header>`;
 }
 
+/* 푸터 사업자 정보 한 줄 — config.js 에 값이 있는 항목만 이어 붙입니다.
+   생성 페이지는 자바스크립트 없이도 보이도록 여기서 미리 넣어 둡니다.
+   (main.js 의 [data-business-number] 렌더러가 같은 문자열을 다시 쓰므로
+    config.js 를 고치면 손으로 쓴 페이지도 함께 갱신됩니다)
+   ※ 법인등록번호는 넣지 않습니다 — 표시 의무 항목이 아닙니다. */
+function legalLine(COMPANY) {
+  return [
+    COMPANY.representative ? '대표 ' + COMPANY.representative : '',
+    COMPANY.businessNumber ? '사업자등록번호 ' + COMPANY.businessNumber : '',
+    COMPANY.mailOrderNumber ? '통신판매업신고 ' + COMPANY.mailOrderNumber : ''
+  ].filter(Boolean).join(' · ');
+}
+
 function footer(prefix, COMPANY, EXTERNAL_LINKS) {
   const L = EXTERNAL_LINKS || {};
   const ext = (key, fallbackLabel) => {
@@ -112,7 +125,7 @@ ${ext('blog', '네이버 블로그')}${ext('youtube', '유튜브')}${ext('instag
   </div>
   <div class="wrap footer__bottom">
     <small>© <span data-year>2026</span> ${esc(COMPANY.name)}. All rights reserved.</small>
-    <small data-business-number></small>
+    <small data-business-number>${esc(legalLine(COMPANY))}</small>
   </div>
 </footer>
 
@@ -305,7 +318,7 @@ function guideBody(r, prefix) {
 }
 
 module.exports = {
-  header, footer, FONT_LINKS,
+  header, footer, FONT_LINKS, legalLine,
   projectCard, resourceRow, contentCard,
   caseBody, guideBody
 };
