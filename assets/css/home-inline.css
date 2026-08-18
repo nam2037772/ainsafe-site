@@ -312,6 +312,15 @@ ul,ol{list-style:none}
   .doc{grid-template-columns:1fr;gap:.6em}
   .doc__date{order:3}
 }
+@media (max-width:599px){
+  .hero{display:grid;height:auto;min-height:clamp(500px,135svw,590px);max-height:none}
+  .hero__scrim{background:linear-gradient(0deg,rgba(248,247,245,.92) 0%,rgba(248,247,245,.68) 48%,rgba(248,247,245,.12) 88%)}
+  .hero__inner{position:relative;inset:auto;min-height:inherit;padding:calc(var(--gap) + 18px) var(--gap) 54px;justify-content:flex-end}
+  .hero__title{max-width:13ch;font-size:clamp(1.8rem,7.8vw,2.15rem);line-height:1.42;text-wrap:balance}
+  .hero__en{max-width:31ch;margin-top:1.25em;font-size:.66rem;line-height:1.65;letter-spacing:.14em}
+  .hero__sub{max-width:28em;margin-top:.85em;font-size:clamp(.88rem,3.7vw,.98rem);line-height:1.7}
+  .hero__dots{bottom:22px}
+}
 
 /* <picture> 는 레이아웃에 끼어들지 않게 합니다.
    WebP 를 제안하려고 <img> 를 <picture> 로 감쌌는데, picture 가 inline 박스로
