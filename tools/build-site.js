@@ -94,7 +94,7 @@ function headBlock(o) {
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#111111" />
 <meta property="og:type" content="article" />
-<meta property="og:site_name" content="${esc(COMPANY.name)}" />
+<meta property="og:site_name" content="${esc(COMPANY.brand)}" />
 <meta property="og:title" content="${esc(o.title)}" />
 <meta property="og:description" content="${esc(o.description)}" />
 <meta property="og:image" content="${esc(ogImage)}" />
@@ -137,7 +137,7 @@ function buildCasePage(p, sorted, idx) {
   const svc = serviceOf(p.category);
   const rep = imgOr(ci.representativeImage, FALLBACK_IMAGE);
 
-  const title = `${p.title} | ${COMPANY.name}`;
+  const title = `${p.title} | ${COMPANY.brand}`;
   const description = clamp([p.category, p.summary].filter(Boolean).join(' — '), 155);
 
   const bc = crumbs([
@@ -199,7 +199,7 @@ function buildCasePage(p, sorted, idx) {
 <body data-page="project">
 <a class="skip-link" href="#main">본문 바로가기</a>
 
-${R.header(SUB_PREFIX, 'projects.html')}
+${R.header(SUB_PREFIX, 'projects.html', COMPANY)}
 
 <main id="main">
 ${bc.visible}
@@ -260,7 +260,7 @@ function buildGuidePage(r) {
   const svc = serviceOf(r.category);
   const cover = r.thumbnail || FALLBACK_IMAGE;
 
-  const title = `${r.title} | ${COMPANY.name}`;
+  const title = `${r.title} | ${COMPANY.brand}`;
   const description = clamp(r.summary, 155);
 
   const bc = crumbs([
@@ -316,7 +316,7 @@ function buildGuidePage(r) {
 <body data-page="resource">
 <a class="skip-link" href="#main">본문 바로가기</a>
 
-${R.header(SUB_PREFIX, 'resources.html')}
+${R.header(SUB_PREFIX, 'resources.html', COMPANY)}
 
 <main id="main">
 ${bc.visible}
@@ -403,8 +403,7 @@ function poolFor(baseType) {
    — main.js 의 STEP 과 같은 값입니다. */
 const STEP = 12;
 
-function injectGrid(file, baseType) {
-  const text = D.readRepo(file);
+function injectGrid(file, baseType, text) {
   const start = text.indexOf(GRID_MARK.open);
   const end = text.indexOf(GRID_MARK.close);
   if (start === -1 || end === -1) {
@@ -473,8 +472,7 @@ function attrValue(attrs, name) {
   return m ? m[1] : null;
 }
 
-function fillWidgets(file) {
-  const text = D.readRepo(file);
+function fillWidgets(file, text) {
   let filled = 0;
   let items = 0;
 
@@ -521,6 +519,60 @@ function fillWidgets(file) {
   out += text.slice(cursor);
 
   return { file, next: out, filled, items };
+}
+
+/* ── 손으로 쓴 페이지의 머리말 · 꼬리말을 맞춥니다 ───────────
+   지금까지 concrete.html · about.html 같은 페이지는 헤더와 푸터를 각자
+   품고 있었습니다. 브랜드 이름을 바꾸면 11곳을 따로 고쳐야 했고, 한 곳을
+   빠뜨리면 그 페이지만 옛 이름으로 남았습니다.
+
+   그래서 생성 페이지와 **같은 tools/lib/render.js** 로 머리말·꼬리말을 다시
+   찍어 넣습니다. 이제 브랜드는 assets/js/config.js 한 곳에서만 바뀝니다.
+
+     <header class="header" id="header"> … </header>          → R.header()
+     <footer class="footer"> … <div class="toast" …></div>    → R.footer()
+
+   ※ 그 사이의 본문은 건드리지 않습니다. 껍데기만 갈아 끼웁니다. */
+const SHELL_PAGES = [
+  'concrete.html', 'waterproof.html', 'projects.html', 'resources.html',
+  'materials.html', 'about.html', 'contact.html', 'privacy.html', '404.html'
+];
+
+/* 헤더에서 현재 위치로 표시할 메뉴. 목록에 없는 페이지(개인정보·404)는
+   어느 메뉴도 현재 위치가 아니므로 빈 값을 넘깁니다. */
+const NAV_KEYS = new Set([
+  'index.html', 'concrete.html', 'waterproof.html', 'projects.html',
+  'resources.html', 'materials.html', 'about.html', 'contact.html'
+]);
+
+const FOOTER_END = '<div class="toast" id="toast" role="status" aria-live="polite"></div>';
+
+function syncShell(file, text) {
+  let out = text;
+  const changed = [];
+
+  /* 머리말 */
+  const hStart = out.indexOf('<header class="header" id="header">');
+  const hEnd = out.indexOf('</header>', hStart);
+  if (hStart !== -1 && hEnd !== -1) {
+    const current = NAV_KEYS.has(file) ? file : '';
+    const next = R.header('', current, COMPANY);
+    const old = out.slice(hStart, hEnd + '</header>'.length);
+    if (old !== next) changed.push('header');
+    out = out.slice(0, hStart) + next + out.slice(hEnd + '</header>'.length);
+  }
+
+  /* 꼬리말 + 하단 고정 상담바 */
+  const fStart = out.indexOf('<footer class="footer">');
+  const fEnd = out.indexOf(FOOTER_END, fStart);
+  if (fStart !== -1 && fEnd !== -1) {
+    const next = R.footer('', COMPANY, EXTERNAL_LINKS);
+    const old = out.slice(fStart, fEnd + FOOTER_END.length);
+    if (old !== next) changed.push('footer');
+    out = out.slice(0, fStart) + next + out.slice(fEnd + FOOTER_END.length);
+  }
+
+  return { file, next: out, changed };
 }
 
 /* ── 홈 화면 ───────────────────────────────────────────────── */
@@ -666,7 +718,7 @@ ${(() => {
 <link rel="canonical" href="${esc(SITE_URL)}" />
 <meta name="robots" content="index, follow" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="${esc(c.name)}" />
+<meta property="og:site_name" content="${esc(c.brand)}" />
 <meta property="og:title" content="${esc(S.meta.title)}" />
 <meta property="og:description" content="${esc(S.meta.ogDescription || S.meta.description)}" />
 <meta property="og:image" content="${esc(absUrl(SITE_URL, S.meta.image))}" />
@@ -691,8 +743,8 @@ ${inlineCss.trim()}
 <header class="site-header" id="header">
   <div class="wrap">
     <a class="brand" href="index.html">
-      <b>${esc(c.shortName)}</b>
-      <span>${esc(c.nameEn)}</span>
+      <b>${esc(c.brand)}</b>
+      <span>${esc(c.brandSubline)}</span>
     </a>
     <nav class="nav" id="nav" aria-label="주요 메뉴" inert>
       <a href="index.html">HOME</a>
@@ -852,8 +904,9 @@ ${docs}
 <footer class="footer">
   <div class="wrap footer__grid">
     <div class="footer__brand">
-      <b>${esc(c.name)}</b>
-      <span>${esc(c.nameEn)}</span>
+      <b>${esc(c.brand)}</b>
+      <span>${esc(c.brandSubline)}</span>
+      <p class="trust">${esc(c.trustLine)}</p>
       <p class="tel">${esc(c.tel)}</p>
       <p>${esc(c.address)}</p>
       <p>${esc(c.email)}</p>${legalLine() ? `
@@ -879,7 +932,7 @@ ${linkList(channels)}
     </nav>
   </div>
   <div class="footer__bottom">
-    <small>© <span id="year">2026</span> ${esc(c.name)}. All rights reserved.</small>
+    <small>© <span id="year">2026</span> ${esc(c.brand)}. All rights reserved.</small>
     <small>${esc(c.slogan)}</small>
   </div>
 </footer>
@@ -997,9 +1050,13 @@ function buildOrganisationGraph() {
   const org = {
     '@type': 'ProfessionalService',
     '@id': ORG_ID,
-    name: COMPANY.name,
+    /* name 은 '검색결과에 나오는 이름'입니다 — 브랜드를 씁니다.
+       법인명은 legalName 으로, 사람들이 함께 부르는 다른 이름은 alternateName 으로
+       따로 밝힙니다. 셋을 구분해 두어야 검색엔진이 같은 주체로 묶습니다. */
+    name: COMPANY.brand,
     legalName: COMPANY.legalName,
-    alternateName: COMPANY.shortName,
+    alternateName: [COMPANY.shortName, COMPANY.name, COMPANY.nameEn].filter(Boolean),
+    slogan: COMPANY.brandSubline,
     description: COMPANY.description,
     telephone: COMPANY.tel,
     email: COMPANY.email,
@@ -1026,8 +1083,10 @@ function buildOrganisationGraph() {
       '@type': 'OfferCatalog',
       name: '전문 분야',
       itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '노출콘크리트 면보수', description: '곰보·기포 보수, 층조인트 단차 보정, 색상 및 질감 재현, 균열 보수', url: absUrl(SITE_URL, 'concrete.html') } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '특수방수', description: '누수 경로 추적, 우레탄 인젝션, 배면 그라우팅, 액상고무 도막방수, 발수 및 표면 보호', url: absUrl(SITE_URL, 'waterproof.html') } }
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 노출콘크리트 보수·복원', description: '곰보·기포 면보수, 층조인트 단차 보정, 색상 및 질감 재현, 균열·하자보수', url: absUrl(SITE_URL, 'concrete.html') } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '특수방수', description: '누수 경로 추적, 우레탄 인젝션, 배면 그라우팅, 액상고무 도막방수, 발수 및 표면 보호', url: absUrl(SITE_URL, 'waterproof.html') } },
+        /* 콘채 제주총판 — 시공과 함께 자재를 공급합니다. 근거가 있는 사실만 적습니다. */
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '노출콘크리트 면보수재 콘채 공급 · 기술지원', description: '제주도 콘채 총판. 노출콘크리트 보수재·색보정 마감재 공급과 배합·시공 기술지원', url: absUrl(SITE_URL, 'materials.html') } }
       ]
     },
     /* 같은 사업자가 운영하는 다른 웹 공간들. 자재 판매 사이트(storeUrl)도
@@ -1070,7 +1129,8 @@ function buildOrganisationGraph() {
     '@type': 'WebSite',
     '@id': SITE_ID,
     url: SITE_URL,
-    name: COMPANY.name,
+    name: COMPANY.brand,
+    alternateName: '제주 노출콘크리트',
     inLanguage: 'ko-KR',
     publisher: { '@id': ORG_ID }
   };
@@ -1166,16 +1226,36 @@ function main() {
   outputs.push(['assets/js/legacy-routes.js', buildLegacyRoutes(casePages)]);
   outputs.push(['.nojekyll', '']);
 
-  const grids = [injectGrid('projects.html', 'case'), injectGrid('resources.html', 'technical')];
-  grids.forEach((g) => outputs.push([g.file, g.next]));
+  /* 손으로 쓴 페이지는 여러 단계를 거칩니다 (껍데기 → 목록 → 위젯).
+     각 단계가 파일을 따로 읽어 따로 쓰면 마지막 단계만 남고 앞 단계가
+     지워집니다. 그래서 한 장의 내용을 메모리에서 이어 넘깁니다. */
+  const pageText = new Map();
+  const readPage = (f) => (pageText.has(f) ? pageText.get(f) : D.readRepo(f));
 
-  /* 서비스 · 자재 페이지의 관련 콘텐츠 위젯을 정적으로 채웁니다.
+  /* 1단계 — 머리말 · 꼬리말을 render.js 로 통일합니다 (브랜드 일관성) */
+  const shells = SHELL_PAGES.filter((f) => fileExists(f)).map((f) => syncShell(f, readPage(f)));
+  shells.forEach((s) => pageText.set(s.file, s.next));
+
+  /* 2단계 — 목록 페이지의 카드 */
+  const grids = [
+    injectGrid('projects.html', 'case', readPage('projects.html')),
+    injectGrid('resources.html', 'technical', readPage('resources.html'))
+  ];
+  grids.forEach((g) => pageText.set(g.file, g.next));
+
+  /* 3단계 — 서비스 · 자재 페이지의 관련 콘텐츠 위젯을 정적으로 채웁니다.
      (projects/resources 는 위에서 이미 처리했으므로 제외) */
   const WIDGET_PAGES = ['concrete.html', 'waterproof.html', 'materials.html', 'about.html', 'contact.html'];
-  const widgets = WIDGET_PAGES.filter((f) => fileExists(f)).map(fillWidgets).filter((w) => w.filled);
-  widgets.forEach((w) => outputs.push([w.file, w.next]));
+  const widgets = WIDGET_PAGES.filter((f) => fileExists(f))
+    .map((f) => fillWidgets(f, readPage(f))).filter((w) => w.filled);
+  widgets.forEach((w) => pageText.set(w.file, w.next));
+
+  pageText.forEach((text, file) => outputs.push([file, text]));
 
   console.log('base url        : ' + SITE_URL + (BASE_ARG ? '   (--base 로 지정)' : '   (config.js)'));
+  const shellChanged = shells.filter((s) => s.changed.length);
+  console.log('머리말·꼬리말   : ' + shells.length + '쪽 대조' +
+    (shellChanged.length ? '  → 갱신 ' + shellChanged.map((s) => s.file).join(', ') : '  → 모두 일치'));
   console.log('시공사례 페이지 : ' + casePages.length + '건  → case/');
   console.log('기술자료 페이지 : ' + guidePages.length + '건  → guide/');
   grids.forEach((g) => {

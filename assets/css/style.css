@@ -223,9 +223,14 @@ p { margin: 0; }
 .brand__mark { width: 32px; height: 32px; object-fit: contain; }
 .brand__text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand__text strong { font-size: 16px; font-weight: 700; color: var(--ink); }
+/* 브랜드 아래 한 줄 — 한글 서브라인입니다.
+   영문 약어를 담던 자리라 8.5px · letter-spacing .16em 이었습니다. 한글을
+   그 크기로 두면 읽히지 않고, 자간만 벌어져 헤더 폭을 밀어냅니다.
+   한글이 읽히는 최소 크기로 올리고 자간을 좁힙니다. */
 .brand__text em {
-  font-family: var(--font-en); font-style: normal;
-  font-size: 8.5px; font-weight: 500; letter-spacing: 0.16em; color: var(--color-gray-dark);
+  font-family: inherit; font-style: normal;
+  font-size: 10.5px; font-weight: 400; letter-spacing: 0.01em; color: var(--color-gray-dark);
+  white-space: nowrap;
 }
 
 .gnb { display: flex; align-items: center; gap: 24px; }
@@ -1026,7 +1031,9 @@ body.is-locked { overflow: hidden; }
 .footer__grid { display: grid; gap: 36px; padding-bottom: clamp(36px, 4vw, 56px); }
 .footer__brand img { width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1); margin-bottom: 16px; }
 .footer__name { margin-bottom: 6px; font-size: 16.5px; font-weight: 700; color: var(--color-white); }
-.footer__tag { margin-bottom: 16px; font-size: 13.5px; color: #b6b2ab; }
+.footer__tag { margin-bottom: 4px; font-size: 13.5px; color: #b6b2ab; }
+/* 신뢰 한 줄 — 운영 법인 + 총판 자격. 태그라인보다 한 단계 밝게 둡니다. */
+.footer__trust { margin-bottom: 16px; font-size: 13px; color: #d8d4cd; }
 .footer__tel { margin-bottom: 8px; }
 .footer__tel a { font-family: var(--font-en); font-size: 19px; font-weight: 700; color: var(--color-white); }
 .footer address { font-size: 13.5px; line-height: 1.7; }

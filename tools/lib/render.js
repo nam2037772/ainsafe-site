@@ -37,7 +37,9 @@ const NAV_ITEMS = [
   ['about.html', '회사소개']
 ];
 
-function header(prefix, current) {
+/* 헤더 · 푸터의 브랜드 표기는 assets/js/config.js 의 COMPANY 한 곳에서만 옵니다.
+   여기에 이름을 직접 적지 마세요 — 적는 순간 페이지마다 이름이 갈라집니다. */
+function header(prefix, current, COMPANY) {
   const items = NAV_ITEMS.map(([href, label]) => {
     const on = href === current ? ' aria-current="page"' : '';
     return `        <li><a href="${prefix}${href}"${on}>${label}</a></li>`;
@@ -47,7 +49,7 @@ function header(prefix, current) {
   <div class="header__bar">
     <a class="brand" href="${prefix}index.html">
       <img class="brand__mark" src="${prefix}assets/images/brand/logo.png" alt="" width="38" height="38" />
-      <span class="brand__text"><strong>아인산업안전</strong><em>CONCRETE REPAIR &amp; WATERPROOFING</em></span>
+      <span class="brand__text"><strong>${esc(COMPANY.brand)}</strong><em>${esc(COMPANY.brandSubline)}</em></span>
     </a>
     <nav class="gnb" id="gnb" aria-label="주요 메뉴">
       <ul class="gnb__list">
@@ -72,6 +74,9 @@ ${items}
    ※ 법인등록번호는 넣지 않습니다 — 표시 의무 항목이 아닙니다. */
 function legalLine(COMPANY) {
   return [
+    /* 브랜드(제주노출콘크리트)를 실제로 운영하는 법인을 맨 앞에 밝힙니다.
+       화면에 보이는 이름과 계약 상대가 다르다는 사실을 숨기지 않기 위함입니다. */
+    COMPANY.name || '',
     COMPANY.representative ? '대표 ' + COMPANY.representative : '',
     COMPANY.businessNumber ? '사업자등록번호 ' + COMPANY.businessNumber : '',
     COMPANY.mailOrderNumber ? '통신판매업신고 ' + COMPANY.mailOrderNumber : ''
@@ -88,9 +93,10 @@ function footer(prefix, COMPANY, EXTERNAL_LINKS) {
   return `<footer class="footer">
   <div class="wrap footer__grid">
     <div class="footer__brand">
-      <img src="${prefix}assets/images/brand/logo.png" alt="아인산업안전 로고" width="40" height="40" loading="lazy" />
-      <p class="footer__name">${esc(COMPANY.name)}</p>
-      <p class="footer__tag">${esc(COMPANY.slogan)}</p>
+      <img src="${prefix}assets/images/brand/logo.png" alt="${esc(COMPANY.brand)} 로고" width="40" height="40" loading="lazy" />
+      <p class="footer__name">${esc(COMPANY.brand)}</p>
+      <p class="footer__tag">${esc(COMPANY.brandSubline)}</p>
+      <p class="footer__trust">${esc(COMPANY.trustLine)}</p>
       <p class="footer__tel"><a href="${esc(COMPANY.telHref)}">대표전화 ${esc(COMPANY.tel)}</a></p>
       <address>${esc(COMPANY.address)}</address>
     </div>
@@ -124,7 +130,7 @@ ${ext('blog', '네이버 블로그')}${ext('youtube', '유튜브')}${ext('instag
     </nav>
   </div>
   <div class="wrap footer__bottom">
-    <small>© <span data-year>2026</span> ${esc(COMPANY.name)}. All rights reserved.</small>
+    <small>© <span data-year>2026</span> ${esc(COMPANY.brand)}. All rights reserved.</small>
     <small data-business-number>${esc(legalLine(COMPANY))}</small>
   </div>
 </footer>
