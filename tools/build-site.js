@@ -1048,7 +1048,10 @@ ${linkList(channels)}
    두 번째 LocalBusiness 를 만들지 않습니다. */
 function buildOrganisationGraph() {
   const org = {
-    '@type': 'ProfessionalService',
+    /* ProfessionalService 는 Organization 의 하위 유형입니다. 두 이름을 함께 밝히는 것은
+       같은 사실을 다시 말하는 것일 뿐, 노드를 하나 더 만들지 않습니다. 하위 유형을 따라
+       올라가지 않는 도구도 이 노드를 회사로 알아보게 하려는 것입니다. */
+    '@type': ['Organization', 'ProfessionalService'],
     '@id': ORG_ID,
     /* name 은 '검색결과에 나오는 이름'입니다 — 브랜드를 씁니다.
        법인명은 legalName 으로, 사람들이 함께 부르는 다른 이름은 alternateName 으로
