@@ -70,7 +70,13 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .header--overlay:not(.is-solid):not(.is-open) .burger__box i{background:var(--ink)}
 .phero{min-height:clamp(380px,42vw,560px);padding-top:0;align-items:center;background:#dcdad6}
 .phero__media img{filter:none;opacity:1}
-.phero::after{content:none;position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(248,247,245,.96) 0%,rgba(248,247,245,.78) 28%,rgba(248,247,245,.18) 58%,rgba(248,247,245,0) 76%)}
+/* 데스크톱 스크림 — 이미 여기 있던 규칙을 content:none 으로 꺼 두었던 것을 켭니다.
+   900px 이상에서는 어두운 글자가 사진 위에 그대로 얹혀 있었습니다(.eyebrow 1.84,
+   .phero__desc 2.00). 정지점을 늘리고, 끝을 0 이 아니라 .34 로 남겨 사진에서 가장
+   어두운 부분에도 최소한의 바탕이 깔리게 했습니다 — .phero__desc 한 줄이 그라데이션
+   이 사라지는 지점 너머까지 뻗어 900/1024 에서 4.5:1 에 미달했기 때문입니다.
+   899px 이하는 아래 미디어쿼리가 content/background 를 다시 선언하므로 그대로입니다. */
+.phero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(248,247,245,.96) 0%,rgba(248,247,245,.86) 34%,rgba(248,247,245,.52) 64%,rgba(248,247,245,.40) 86%,rgba(248,247,245,.34) 100%)}
 .phero__inner{z-index:2;width:auto;max-width:var(--wrap);padding:48px var(--gutter);color:var(--ink)}
 .phero .eyebrow{color:var(--color-gray-dark)}.phero h1{max-width:14ch;color:var(--ink)}
 .phero__desc{margin-top:1.3em;max-width:34em;font-size:1rem;line-height:1.85;color:var(--ink-2)}
