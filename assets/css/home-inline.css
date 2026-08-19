@@ -8,7 +8,7 @@
   --paper:#f4f3f0;      /* 따뜻한 오프화이트 (교차 섹션) */
   --ink:#161616;        /* 거의 검정 */
   --ink-2:#3d3d3d;      /* 본문 */
-  --sub:#6f6d69;        /* 보조 텍스트 / 라벨 */
+  --sub:#555552;        /* 보조 텍스트 / 라벨 — 흰 배경 7.5:1, 오프화이트 6.7:1 */
   --line:#e5e2dd;       /* 헤어라인 */
   --dark:#141311;       /* 다크 섹션 */
   --dark-sub:#a7a29a;
@@ -133,14 +133,22 @@ ul,ol{list-style:none}
   animation:kb 9s ease-out both}
 .hero__slide.active img{animation:kb 9s ease-out both}
 @keyframes kb{from{transform:scale(1.08)}to{transform:scale(1)}}
-/* 좌측 흰색 페이드 — 어두운 제목 가독성 확보 */
+/* 좌측 흰색 페이드 — 어두운 제목 가독성 확보.
+   .hero__sub 는 폭 제한이 없어 768/1440 에서 한 줄이 스크림 밖 사진 위까지
+   뻗습니다. 예전 정지점(.18@48%, 0@66%)에서는 줄 끝 25~42% 구간이 4.5:1 에
+   미달했습니다. 글자색만으로는 해결되지 않아(가장 어두운 배경 위에서는 순수
+   검정도 3.9:1) 스크림이 글줄 끝까지 닿도록 정지점을 늘립니다. */
 .hero__scrim{position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(248,247,245,.95)0%,rgba(248,247,245,.74)22%,rgba(248,247,245,.18)48%,rgba(248,247,245,0)66%)}
+  background:linear-gradient(90deg,rgba(248,247,245,.96)0%,rgba(248,247,245,.86)30%,rgba(248,247,245,.52)60%,rgba(248,247,245,0)78%)}
 
+/* 사진 위 글자의 마지막 보정 — 스크림과 같은 오프화이트 헤일로.
+   배경이 이미 밝은 곳에서는 보이지 않고, 사진이 비치는 구간에서만 글자
+   둘레를 밝혀 줍니다. 자간·크기·굵기는 건드리지 않습니다. */
 .hero__inner{position:absolute;top:0;left:0;right:0;bottom:0;z-index:2;
   max-width:1240px;margin:0 auto;
   display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
-  text-align:left;color:var(--ink);padding:6vh var(--gap) 0}
+  text-align:left;color:var(--ink);padding:6vh var(--gap) 0;
+  text-shadow:0 0 10px rgba(248,247,245,.9),0 0 22px rgba(248,247,245,.6)}
 .hero__title{font-family:var(--serif);font-weight:400;color:var(--ink);
   font-size:clamp(1.9rem,4vw,3.05rem);line-height:1.5;letter-spacing:.01em}
 /* 히어로의 브랜드 서브라인 — 위 .brand span 과 같은 이유로 한글 자간을 씁니다. */

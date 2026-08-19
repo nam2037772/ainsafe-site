@@ -1,7 +1,7 @@
 /* Homepage-aligned design system for all subpages. */
 :root{
 --color-white:#fff;--color-concrete-light:#f4f3f0;--color-concrete:#a7a29a;
---color-gray-dark:#6f6d69;--color-charcoal:#3d3d3d;--color-black:#161616;
+--color-gray-dark:#555552;--color-charcoal:#3d3d3d;--color-black:#161616;
 --color-line:#e5e2dd;--paper:#fff;--ink:#161616;--ink-2:#3d3d3d;--body-c:#3d3d3d;
 --font-ko:Noto\ Sans\ KR,-apple-system,BlinkMacSystemFont,sans-serif;
 --font-en:Noto\ Sans\ KR,-apple-system,BlinkMacSystemFont,sans-serif;
@@ -97,6 +97,14 @@ body{background:#fff;color:var(--ink);font-family:var(--font-ko);font-weight:300
 .strength__ttl{font-size:clamp(1.25rem,2vw,1.65rem)}.strength__text{line-height:1.95}
 .related__item{gap:clamp(36px,6vw,88px)}.related__media img{filter:none}
 .related__no{font-family:var(--font-ko);font-size:.72rem;font-weight:400;letter-spacing:.22em;color:var(--color-gray-dark)}
+/* --color-concrete(#a7a29a) 는 어두운 섹션 위에서 쓰라고 만든 색입니다.
+   흰 배경 2.5:1, 오프화이트 2.3:1 로 사실상 보이지 않아, 밝은 배경에 놓인
+   이 세 가지 보조 텍스트만 --color-gray-dark 로 돌립니다. 위 .related__no
+   가 이미 같은 이유로 그렇게 되어 있습니다. 어두운 섹션은 그대로 둡니다. */
+.strength__no,.resource-row__date,.filterbar__label{color:var(--color-gray-dark)}
+.section--dark .strength__no,
+.section--dark .resource-row__date,
+.section--dark .filterbar__label{color:var(--color-concrete)}
 .channels{gap:0;background:transparent;border-width:1px 0 0}
 .channel{padding:32px 0;background:transparent;border-bottom:1px solid var(--line)}.channel:hover{background:transparent}
 .channel__name{font-size:1.2rem}.contact__grid{gap:clamp(56px,8vw,112px)}
