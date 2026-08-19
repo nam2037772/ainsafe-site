@@ -1,0 +1,75 @@
+# 제주노출콘크리트 (Jeju Exposed Concrete Repair)
+
+> 제주특별자치도를 기반으로 노출콘크리트 표면 결함 보수·복원과 특수방수를 수행하는 지역 기술 시공팀입니다. 운영 법인은 (주)아인산업안전이며, 노출콘크리트 면보수재 '콘채'의 제주도 총판입니다. 대표 주소: https://ainconcrete.com/
+
+제주노출콘크리트는 노출콘크리트 면보수·복원과 특수방수, 두 가지 영역만 다룹니다. 곰보·기포, 층조인트 단차, 균열·박락, 오염·백화 같은 표면 하자를 덮어 가리는 대신 주변 면의 질감과 색을 읽어 다시 만들어 넣고, 색보정으로 기존 면과 잇는 방식으로 시공합니다. 누수는 물이 떨어지는 지점이 아니라 유입 경로를 먼저 추적한 뒤 인젝션·그라우팅·액상고무 방수로 차단하고, 마감면을 면보수로 복원하는 데까지 이어집니다.
+
+해풍과 염분, 잦은 강우라는 제주의 환경은 육지와 다른 열화 양상을 만들며, 같은 균열이라도 원인이 다르면 공법이 달라지고 같은 색이라도 계절과 습도에 따라 다르게 발현됩니다. 이 사이트의 기술자료와 시공사례는 제주 현장에서 반복 확인한 판단 기준을 공정별로 공개한 기록입니다. 색과 질감은 시험 시공과 건조 확인을 거쳐 승인받은 뒤 전면 작업에 들어가며, 보수 방안은 건축기술자가 직접 검토합니다.
+
+- 브랜드: 제주노출콘크리트 (제주 노출콘크리트 보수·복원 전문)
+- 운영 회사: (주)아인산업안전 (법인명: 주식회사 아인산업안전)
+- 자재 총판: 노출콘크리트 면보수재 콘채 제주도 총판
+- 소재지: 제주특별자치도 서귀포시 성산읍 풍천로 142, 103호 — 제주시 · 서귀포시 전 지역 현장 대응
+- 등록 업종: 노출콘크리트면보수공사업, 방수공사업, 시설물 유지관리 공사업, 건축공사, 건축자재, 안전용품, 전자상거래 소매업
+- 대표전화 1660-4019 · 기술상담 010-5638-0103 · 이메일 ainsafe@naver.com
+- 상담시간: 평일 08:00 – 18:00 (현장 상담 예약제)
+
+## 회사 소개
+
+- [제주노출콘크리트 홈](https://ainconcrete.com/): 브랜드 개요, 전문 분야, 대표 시공사례와 기술자료 요약.
+- [회사소개 · (주)아인산업안전](https://ainconcrete.com/about.html): 운영 법인 정보, 등록 업종, 일하는 방식(사진 1차 검토 → 공법 설명 → 색·질감 승인 → 기록 공개).
+
+## 서비스
+
+- [제주 노출콘크리트 보수·복원 (면보수 공정)](https://ainconcrete.com/concrete.html): 곰보·기포 보수, 층조인트 및 단차 보정, 색상 및 질감 재현, 균열 보수, 발수 및 표면 보호 — 공정별 판단 기준과 시공 순서, 상담부터 완료까지의 절차.
+- [특수방수 · 누수 인젝션 · 액상고무 방수](https://ainconcrete.com/waterproof.html): 균열·조인트 우레탄 인젝션, 배면 그라우팅·지수, 액상고무 도막방수, 방수 후 마감 복원. 지하주차장 천장 누수, 지하 벽체 습기, 옥상·파라펫, 물탱크실·피트 적용.
+
+## 기술자료
+
+공정별 판단 기준을 정리한 기술 문서입니다. 전체 목록: [기술자료](https://ainconcrete.com/resources.html)
+
+- [노출콘크리트 곰보·기포 보수의 기본 원리](https://ainconcrete.com/guide/concrete-repair-001.html): 메우는 것과 다시 만드는 것의 차이, 충전재 선택부터 질감 재현까지의 순서.
+- [층조인트 단차 보정과 라인 정리](https://ainconcrete.com/guide/joint-level-002.html): 갈아내야 하는 경우와 채워야 하는 경우를 구분하는 기준.
+- [색상 및 질감 재현 — 조색은 현장에서](https://ainconcrete.com/guide/color-texture-003.html): 같은 벽면에서도 위치에 따라 달라지는 톤을 읽어내는 방법과 조색 절차.
+- [균열 보수 — 거동 균열과 비거동 균열의 구분](https://ainconcrete.com/guide/crack-repair-004.html): 균열 폭보다 거동 여부가 충전재와 공법을 결정하는 이유.
+- [누수 인젝션 — 경로 추적이 먼저입니다](https://ainconcrete.com/guide/injection-005.html): 지하주차장 누수 보수가 실패하는 원인과 주입 전 확인 항목.
+- [액상고무 방수의 적용 범위](https://ainconcrete.com/guide/liquid-rubber-006.html): 이음매 없는 도막방수가 유리한 부위, 적합한 바탕면 조건과 한계.
+- [발수 및 표면 보호 — 보수 이후를 결정하는 마지막 공정](https://ainconcrete.com/guide/water-repellent-007.html): 발수제 선택과 도포 시점.
+- [보수재 · 방수재 선정 기준](https://ainconcrete.com/guide/repair-material-008.html): 폴리머 모르타르, 콘채 계열 마감재, 우레탄 인젝션재, 발수제를 바탕면 상태와 노출 조건에 따라 고르는 기준.
+
+## 시공사례
+
+시공 전·중·후 사진과 적용 공법, 콘채 배합을 보정 없이 기록한 38건의 사례가 있습니다. 전체 목록: [시공사례](https://ainconcrete.com/projects.html)
+
+- [제주 오염·백화 노출콘크리트 면보수 (콘채 라이트그레이2:아이보리1)](https://ainconcrete.com/case/case-044-jeju-stain-efflorescence-exposed-concrete-repair.html)
+- [제주 주택 웜그레이톤 콘채 노출콘크리트 마감 (아이보리·라이트그레이 1:1 배합)](https://ainconcrete.com/case/case-043-warm-gray-tone-conchae-jeju-house-finish.html)
+- [층조인트 노출콘크리트 면보수 및 컬러 조색](https://ainconcrete.com/case/case-042-floor-joint-exposed-concrete-repair-color-matching.html)
+- [음각 로고 노출콘크리트 벽체 파손·오염 면보수 및 색보정](https://ainconcrete.com/case/case-041-exposed-concrete-logo-wall-repair-color-correction.html)
+- [창호 주변 노출콘크리트 면보수 및 색상 매칭 (제주, 6개 구간)](https://ainconcrete.com/case/case-040-window-surround-exposed-concrete-color-matching-repair.html)
+- [제주 신축현장 옹벽 노출콘크리트 질감 복원 면보수](https://ainconcrete.com/case/case-039-jeju-new-building-retaining-wall-exposed-concrete-repair.html)
+- [기둥 골재 노출 단면보수 및 콘채 패턴 마감](https://ainconcrete.com/case/case-038-column-section-repair-conchae-pattern-two-columns.html)
+- [제주 공원 노출콘크리트 외벽 노후 복원](https://ainconcrete.com/case/case-006-jeju-park-exterior-wall-restoration.html)
+- [제주도 실내벽체 노출콘크리트 패칭·샌딩·박막코팅](https://ainconcrete.com/case/case-017-exposed-concrete-jeju-interior-wall-patching-thin-coating.html)
+- [유로폼 노출콘크리트 줄눈복원](https://ainconcrete.com/case/case-011-euroform-joint-line-restoration-process.html)
+- [콘채 면보수 배합 레시피와 채도 조절 가이드 (미들그레이·백시멘트·아이보리)](https://ainconcrete.com/case/case-020-exposed-concrete-conche-mix-recipe-saturation-guide.html)
+- [노출콘크리트 리페어 콘채 희석비율 비교](https://ainconcrete.com/case/case-008-concrete-repair-dilution-ratio-comparison.html)
+- [노출콘크리트 샌딩 단계별 공정 및 콘채 코팅](https://ainconcrete.com/case/case-012-exposed-concrete-sanding-grit-process-coating.html)
+- [노출콘크리트 스테인 '도장 느낌(도막감)' 발생 원인과 이종자재 혼합 주의사항](https://ainconcrete.com/case/case-024-exposed-concrete-stain-coating-look-binder-buildup-warning.html)
+- [인테리어 현장 노출콘크리트면 복원 (미장느낌 없는 형상복원)](https://ainconcrete.com/case/case-026-exposed-concrete-interior-restoration-before-after.html)
+- [코오롱스포츠 명동 플래그십 스토어 콘채 콘크리트 월아트](https://ainconcrete.com/case/case-031-kolon-sport-myeongdong-flagship-concrete-wall-art.html)
+
+## 자재
+
+- [노출콘크리트 면보수재 콘채 · 보수재 안내](https://ainconcrete.com/materials.html): 현장에서 실제로 쓰는 자재를 선정 기준과 함께 안내합니다 — 노출콘크리트 보수재, 색상·질감 재현 마감재(콘채), 누수 인젝션재, 액상고무 방수재, 침투형 발수제·표면 보호재. 제주도 콘채 총판으로 공급하며 배합·시공을 기술지원합니다.
+
+## 문의
+
+- [상담문의](https://ainconcrete.com/contact.html): 현장 사진을 보내면 표면 상태와 하자 유형을 1차 검토합니다. 대표전화 1660-4019, 기술상담 010-5638-0103, 이메일 ainsafe@naver.com.
+- [개인정보처리방침](https://ainconcrete.com/privacy.html)
+
+## 관련 채널
+
+- [아인산업안전 자재몰](https://www.ainsafety.com): 같은 사업자가 운영하는 별도 사이트로, 보수재·방수재·발수제를 직접 구매할 수 있습니다.
+- [네이버 블로그](https://blog.naver.com/ainsafe): 현장에서 기록한 시공 과정과 보수 노하우.
+- [유튜브](https://www.youtube.com/@%EC%95%84%EC%9D%B8%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84): 실제 시공 장면과 공법 시연 영상.
+- [인스타그램](https://www.instagram.com/ericswallart/): 완성된 노출콘크리트 면과 디테일 사진.
