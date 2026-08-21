@@ -18,7 +18,7 @@
    ============================================================ */
 'use strict';
 
-const { CASE_IMAGE_ROOT } = require('./case-source');
+const { CASE_IMAGE_ROOT, loadRepoSources } = require('./case-source');
 const { loadRawCases, auditRawCase } = require('./raw-cases');
 
 /** URL 에서 확장자를 얻습니다. 알 수 없으면 .jpg 로 둡니다. */
@@ -68,19 +68,32 @@ function planImages(rawCase, slug) {
 }
 
 /**
- * Raw 전체 + 발행대기 색인 → 사례 계획 목록.
+ * Raw 전체 + 본문 노트 색인 → 사례 계획 목록.
  * Raw 에 있는 사례만 만듭니다. (지워진 번호는 되살리지 않습니다)
+ *
+ * 저장소 원본(data/case-sources/NNN.md)은 한 파일에 이미지분류와 본문이 함께 있으므로
+ * 같은 파일끼리 맞춥니다. 우연히 번호가 같은 vault 발행대기 노트와 섞이지 않습니다.
  */
 function buildCasePlans(vaultDir, drafts) {
   const raws = loadRawCases(vaultDir);
+  const repoDrafts = loadRepoSources();
   const plans = [];
   const problems = [];
 
   raws.forEach((raw) => {
-    const draft = drafts[raw.case_no];
+    const draft = raw.repoSource ? repoDrafts[raw.case_no] : drafts[raw.case_no];
     if (!draft) {
       problems.push({ case_no: raw.case_no, level: 'error', text: '발행대기 노트가 없어 제목·본문을 만들 수 없습니다' });
       return;
+    }
+    /* 같은 번호를 vault 노트도 쓰고 있으면 조용히 넘어가지 않고 알려 줍니다. */
+    if (raw.repoSource && drafts[raw.case_no] && drafts[raw.case_no].path !== draft.path) {
+      problems.push({
+        case_no: raw.case_no,
+        level: 'warn',
+        text: '같은 번호의 vault 발행대기 노트가 있습니다 (' + drafts[raw.case_no].file +
+              ') — 저장소 원본 ' + draft.file + ' 을 씁니다'
+      });
     }
     auditRawCase(raw).forEach((i) => problems.push({ case_no: raw.case_no, level: i.level, text: i.text }));
 

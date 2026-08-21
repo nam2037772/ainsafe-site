@@ -183,6 +183,7 @@ function webpFor(rel) {
 
 function writeFileIfChanged(rel, content) {
   const file = path.join(REPO_ROOT, rel);
+  require('./case-source').assertWritable(file);   // vault 안에는 절대 쓰지 않습니다
   fs.mkdirSync(path.dirname(file), { recursive: true });
   if (fs.existsSync(file) && fs.readFileSync(file, 'utf8') === content) return false;
   fs.writeFileSync(file, content, 'utf8');

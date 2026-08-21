@@ -6,17 +6,18 @@
 
      Raw/노출콘 시공기술사례/*.md      ← 이미지 분류의 정본 (대표/전/중/후)
      Wiki/홈페이지/발행대기/*.md       ← 제목·요약·기술 본문
+     data/case-sources/NNN.md          ← 저장소 안에 두는 사례 원본 (본문 + 이미지분류)
               ↓
      assets/js/projects.js            ← 사이트 데이터
-     (--sync-drafts 를 붙이면 발행대기 프론트매터의 이미지 항목도 Raw 로 맞춥니다)
 
    사용법
      node tools/rebuild-cases.js                     # 미리보기
      node tools/rebuild-cases.js --write             # projects.js 재작성
-     node tools/rebuild-cases.js --write --sync-drafts
      node tools/rebuild-cases.js --vault="D:\\경로\\에릭_vault"
 
    ▶ 원칙
+     · 옵시디언 vault 는 읽기 전용입니다. 이 도구는 vault 안의 파일을 고치지 않습니다.
+       (예전의 --sync-drafts 는 발행대기 노트를 되썼기 때문에 더 쓰지 않습니다)
      · Raw 에 없는 사례 번호는 되살리지 않습니다. 없어진 사례는 은퇴 목록으로 옮깁니다.
      · 대표사진을 Raw 에서 읽을 수 없으면 다른 사진으로 대신하지 않고 보류합니다.
      · 이미지 순서는 노트에 적힌 그대로 둡니다.
@@ -31,7 +32,17 @@ const {
 const { buildCasePlans } = require('./lib/case-plan');
 
 const WRITE = process.argv.includes('--write');
-const SYNC_DRAFTS = process.argv.includes('--sync-drafts');
+/* 예전 옵션 — vault 안의 발행대기 노트를 되쓰던 기능입니다.
+   vault 는 읽기 전용이므로 조용히 무시하지 않고 그 자리에서 멈춥니다. */
+if (process.argv.includes('--sync-drafts')) {
+  console.error([
+    '--sync-drafts 는 더 쓰지 않습니다.',
+    '이 옵션은 옵시디언 vault 안의 발행대기 노트를 다시 썼습니다.',
+    'vault 는 읽기 전용이라 사이트 도구가 vault 를 고치지 않습니다.',
+    '사이트 쪽에서 관리할 사례는 data/case-sources/NNN.md 로 두세요.'
+  ].join(String.fromCharCode(10)));
+  process.exit(2);
+}
 const VAULT = resolveVault();
 
 /* ── 발행대기 본문 → 사이트 한 줄 텍스트 ───────────────────
@@ -101,87 +112,10 @@ function toProject(plan, previous) {
   };
 }
 
-/* ── 발행대기 노트를 Raw 기준으로 맞춥니다 ─────────────────
-   프론트매터의 이미지 항목과 '## 관련 이미지' 목록 두 곳 모두,
-   에릭이 검수한 Raw 노트에서 다시 만듭니다.
-   (예전 발행대기 노트에 적혀 있던 이미지 목록이 Raw 를 덮지 않도록) */
-const DRAFT_IMAGE_KEYS = [
-  'representative_image', 'representative_images', 'featured_image',
-  'before_images', 'process_images', 'after_images'
-];
-const ROLE_LABELS = [
-  ['before', '시공 전'], ['process', '시공 중'], ['after', '시공 후']
-];
-
-function frontmatterBlock(plan) {
-  const rep = plan.images.representative ? plan.images.representative.path : '';
-  const out = [`representative_image: ${rep}`];
-  if (plan.images.extraRepresentative.length) {
-    out.push('representative_images:');
-    [plan.images.representative, ...plan.images.extraRepresentative]
-      .forEach((x) => out.push(`  - ${x.path}`));
-  }
-  ROLE_LABELS.forEach(([role, ko]) => {
-    const key = role + '_images';
-    const list = plan.images[role];
-    if (!list.length) { out.push(`${key}: []   # ${ko} — 사진없음`); return; }
-    out.push(`${key}:`);
-    list.forEach((x) => out.push(`  - ${x.path}`));
-  });
-  return out;
-}
-
-function relatedImagesBody(plan) {
-  const lines = [
-    '원본은 에릭 검수본 Raw 노트입니다. 아래 목록은 그 분류와 순서를 그대로 옮긴 것이며,',
-    '`tools/rebuild-cases.js` 가 다시 만듭니다. 직접 고치지 말고 Raw 노트를 고쳐 주세요.',
-    '',
-    '- 원본 노트: [[' + path.basename(plan.raw.file, '.md') + ']]',
-    ''
-  ];
-  const rep = [plan.images.representative, ...plan.images.extraRepresentative].filter(Boolean);
-  lines.push('**대표사진**');
-  rep.forEach((x, i) => lines.push(`${i + 1}. ${x.path}`));
-  ROLE_LABELS.forEach(([role, ko]) => {
-    lines.push('');
-    lines.push(`**${ko}**`);
-    const list = plan.images[role];
-    if (!list.length) { lines.push('사진없음'); return; }
-    list.forEach((x, i) => lines.push(`${i + 1}. ${x.path}${x.reused ? '  (대표사진과 같은 사진)' : ''}`));
-  });
-  return lines.join('\n');
-}
-
-function syncDraft(plan) {
-  const original = fs.readFileSync(plan.draft.path, 'utf8');
-  const text = original.replace(/^﻿/, '');
-  const m = /^(---\r?\n)([\s\S]*?)(\r?\n---\r?\n?)/.exec(text);
-  if (!m) return false;
-  const eol = m[1].indexOf('\r') > -1 ? '\r\n' : '\n';
-
-  /* 1) 프론트매터 — 기존 이미지 항목(과 그 목록 줄)을 걷어내고 다시 씁니다. */
-  const kept = [];
-  let dropping = false;
-  m[2].split(/\r?\n/).forEach((line) => {
-    if (/^\s*-\s+/.test(line)) { if (!dropping) kept.push(line); return; }
-    const key = (/^([A-Za-z0-9_]+)\s*:/.exec(line) || [])[1];
-    if (key && DRAFT_IMAGE_KEYS.indexOf(key) > -1) { dropping = true; return; }
-    dropping = false;
-    kept.push(line);
-  });
-  let next = m[1] + kept.concat(frontmatterBlock(plan)).join(eol) + m[3] + text.slice(m[0].length);
-
-  /* 2) '## 관련 이미지' 본문 — Raw 기준 목록으로 갈아 끼웁니다. */
-  const section = /(^|\n)(##\s+관련 이미지\s*\n)([\s\S]*?)(?=\n##\s|\n*$)/;
-  const body = relatedImagesBody(plan).split('\n').join(eol);
-  next = section.test(next)
-    ? next.replace(section, (all, lead, head) => lead + head + eol + body + eol)
-    : next.replace(/\s*$/, eol + eol + '## 관련 이미지' + eol + eol + body + eol);
-
-  if (next === original) return false;
-  fs.writeFileSync(plan.draft.path, next, 'utf8');
-  return true;
-}
+/* ── vault 로 되쓰지 않습니다 ───────────────────────────────
+   예전에는 이 파일이 발행대기 노트의 이미지 항목을 Raw 기준으로 다시 썼습니다
+   (--sync-drafts). 옵시디언 vault 는 읽기 전용이므로 그 코드는 걷어냈습니다.
+   사이트 쪽에서 관리할 사례는 data/case-sources/NNN.md 에 둡니다. */
 
 /* ── sitemap 은 여기서 쓰지 않습니다 ───────────────────────
    예전에는 이 파일이 sitemap.xml 에 project.html?id=… 주소를 적었습니다.
@@ -260,10 +194,6 @@ function main() {
   writeProjects({ source: bundle.source, PROJECTS: projects, PROJECT_ALIASES: aliases, RETIRED_PROJECT_IDS: retired });
   console.log('\n' + path.relative(REPO_ROOT, PROJECTS_FILE).replace(/\\/g, '/') + ' 를 다시 썼습니다.');
 
-  if (SYNC_DRAFTS) {
-    const n = plans.filter(syncDraft).length;
-    console.log(`발행대기 노트 ${n}건의 이미지 항목을 Raw 기준으로 맞췄습니다.`);
-  }
   console.log('\n이어서 아래 두 개를 차례로 실행하세요.');
   console.log('  node tools/build-site.js --write   # 상세 페이지 · 목록 · sitemap 다시 만들기');
   console.log('  node tools/check-site.js           # 검증');

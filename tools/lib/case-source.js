@@ -1,11 +1,20 @@
 /* ============================================================
    tools/lib/case-source.js
    ------------------------------------------------------------
-   옵시디언 시공기술사례 노트 → 사이트 데이터 사이의 공통 유틸.
+   시공기술사례 노트 → 사이트 데이터 사이의 공통 유틸.
    · 프론트매터 파싱 (필요한 최소 YAML 문법만)
    · 이미지 역할 항목(representative_image / before_images / after_images)
      을 사이트 경로로 변환
    · assets/js/projects.js 읽기 / 다시 쓰기
+
+   ▶ 사례 원본은 두 곳에서 옵니다
+       1) 옵시디언 vault — Raw/노출콘 시공기술사례 + Wiki/홈페이지/발행대기
+       2) 저장소 안       — data/case-sources/NNN.md  (한 파일에 본문 + 이미지분류)
+     같은 사례 번호가 양쪽에 있으면 vault 쪽을 씁니다.
+
+   ▶ 옵시디언 vault 는 읽기 전용입니다
+     이 저장소의 도구는 vault 안의 어떤 파일도 만들거나 고치지 않습니다.
+     실수로 그런 일이 생기지 않도록 파일 쓰기는 모두 assertWritable 을 거칩니다.
    ============================================================ */
 'use strict';
 
@@ -17,6 +26,11 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const PROJECTS_FILE = path.join(REPO_ROOT, 'assets', 'js', 'projects.js');
 const CASE_IMAGE_ROOT = 'assets/images/case-studies';
 const DRAFT_DIR = path.join('Wiki', '홈페이지', '발행대기');
+
+/** 저장소 안에 두는 사례 원본 — vault 에 쓰지 않고 사례를 늘릴 수 있는 자리입니다.
+    한 파일이 발행대기 노트(본문)와 Raw 노트(이미지분류) 역할을 함께 합니다. */
+const REPO_SOURCE_DIR = path.join('data', 'case-sources');
+const REPO_SOURCE_RE = /^(\d{3})\.md$/;
 
 /** 기본 vault 위치 — 저장소 옆의 Vault/에릭_vault. --vault= 로 덮어쓸 수 있습니다. */
 const DEFAULT_VAULT = path.resolve(REPO_ROOT, '..', '..', 'Vault', '에릭_vault');
@@ -30,6 +44,41 @@ function argValue(name, fallback) {
 /** 이 저장소의 도구들이 공통으로 쓰는 vault 경로 결정 규칙. */
 function resolveVault() {
   return path.resolve(argValue('vault', process.env.AINSAFE_VAULT || DEFAULT_VAULT));
+}
+
+/* ── vault 쓰기 금지 가드 ──────────────────────────────────── */
+
+/** 여러 줄 안내문을 이을 때 쓰는 줄바꿈 한 글자 */
+const EOL = String.fromCharCode(10);
+
+/**
+ * 파일을 쓰기 전에 반드시 거칩니다.
+ * 대상이 옵시디언 vault 안이면 조용히 쓰지 않고 그 자리에서 멈춥니다.
+ * (사이트 생성물은 저장소 안에만 있어야 합니다)
+ */
+function assertWritable(target) {
+  const abs = path.resolve(target);
+  const vault = path.resolve(resolveVault());
+  const rel = path.relative(vault, abs);
+  const insideVault = abs === vault || (rel !== '' && !rel.startsWith('..') && !path.isAbsolute(rel));
+  if (insideVault) {
+    const err = new Error([
+      '옵시디언 vault 는 읽기 전용입니다. vault 안의 파일을 쓰려 했습니다:',
+      '  ' + abs,
+      '사이트 생성물은 저장소 안에만 만들어야 합니다: ' + REPO_ROOT
+    ].join(EOL));
+    err.code = 'EVAULTREADONLY';
+    throw err;
+  }
+  return abs;
+}
+
+/** assertWritable 을 거친 뒤에 씁니다. 파일을 만드는 곳은 모두 이 함수를 씁니다. */
+function writeFileSafe(target, data, encoding = 'utf8') {
+  const abs = assertWritable(target);
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, data, encoding);
+  return abs;
 }
 
 /* ── 프론트매터 ────────────────────────────────────────────── */
@@ -106,9 +155,50 @@ function parseDraftSections(raw) {
   return out;
 }
 
+/** 노트 한 장 → 사례 색인 항목. (발행대기 노트와 저장소 원본이 같은 모양을 씁니다) */
+function toDraftEntry(full, fileLabel, raw, fm) {
+  return {
+    case_no: String(fm.case_no).padStart(3, '0'),
+    slug: fm.slug || path.basename(full, '.md'),
+    file: fileLabel,
+    path: full,
+    raw,
+    frontmatter: fm,
+    sections: parseDraftSections(raw)
+  };
+}
+
 /**
- * 발행대기 폴더를 사례 번호로 색인합니다.
+ * 저장소 안의 사례 원본(data/case-sources/NNN.md)을 사례 번호로 색인합니다.
+ * vault 에 노트를 만들지 않고도 사례를 늘릴 수 있는 자리입니다.
+ * 파일 이름의 번호와 프론트매터 case_no 가 어긋나면 읽지 않습니다.
+ */
+function loadRepoSources(repoRoot) {
+  const dir = path.join(repoRoot || REPO_ROOT, REPO_SOURCE_DIR);
+  const index = {};
+  if (!fs.existsSync(dir)) return index;
+
+  fs.readdirSync(dir).forEach((f) => {
+    const m = REPO_SOURCE_RE.exec(f);
+    if (!m) return;
+    const full = path.join(dir, f);
+    const raw = fs.readFileSync(full, 'utf8');
+    const fm = parseFrontmatter(raw);
+    if (String(fm.type || '') !== 'case' || !fm.case_no) return;
+    const no = String(fm.case_no).padStart(3, '0');
+    if (no !== m[1]) return;              // 046.md 인데 case_no 가 다르면 읽지 않습니다
+    const label = REPO_SOURCE_DIR.split(path.sep).join('/') + '/' + f;
+    index[no] = toDraftEntry(full, label, raw, fm);
+    index[no].repoSource = true;
+  });
+  return index;
+}
+
+/**
+ * 사례 본문 노트를 사례 번호로 색인합니다.
  *   { '045': { slug, file, frontmatter, sections, path } }
+ * vault 의 발행대기 노트를 먼저 읽고, 저장소 원본(data/case-sources)을 덧붙입니다.
+ * 같은 번호가 양쪽에 있으면 vault 쪽을 씁니다.
  * 사례 번호는 프론트매터 case_no 를 3자리로 맞춰 씁니다.
  */
 function loadDrafts(vaultDir) {
@@ -125,16 +215,12 @@ function loadDrafts(vaultDir) {
     const fm = parseFrontmatter(raw);
     if (String(fm.type || '') !== 'case' || !fm.case_no) return;
     const no = String(fm.case_no).padStart(3, '0');
-    index[no] = {
-      case_no: no,
-      slug: fm.slug || path.basename(f, '.md'),
-      file: DRAFT_DIR.replace(/\\/g, '/') + '/' + f,
-      path: full,
-      raw,
-      frontmatter: fm,
-      sections: parseDraftSections(raw)
-    };
+    index[no] = toDraftEntry(full, DRAFT_DIR.replace(/\\/g, '/') + '/' + f, raw, fm);
   });
+
+  /* 저장소 원본 — vault 에 같은 번호가 없을 때만 씁니다. */
+  const repo = loadRepoSources();
+  Object.keys(repo).forEach((no) => { if (!index[no]) index[no] = repo[no]; });
   return index;
 }
 
@@ -243,7 +329,7 @@ function writeProjects({ source, PROJECTS, PROJECT_ALIASES, RETIRED_PROJECT_IDS 
     'const PROJECT_ALIASES = ' + JSON.stringify(PROJECT_ALIASES, null, 2) + ';\n\n' +
     'const RETIRED_PROJECT_IDS = ' + JSON.stringify(RETIRED_PROJECT_IDS, null, 2) + ';\n\n' +
     'const PROJECTS = ' + JSON.stringify(PROJECTS.map(orderKeys), null, 2) + ';\n';
-  fs.writeFileSync(file, body, 'utf8');
+  writeFileSafe(file, body);
   return body;
 }
 
@@ -252,7 +338,12 @@ module.exports = {
   PROJECTS_FILE,
   CASE_IMAGE_ROOT,
   DRAFT_DIR,
+  REPO_SOURCE_DIR,
+  REPO_SOURCE_RE,
   DEFAULT_VAULT,
+  assertWritable,
+  writeFileSafe,
+  loadRepoSources,
   argValue,
   resolveVault,
   parseFrontmatter,

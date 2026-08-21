@@ -1,10 +1,14 @@
 /* ============================================================
    tools/lib/raw-cases.js
    ------------------------------------------------------------
-   옵시디언 Raw 노트(에릭 검수본)를 읽는 단 하나의 창구입니다.
+   사례 원본(이미지 분류의 정본)을 읽는 단 하나의 창구입니다.
 
-     Vault/에릭_vault/Raw/노출콘 시공기술사례/
+     Vault/에릭_vault/Raw/노출콘 시공기술사례/     ← 에릭 검수본 (읽기 전용)
        노출콘크리트 시공기술사례 - NNN.md
+     data/case-sources/NNN.md                      ← 저장소 안에 두는 원본
+
+   저장소 원본은 한 파일 안에 발행대기 본문과 '# 이미지분류' 를 함께 담습니다.
+   vault 에 노트를 만들 수 없을 때 쓰며, 같은 번호가 양쪽에 있으면 vault 를 씁니다.
 
    ▶ 노트 서식 (에릭이 확정한 고정 스키마)
        # 작업내용
@@ -110,8 +114,40 @@ function parseRawNote(raw) {
   return { work, images, sectionOrder: order };
 }
 
-/** Raw 폴더 전체를 사례 번호 오름차순으로 읽습니다. */
+/**
+ * Raw 폴더 + 저장소 원본을 사례 번호 오름차순으로 읽습니다.
+ * 같은 번호가 양쪽에 있으면 vault 의 Raw 노트를 씁니다.
+ */
 function loadRawCases(vaultDir) {
+  const vault = loadVaultRawCases(vaultDir);
+  const seen = new Set(vault.map((c) => c.case_no));
+  const repo = loadRepoRawCases().filter((c) => !seen.has(c.case_no));
+  return vault.concat(repo).sort((a, b) => a.case_no.localeCompare(b.case_no));
+}
+
+/** 저장소 원본(data/case-sources/NNN.md)을 Raw 노트와 같은 모양으로 읽습니다. */
+function loadRepoRawCases(repoRoot) {
+  const { REPO_ROOT, REPO_SOURCE_DIR, REPO_SOURCE_RE } = require('./case-source');
+  const dir = path.join(repoRoot || REPO_ROOT, REPO_SOURCE_DIR);
+  if (!fs.existsSync(dir)) return [];
+
+  return fs.readdirSync(dir)
+    .map((file) => ({ file, m: REPO_SOURCE_RE.exec(file) }))
+    .filter((x) => x.m)
+    .sort((a, b) => a.m[1].localeCompare(b.m[1]))
+    .map(({ file, m }) => Object.assign(
+      {
+        case_no: m[1],
+        file,
+        source_note: REPO_SOURCE_DIR.split(path.sep).join('/') + '/' + file,
+        repoSource: true
+      },
+      parseRawNote(fs.readFileSync(path.join(dir, file), 'utf8'))
+    ));
+}
+
+/** vault 의 Raw 폴더를 사례 번호 오름차순으로 읽습니다. */
+function loadVaultRawCases(vaultDir) {
   const dir = path.join(vaultDir, RAW_DIR);
   if (!fs.existsSync(dir)) {
     const err = new Error('Raw 폴더를 찾을 수 없습니다: ' + dir);
@@ -153,4 +189,8 @@ function auditRawCase(c) {
   return issues;
 }
 
-module.exports = { RAW_DIR, ROLES, parseRawNote, loadRawCases, auditRawCase };
+module.exports = {
+  RAW_DIR, ROLES, parseRawNote,
+  loadRawCases, loadVaultRawCases, loadRepoRawCases,
+  auditRawCase
+};

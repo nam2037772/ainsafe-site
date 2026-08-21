@@ -14,6 +14,9 @@
      · 노트에 없는 이미지는 내려받지 않습니다. (에릭이 뺀 사진을 되살리지 않습니다)
      · 같은 사진이 대표·시공후에 겹치면 한 번만 내려받습니다.
      · 이미 있는 파일은 건너뜁니다. (--force 로 다시 받습니다)
+     · 원본이 주소가 아니라 사이트 경로면(저장소 원본 data/case-sources) 이미
+       저장소 안에 있는 사진이므로 내려받지 않고 있는지만 확인합니다.
+     · 사이트 이미지는 저장소 안에만 만듭니다. vault 안에는 쓰지 않습니다.
    ============================================================ */
 'use strict';
 
@@ -21,7 +24,9 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const http = require('http');
-const { REPO_ROOT, CASE_IMAGE_ROOT, resolveVault, loadDrafts } = require('./lib/case-source');
+const {
+  REPO_ROOT, CASE_IMAGE_ROOT, resolveVault, loadDrafts, assertWritable
+} = require('./lib/case-source');
 const { buildCasePlans } = require('./lib/case-plan');
 
 const WRITE = process.argv.includes('--write');
@@ -55,6 +60,7 @@ function download(url, dest, redirects = 0) {
       res.on('end', () => {
         const buf = Buffer.concat(chunks);
         if (buf.length < 1024) return reject(new Error('내용이 너무 작습니다 (' + buf.length + ' bytes)'));
+        assertWritable(dest);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, buf);
         resolve(buf.length);
@@ -72,12 +78,25 @@ async function main() {
   const wanted = new Map();       // 사이트 경로 → url
   plans.forEach((p) => p.images.downloads.forEach((d) => wanted.set(d.path, d.url)));
 
-  const todo = [...wanted].filter(([p]) => FORCE || !fs.existsSync(path.join(REPO_ROOT, p)));
+  /* 원본이 주소인 것만 내려받습니다. 사이트 경로로 적힌 것(저장소 원본)은
+     이미 저장소 안에 있는 사진이라 받을 것이 없습니다. */
+  const isRemote = (url) => url.indexOf('http://') === 0 || url.indexOf('https://') === 0;
+  const inRepo = [...wanted].filter(([, url]) => !isRemote(url));
+  const missingInRepo = inRepo.filter(([dest]) => !fs.existsSync(path.join(REPO_ROOT, dest)));
+  const todo = [...wanted].filter(([dest, url]) =>
+    isRemote(url) && (FORCE || !fs.existsSync(path.join(REPO_ROOT, dest))));
 
   console.log('vault        : ' + VAULT);
   console.log('사례          : ' + plans.length + '건');
   console.log('참조 이미지   : ' + wanted.size + '개 (중복 제거 후)');
+  console.log('저장소 안     : ' + inRepo.length + '개 (내려받지 않음)');
   console.log('내려받을 대상 : ' + todo.length + '개\n');
+
+  if (missingInRepo.length) {
+    console.log('■ 저장소 안에 있어야 하는데 파일이 없습니다 (' + missingInRepo.length + '개)');
+    missingInRepo.forEach(([dest]) => console.log('  x ' + dest));
+    console.log('');
+  }
 
   const errors = [];
   if (WRITE) {
@@ -120,6 +139,7 @@ async function main() {
     if (WRITE && PRUNE) {
       stale.forEach((s) => {
         const target = path.join(REPO_ROOT, s.replace(/\s.*$/, '').replace(/\/$/, ''));
+        assertWritable(target);
         fs.rmSync(target, { recursive: true, force: true });
       });
       console.log('  → 삭제했습니다.');
@@ -128,7 +148,7 @@ async function main() {
     }
   }
 
-  const errs = problems.filter((p) => p.level === 'error');
+  const errs = problems.filter((p) => p.level === 'error').concat(missingInRepo);
   if (problems.length) {
     console.log(`\n■ 노트 확인 필요 (${problems.length}건)`);
     problems.forEach((p) => console.log(`  ${p.level === 'error' ? '✗' : '!'} ${p.case_no} — ${p.text}`));

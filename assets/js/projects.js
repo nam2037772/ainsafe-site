@@ -12,15 +12,9 @@
    · 사진을 바꾸려면 이 파일이 아니라 Raw 노트를 고치고 도구를 다시 실행하세요.
    ============================================================ */
 
-/* 026·027 은 발행대기 노트의 case_no 가 서로 뒤바뀌어 있어, 월아트 본문이
-   복원 사례의 사진 위에 얹혀 있었습니다. Raw 노트 기준으로 바로잡으면서
-   두 사례의 번호·slug 가 맞바뀌었습니다. 예전 주소는 내용이 옮겨간 쪽으로
-   보냅니다. (내용 기준 — slug 가 가리키던 그 내용으로) */
 const PROJECT_ALIASES = {
-  "obsidian-case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray":
-    "obsidian-case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray",
-  "obsidian-case-027-exposed-concrete-interior-restoration-before-after":
-    "obsidian-case-026-exposed-concrete-interior-restoration-before-after"
+  "obsidian-case-026-concrete-wall-art-hypertexture-ink-wash-gradient-spray": "obsidian-case-027-concrete-wall-art-hypertexture-ink-wash-gradient-spray",
+  "obsidian-case-027-exposed-concrete-interior-restoration-before-after": "obsidian-case-026-exposed-concrete-interior-restoration-before-after"
 };
 
 const RETIRED_PROJECT_IDS = [
@@ -76,6 +70,52 @@ const RETIRED_PROJECT_IDS = [
 ];
 
 const PROJECTS = [
+  {
+    "id": "obsidian-case-046-jeju-hyeopjae-uhpc-panel-crack-repair",
+    "source": "obsidian",
+    "case_no": "046",
+    "source_note": "data/case-sources/046.md",
+    "draft_file": "data/case-sources/046.md",
+    "review_required": false,
+    "title": "제주 협재 UHPC 패널 균열 노출콘크리트 면보수",
+    "location": "",
+    "building": "",
+    "category": "노출콘크리트",
+    "date": "",
+    "period": "",
+    "summary": "제주 협재 해안가 외벽의 UHPC(초고성능 콘크리트) 장식 패널에 생긴 균열을 2액형 에폭시 주입충진과 노출콘크리트 면보수재 충진·샌딩·톤조정으로 보수한 사례.",
+    "problem": "• UHPC 장식 패널에 균열 발생 — 패널 면과 패널 사이 조인트를 따라 이어진 균열 • 균열 주변으로 콘크리트 박락(떨어져 나감)이 진행 중인 상태 • 균열 사이로 제주도의 해풍과 염분이 침투해 철근이 팽창하면서 균열과 박락이 계속 진행되고 있었음 • 균열부에 남아 있던 기존 충진 흔적과 들뜬 부위가 함께 확인됨 • UHPC 패널은 일반 콘크리트보다 압축강도가 5~10배 이상 높고(120~220MPa) 수명은 200년 이상에 달하는 초고성능 콘크리트다. 미세 공극을 최소화한 치밀한 조직과 섬유 보강을 통해 내구성과 인장·휨강도를 극대화한 자재이지만, 이 현장에서는 균열이 발생해 있었다. • 자재 자체의 강도가 높더라도 균열이 한 번 생기면 그 틈이 해풍과 염분의 침투 경로가 된다는 점이 이 현장의 핵심이다. 침투한 염분이 내부 철근에 닿으면 철근이 팽창하고, 그 압력이 다시 콘크리트를 밀어내 균열과 박락을 키운다. • 따라서 표면만 메우는 것으로는 진행을 멈출 수 없다고 보고, 균열 내부를 먼저 채워 침투 경로를 끊은 뒤 표면을 마감하는 순서로 작업 방향을 잡았다. • 장식 패널은 타공 패턴과 색이 그대로 드러나는 면이라, 보수부가 주변 패널과 따로 놀지 않도록 마지막에 톤조정이 필요하다고 판단했다.",
+    "method": "1. 균열부 정리 후 2액형 에폭시 주입충진 — 균열 내부를 채워 해풍·염분의 침투 경로를 차단 2. 샌딩 — 주입충진한 에폭시의 표면을 주변 패널 면에 맞춰 정리 3. 노출콘크리트 면보수재 충진 — 에폭시 위와 표면 결손부를 노출콘크리트 면보수재로 다시 충진 4. 2차 샌딩 — 면보수재를 패널 면과 같은 높이로 정리 5. 톤조정 — 보수부의 색을 주변 UHPC 패널 색조에 맞춰 조정",
+    "result": "• 균열과 박락이 진행되던 부위를 주입충진과 면보수로 채워 마감 • 보수부의 톤을 주변 패널 색에 맞춰 조정하여, 타공 패턴이 이어지는 외벽 면의 흐름을 유지 • 시공 후 사진에서 조인트와 패널 면이 정리된 상태를 확인할 수 있음",
+    "representative_image": "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/representative.jpg",
+    "before_images": [
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/before-01.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/before-02.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/before-03.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/before-04.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/before-05.jpg"
+    ],
+    "process_images": [],
+    "after_images": [
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-01.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-02.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-03.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-04.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-05.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-06.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-07.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-08.jpg",
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-09.jpg"
+    ],
+    "thumbnail": "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/representative.jpg",
+    "after": "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/after-01.jpg",
+    "before": "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/before-01.jpg",
+    "images": [],
+    "featured": false,
+    "representative_images": [
+      "assets/images/case-studies/case-046-jeju-hyeopjae-uhpc-panel-crack-repair/representative.jpg"
+    ]
+  },
   {
     "id": "obsidian-case-045-songpa-restaurant-industrial-conchae-vintage-wall",
     "source": "obsidian",
