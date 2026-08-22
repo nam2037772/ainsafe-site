@@ -472,16 +472,14 @@
       return baseType === 'all' || item.type === baseType;
     });
 
-    /* 시공사례 화면에서는 시공 전 사진이 있는 사례를 앞에 둡니다.
-       사례에는 날짜가 없는 경우가 많아 최신순 정렬이 의미가 없고,
-       비교가 가능한 기록이 먼저 보이는 편이 이 화면의 목적에 맞습니다.
-       (같은 조건 안에서는 CONTENT 의 제목순을 그대로 유지합니다) */
+    /* 시공사례 화면은 사례 번호가 큰 것부터 봅니다 (046 → 045 → … → 001).
+       번호가 곧 기록한 순서라, 최근 현장이 앞에 옵니다.
+       번호는 '001' 처럼 세 자리로 맞춘 문자열이라 문자열 비교로 충분합니다.
+       ▶ tools/build-site.js 의 poolFor 와 같은 규칙이어야 합니다.
+          (서버가 먼저 12장을 그리고, 그 뒤를 이 코드가 이어받습니다) */
     if (baseType === 'case') {
       pool = pool.slice().sort(function (a, b) {
-        var av = (a.images.beforeImages || []).length ? 1 : 0;
-        var bv = (b.images.beforeImages || []).length ? 1 : 0;
-        if (av !== bv) return bv - av;
-        return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+        return String(b.caseNo || '').localeCompare(String(a.caseNo || ''));
       });
     }
 

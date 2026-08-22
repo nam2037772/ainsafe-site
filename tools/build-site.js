@@ -388,13 +388,11 @@ const GRID_MARK = {
 
 function poolFor(baseType) {
   let pool = CONTENT.filter((item) => baseType === 'all' || item.type === baseType);
+  /* 시공사례는 사례 번호가 큰 것부터 (046 → 045 → … → 001).
+     main.js 의 initContentPage 와 같은 규칙이어야 합니다. */
   if (baseType === 'case') {
-    pool = pool.slice().sort((a, b) => {
-      const av = (a.images.beforeImages || []).length ? 1 : 0;
-      const bv = (b.images.beforeImages || []).length ? 1 : 0;
-      if (av !== bv) return bv - av;
-      return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
-    });
+    pool = pool.slice().sort((a, b) =>
+      String(b.caseNo || '').localeCompare(String(a.caseNo || '')));
   }
   return pool;
 }

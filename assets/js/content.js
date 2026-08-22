@@ -124,6 +124,8 @@ function projectToContent(p) {
   return {
     id: p.id,
     type: 'case',
+    /* 목록 정렬(사례 번호 내림차순)에 씁니다 — '001' 처럼 세 자리로 맞춰 둔 문자열입니다. */
+    caseNo: p.case_no || '',
     title: p.title,
     category: unifyCategory(p.category),
     categoryRaw: p.category,
