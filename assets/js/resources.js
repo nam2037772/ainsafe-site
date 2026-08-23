@@ -137,7 +137,7 @@ const RESOURCES = [
   {
     id: 'water-repellent-007',
     title: '발수 및 표면 보호 — 보수 이후를 결정하는 마지막 공정',
-    category: '표면보호',
+    category: '노출콘크리트',
     date: '2026-01-20',
     summary: '보수가 끝난 노출콘크리트를 얼마나 오래 유지하는지는 표면 보호에서 갈립니다. 발수제 선택과 도포 시점을 설명합니다.',
     thumbnail: 'assets/images/hero/tech-surface.jpg',
