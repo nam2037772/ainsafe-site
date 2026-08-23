@@ -11,7 +11,6 @@
    해당 목록 페이지로 보냅니다. shim 자체는 noindex 입니다.
    ============================================================ */
 var LEGACY_CASE_ROUTES = {
-  "obsidian-case-046-jeju-hyeopjae-uhpc-panel-crack-repair": "case/case-046-jeju-hyeopjae-uhpc-panel-crack-repair.html",
   "obsidian-case-045-songpa-restaurant-industrial-conchae-vintage-wall": "case/case-045-songpa-restaurant-industrial-conchae-vintage-wall.html",
   "obsidian-case-044-jeju-stain-efflorescence-exposed-concrete-repair": "case/case-044-jeju-stain-efflorescence-exposed-concrete-repair.html",
   "obsidian-case-043-warm-gray-tone-conchae-jeju-house-finish": "case/case-043-warm-gray-tone-conchae-jeju-house-finish.html",
@@ -114,5 +113,6 @@ var RETIRED_CASE_IDS = [
   "obsidian-case-019-exposed-concrete-plaster-patch-repair-conche-repair",
   "obsidian-case-018-exposed-concrete-crack-repair-conche-middlegray-ivory",
   "obsidian-case-016-exposed-concrete-color-tone-demo-iron-oxide-white-cement",
-  "obsidian-case-003-euroform-exposed-concrete-airless-spray-500sqm"
+  "obsidian-case-003-euroform-exposed-concrete-airless-spray-500sqm",
+  "obsidian-case-046-jeju-hyeopjae-uhpc-panel-crack-repair"
 ];

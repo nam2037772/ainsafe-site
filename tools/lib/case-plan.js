@@ -21,6 +21,15 @@
 const { CASE_IMAGE_ROOT, loadRepoSources } = require('./case-source');
 const { loadRawCases, auditRawCase } = require('./raw-cases');
 
+/** 공개를 중단(은퇴)한 사례 번호 — 원본(vault Raw · 발행대기 · 저장소 원본)은
+    손대지 않고, 사이트 생성 단계에서만 건너뜁니다. rebuild-cases 가 이 번호를
+    "이번에는 없는 사례"로 보고 자동으로 RETIRED_PROJECT_IDS 로 옮기므로,
+    옛 주소는 죽지 않고 "게시가 종료되었습니다" 안내로 이어집니다.
+    다시 공개하려면 이 목록에서 번호를 빼기만 하면 됩니다. */
+const RETIRED_CASE_NUMBERS = new Set([
+  '046' // 제주 협재 UHPC 패널 균열 노출콘크리트 면보수 — 건물주 요청으로 공개 중단 (2026-08-23)
+]);
+
 /** URL 에서 확장자를 얻습니다. 알 수 없으면 .jpg 로 둡니다. */
 function extensionOf(url) {
   const clean = String(url).split(/[?#]/)[0];
@@ -75,7 +84,7 @@ function planImages(rawCase, slug) {
  * 같은 파일끼리 맞춥니다. 우연히 번호가 같은 vault 발행대기 노트와 섞이지 않습니다.
  */
 function buildCasePlans(vaultDir, drafts) {
-  const raws = loadRawCases(vaultDir);
+  const raws = loadRawCases(vaultDir).filter((raw) => !RETIRED_CASE_NUMBERS.has(raw.case_no));
   const repoDrafts = loadRepoSources();
   const plans = [];
   const problems = [];
@@ -113,4 +122,4 @@ function buildCasePlans(vaultDir, drafts) {
   return { plans, problems };
 }
 
-module.exports = { extensionOf, planImages, buildCasePlans };
+module.exports = { extensionOf, planImages, buildCasePlans, RETIRED_CASE_NUMBERS };
