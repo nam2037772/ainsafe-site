@@ -153,14 +153,12 @@ window.SITE = {
   /* ── 10. 푸터 링크 ────────────────────────────────────────────────────────
      external:true 는 새 창(외부 사이트)으로 열리는 링크입니다. */
   footer: {
+    /* 세 전문 분야만 같은 층위로 둡니다. 세부 공정(색상·패턴 복원, 균열보수 등)은
+       각 서비스 페이지 안에서 다룰 자리이지, 전역 푸터에 함께 늘어놓지 않습니다. */
     serviceLinks: [
-      { label: '제주 노출콘크리트 보수·복원', href: 'concrete.html' },
-      { label: '색상 · 패턴 복원',    href: 'concrete.html#color' },
-      { label: '콘크리트 보수보강',   href: 'reinforcement.html' },
-      { label: '균열보수 · 에폭시 주입', href: 'reinforcement.html#crack' },
-      { label: '인젝션 특수방수',     href: 'waterproof.html' },
-      { label: '우레탄 인젝션',       href: 'waterproof.html#injection' },
-      { label: '발수 · 표면 보호',    href: 'concrete.html#repellent' }
+      { label: '노출콘크리트 보수', href: 'concrete.html' },
+      { label: '콘크리트 보수보강', href: 'reinforcement.html' },
+      { label: '인젝션 특수방수',   href: 'waterproof.html' }
     ],
     siteLinks: [
       { label: '시공사례',   href: 'projects.html' },

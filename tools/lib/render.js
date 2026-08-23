@@ -96,7 +96,7 @@ function footer(prefix, COMPANY, EXTERNAL_LINKS) {
     <div class="footer__brand">
       <img src="${prefix}assets/images/brand/logo.png" alt="${esc(COMPANY.brand)} 로고" width="40" height="40" loading="lazy" />
       <p class="footer__name">${esc(COMPANY.brand)}</p>
-      <p class="footer__tag">${esc(COMPANY.brandSubline)}</p>
+      <p class="footer__tag">${esc(COMPANY.footerSummary)}</p>
       <p class="footer__trust">${esc(COMPANY.trustLine)}</p>
       <p class="footer__tel"><a href="${esc(COMPANY.telHref)}">대표전화 ${esc(COMPANY.tel)}</a></p>
       <address>${esc(COMPANY.address)}</address>
@@ -104,13 +104,9 @@ function footer(prefix, COMPANY, EXTERNAL_LINKS) {
     <nav class="footer__col" aria-label="전문 분야">
       <h2 class="footer__ttl">전문 분야</h2>
       <ul>
-        <li><a href="${prefix}concrete.html">노출콘크리트 면보수</a></li>
-        <li><a href="${prefix}concrete.html#color">색상 · 패턴 복원</a></li>
+        <li><a href="${prefix}concrete.html">노출콘크리트 보수</a></li>
         <li><a href="${prefix}reinforcement.html">콘크리트 보수보강</a></li>
-        <li><a href="${prefix}reinforcement.html#crack">균열보수 · 에폭시 주입</a></li>
         <li><a href="${prefix}waterproof.html">인젝션 특수방수</a></li>
-        <li><a href="${prefix}waterproof.html#injection">우레탄 인젝션</a></li>
-        <li><a href="${prefix}concrete.html#repellent">발수 · 표면 보호</a></li>
       </ul>
     </nav>
     <nav class="footer__col" aria-label="사이트 메뉴">

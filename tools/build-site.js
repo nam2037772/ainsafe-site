@@ -913,7 +913,7 @@ ${docs}
   <div class="wrap footer__grid">
     <div class="footer__brand">
       <b>${esc(c.brand)}</b>
-      <span>${esc(c.brandSubline)}</span>
+      <span>${esc(c.footerSummary)}</span>
       <p class="trust">${esc(c.trustLine)}</p>
       <p class="tel">${esc(c.tel)}</p>
       <p>${esc(c.address)}</p>
