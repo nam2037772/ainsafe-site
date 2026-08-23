@@ -76,7 +76,7 @@ const RESOURCES = [
   {
     id: 'crack-repair-004',
     title: '균열 보수 — 거동 균열과 비거동 균열의 구분',
-    category: '균열보수',
+    category: '보수보강',
     date: '2026-04-30',
     summary: '균열 폭보다 중요한 것은 “움직이는가”입니다. 거동 여부에 따라 충전재와 공법이 완전히 달라집니다.',
     thumbnail: 'assets/images/hero/tech-crack.jpg',

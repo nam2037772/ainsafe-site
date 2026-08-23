@@ -30,7 +30,8 @@ const {
 const NAV_ITEMS = [
   ['index.html', 'HOME'],
   ['concrete.html', '노출콘크리트 보수'],
-  ['waterproof.html', '특수방수'],
+  ['reinforcement.html', '콘크리트 보수보강'],
+  ['waterproof.html', '인젝션 특수방수'],
   ['projects.html', '시공사례'],
   ['resources.html', '기술자료'],
   ['materials.html', '자재 구매'],
@@ -104,10 +105,11 @@ function footer(prefix, COMPANY, EXTERNAL_LINKS) {
       <h2 class="footer__ttl">전문 분야</h2>
       <ul>
         <li><a href="${prefix}concrete.html">노출콘크리트 면보수</a></li>
-        <li><a href="${prefix}concrete.html#color">색상 · 질감 재현</a></li>
-        <li><a href="${prefix}concrete.html#crack">균열 보수</a></li>
-        <li><a href="${prefix}waterproof.html">인젝션 누수 보수</a></li>
-        <li><a href="${prefix}waterproof.html#liquid">액상고무 특수방수</a></li>
+        <li><a href="${prefix}concrete.html#color">색상 · 패턴 복원</a></li>
+        <li><a href="${prefix}reinforcement.html">콘크리트 보수보강</a></li>
+        <li><a href="${prefix}reinforcement.html#crack">균열보수 · 에폭시 주입</a></li>
+        <li><a href="${prefix}waterproof.html">인젝션 특수방수</a></li>
+        <li><a href="${prefix}waterproof.html#injection">우레탄 인젝션</a></li>
         <li><a href="${prefix}concrete.html#repellent">발수 · 표면 보호</a></li>
       </ul>
     </nav>

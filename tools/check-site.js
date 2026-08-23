@@ -48,7 +48,7 @@ const data = D.loadData();
 const { COMPANY, PROJECTS, PROJECT_ALIASES, RESOURCES, CONTENT, CaseImages } = data;
 const SITE_URL = D.siteUrlOf(COMPANY);
 
-const ROOT_PAGES = ['index.html', 'concrete.html', 'waterproof.html', 'projects.html',
+const ROOT_PAGES = ['index.html', 'concrete.html', 'reinforcement.html', 'waterproof.html', 'projects.html',
   'resources.html', 'materials.html', 'about.html', 'contact.html',
   'privacy.html', '404.html', 'project.html', 'resource.html'];
 
@@ -255,9 +255,13 @@ console.log('\n[5] 정적 내부 링크 · 고아 페이지');
      ※ 지금 공개된 사례는 모두 '노출콘크리트' 입니다. 특수방수 사례가 없는데
         있는 것처럼 링크하지 않기 위해, 페이지마다 기대치를 따로 둡니다. */
   const EXPECT = {
-    'concrete.html':   { cases: 3, guides: 3, material: true },
-    'waterproof.html': { cases: 3, guides: 3, material: true },
-    'materials.html':  { cases: 3, guides: 3, material: false }
+    'concrete.html':      { cases: 3, guides: 3, material: true },
+    /* 인젝션·특수방수 기술자료는 2건뿐입니다(균열보수는 콘크리트 보수보강으로 이동) —
+       없는 것을 있는 것처럼 기대치를 부풀리지 않습니다. */
+    'waterproof.html':    { cases: 3, guides: 2, material: true },
+    /* 보수보강 기술자료는 1건뿐입니다(공개 사례가 아직 없어 사례 링크는 기대하지 않습니다) */
+    'reinforcement.html': { cases: 0, guides: 1, material: true },
+    'materials.html':     { cases: 3, guides: 3, material: false }
   };
   Object.entries(EXPECT).forEach(([page, want]) => {
     const links = linksOf(page, pageInfo.get(page).html);

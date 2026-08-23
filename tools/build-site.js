@@ -55,13 +55,18 @@ const SERVICE_BY_CATEGORY = {
   '면보수':       { name: '노출콘크리트 면보수', page: 'concrete.html' },
   '색상재현':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
   '시공기준':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
-  '균열보수':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
-  '균열·보수':    { name: '노출콘크리트 면보수', page: 'concrete.html' },
   '표면보호':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
   '발수':         { name: '노출콘크리트 면보수', page: 'concrete.html' },
-  '인젝션':       { name: '특수방수', page: 'waterproof.html' },
-  '누수보수':     { name: '특수방수', page: 'waterproof.html' },
-  '특수방수':     { name: '특수방수', page: 'waterproof.html' }
+  '보수보강':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '균열보수':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '균열·보수':    { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '에폭시주입':   { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '단면복구':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '철근노출':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '탄소섬유':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  '인젝션':       { name: '인젝션 특수방수', page: 'waterproof.html' },
+  '누수보수':     { name: '인젝션 특수방수', page: 'waterproof.html' },
+  '특수방수':     { name: '인젝션 특수방수', page: 'waterproof.html' }
 };
 const DEFAULT_SERVICE = { name: '노출콘크리트 면보수', page: 'concrete.html' };
 function serviceOf(category) { return SERVICE_BY_CATEGORY[category] || DEFAULT_SERVICE; }
@@ -312,19 +317,9 @@ function buildGuidePage(r) {
   const casesHtml = cases
     .map(({ p, ci }) => R.projectCard(p, ci, SUB_PREFIX, FALLBACK_IMAGE)).join('');
 
-  const html = `${headBlock({ rel, title, description, image: cover, schema })}
-<body data-page="resource">
-<a class="skip-link" href="#main">본문 바로가기</a>
-
-${R.header(SUB_PREFIX, 'resources.html', COMPANY)}
-
-<main id="main">
-${bc.visible}
-
-<article id="resourceDetail">
-${R.guideBody(r, SUB_PREFIX)}
-</article>
-
+  /* 이 분야에 공개된 시공사례가 아직 없으면(예: 콘크리트 보수보강) 빈 카드 그리드를
+     보여주는 대신 이 구간 전체를 건너뜁니다 — 없는 것을 있는 것처럼 두지 않습니다. */
+  const realWorksSection = cases.length ? `
 <section class="section section--mist">
   <div class="wrap">
     <header class="section__head section__head--row reveal">
@@ -338,7 +333,21 @@ ${R.guideBody(r, SUB_PREFIX)}
       <a class="btn btn--line" href="${SUB_PREFIX}materials.html">이 공정에 쓰는 자재 보기</a>
     </div>
   </div>
-</section>
+</section>` : '';
+
+  const html = `${headBlock({ rel, title, description, image: cover, schema })}
+<body data-page="resource">
+<a class="skip-link" href="#main">본문 바로가기</a>
+
+${R.header(SUB_PREFIX, 'resources.html', COMPANY)}
+
+<main id="main">
+${bc.visible}
+
+<article id="resourceDetail">
+${R.guideBody(r, SUB_PREFIX)}
+</article>
+${realWorksSection}
 
 <section class="section">
   <div class="wrap">
@@ -532,14 +541,14 @@ function fillWidgets(file, text) {
 
    ※ 그 사이의 본문은 건드리지 않습니다. 껍데기만 갈아 끼웁니다. */
 const SHELL_PAGES = [
-  'concrete.html', 'waterproof.html', 'projects.html', 'resources.html',
+  'concrete.html', 'reinforcement.html', 'waterproof.html', 'projects.html', 'resources.html',
   'materials.html', 'about.html', 'contact.html', 'privacy.html', '404.html'
 ];
 
 /* 헤더에서 현재 위치로 표시할 메뉴. 목록에 없는 페이지(개인정보·404)는
    어느 메뉴도 현재 위치가 아니므로 빈 값을 넘깁니다. */
 const NAV_KEYS = new Set([
-  'index.html', 'concrete.html', 'waterproof.html', 'projects.html',
+  'index.html', 'concrete.html', 'reinforcement.html', 'waterproof.html', 'projects.html',
   'resources.html', 'materials.html', 'about.html', 'contact.html'
 ]);
 
@@ -747,7 +756,8 @@ ${inlineCss.trim()}
     <nav class="nav" id="nav" aria-label="주요 메뉴" inert>
       <a href="index.html">HOME</a>
       <a href="concrete.html">노출콘크리트 보수</a>
-      <a href="waterproof.html">특수방수</a>
+      <a href="reinforcement.html">콘크리트 보수보강</a>
+      <a href="waterproof.html">인젝션 특수방수</a>
       <a href="projects.html">시공사례</a>
       <a href="resources.html">기술자료</a>
       <a href="materials.html">자재 구매</a>
@@ -1084,8 +1094,9 @@ function buildOrganisationGraph() {
       '@type': 'OfferCatalog',
       name: '전문 분야',
       itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 노출콘크리트 보수·복원', description: '곰보·기포 면보수, 층조인트 단차 보정, 색상 및 질감 재현, 균열·하자보수', url: absUrl(SITE_URL, 'concrete.html') } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '특수방수', description: '누수 경로 추적, 우레탄 인젝션, 배면 그라우팅, 액상고무 도막방수, 발수 및 표면 보호', url: absUrl(SITE_URL, 'waterproof.html') } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 노출콘크리트 보수·복원', description: '곰보·기포 면보수, 층조인트 단차 보정, 색상 및 패턴 복원, 오염·백화 하자보수, 발수 및 표면 보호', url: absUrl(SITE_URL, 'concrete.html') } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '콘크리트 보수보강', description: '균열보수 및 에폭시 주입, 단면복구, 철근노출 및 박락 보수', url: absUrl(SITE_URL, 'reinforcement.html') } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '인젝션 특수방수', description: '누수 경로 추적, 우레탄 인젝션, 배면 그라우팅, 액상고무 도막방수', url: absUrl(SITE_URL, 'waterproof.html') } },
         /* 콘채 제주총판 — 시공과 함께 자재를 공급합니다. 근거가 있는 사실만 적습니다. */
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '노출콘크리트 면보수재 콘채 공급 · 기술지원', description: '제주도 콘채 총판. 노출콘크리트 보수재·색보정 마감재 공급과 배합·시공 기술지원', url: absUrl(SITE_URL, 'materials.html') } }
       ]
@@ -1143,6 +1154,7 @@ function buildOrganisationGraph() {
 const STATIC_PAGES = [
   ['', 'weekly', '1.0'],
   ['concrete.html', 'monthly', '0.9'],
+  ['reinforcement.html', 'monthly', '0.9'],
   ['waterproof.html', 'monthly', '0.9'],
   ['projects.html', 'weekly', '0.9'],
   ['resources.html', 'weekly', '0.8'],
@@ -1246,7 +1258,7 @@ function main() {
 
   /* 3단계 — 서비스 · 자재 페이지의 관련 콘텐츠 위젯을 정적으로 채웁니다.
      (projects/resources 는 위에서 이미 처리했으므로 제외) */
-  const WIDGET_PAGES = ['concrete.html', 'waterproof.html', 'materials.html', 'about.html', 'contact.html'];
+  const WIDGET_PAGES = ['concrete.html', 'reinforcement.html', 'waterproof.html', 'materials.html', 'about.html', 'contact.html'];
   const widgets = WIDGET_PAGES.filter((f) => fileExists(f))
     .map((f) => fillWidgets(f, readPage(f))).filter((w) => w.filled);
   widgets.forEach((w) => pageText.set(w.file, w.next));
