@@ -30,6 +30,10 @@
 공정별 판단 기준을 정리한 기술 문서입니다. 전체 목록: [기술자료](https://ainconcrete.com/resources.html)
 
 - [콘크리트 균열보수와 구조보강 — 에폭시 주입부터 탄소섬유 보강까지](https://ainconcrete.com/guide/concrete-repair-strengthening-009.html): 균열의 거동·누수·원인을 먼저 확인하는 절차와, 에폭시 주입과 탄소섬유 보강을 구분해 적용하는 기준.
+- [에폭시 균열주입공법 — 무엇을 위해 주입하고, 어떤 에폭시를 고르는가](https://ainconcrete.com/guide/epoxy-crack-injection-011.html): 주입의 목적과 적용 대상, KS F 4923의 위치, 건식·습식·탄성 계열 구분과 주입 방식, 현장 품질관리 기록 항목.
+- [탄소섬유시트(CFRP) 구조보강 — 원리와 적용 범위](https://ainconcrete.com/guide/carbon-fiber-strengthening-012.html): 인장을 나누어 받는 보강 원리, 시트·판·강판의 차이, 보강량·방향·정착을 구조검토가 정하는 이유와 모체 콘크리트의 영향.
+- [탄소섬유 보강 품질관리 — 현장에서 실제로 갈리는 항목](https://ainconcrete.com/guide/cfrp-quality-control-013.html): 바탕 조건과 표면처리, 함침·섬유방향·단부 정착, KS F 2762 접착 확인과 기록, 자주 나오는 실패 유형.
+- [우레탄 · 에폭시 · 탄소섬유 — 목적이 다른 세 공법의 선정 흐름](https://ainconcrete.com/guide/repair-method-selection-014.html): 지수·단면 회복·구조보강의 목적 차이와 현장조사에서 공법까지 이어지는 판단 순서, 제주 해안 현장의 염해 진단 결합.
 - [제주 해안지역 콘크리트 염해와 철근부식 보수](https://ainconcrete.com/guide/jeju-chloride-corrosion-repair-010.html): 염화물 침투와 철근부식 조사부터 취약부 제거, 철근 처리, 단면복구, 표면보호까지의 현장 흐름.
 - [노출콘크리트 곰보·기포 보수의 기본 원리](https://ainconcrete.com/guide/concrete-repair-001.html): 메우는 것과 다시 만드는 것의 차이, 충전재 선택부터 질감 재현까지의 순서.
 - [층조인트 단차 보정과 라인 정리](https://ainconcrete.com/guide/joint-level-002.html): 갈아내야 하는 경우와 채워야 하는 경우를 구분하는 기준.

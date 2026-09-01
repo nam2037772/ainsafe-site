@@ -54,6 +54,10 @@ var LEGACY_CASE_ROUTES = {
 };
 
 var LEGACY_GUIDE_ROUTES = {
+  "repair-method-selection-014": "guide/repair-method-selection-014.html",
+  "epoxy-crack-injection-011": "guide/epoxy-crack-injection-011.html",
+  "carbon-fiber-strengthening-012": "guide/carbon-fiber-strengthening-012.html",
+  "cfrp-quality-control-013": "guide/cfrp-quality-control-013.html",
   "concrete-repair-strengthening-009": "guide/concrete-repair-strengthening-009.html",
   "jeju-chloride-corrosion-repair-010": "guide/jeju-chloride-corrosion-repair-010.html",
   "concrete-repair-001": "guide/concrete-repair-001.html",
