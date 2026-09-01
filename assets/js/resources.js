@@ -319,7 +319,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '탄소섬유 보강은 균열을 덮는 마감이 아니라 부재가 받는 힘을 나누어 받게 하는 구조보강입니다. 보강 원리와 적용 범위, 시트·판·강판의 차이, 구조검토가 정하는 항목을 정리했습니다.',
-    thumbnail: 'assets/images/hero/hero-concrete.jpg',
+    thumbnail: 'assets/images/guide/carbon-fiber-strengthening-012.webp',
     file: '',
     tags: ['탄소섬유시트', 'CFRP', '구조보강', '휨보강', '기둥 구속', '단면복구'],
     content: `

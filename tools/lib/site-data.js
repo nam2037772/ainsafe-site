@@ -145,6 +145,36 @@ function imageSize(relPath) {
         i += 2 + len;
       }
     }
+    /* WebP: RIFF 컨테이너. 기술자료 썸네일을 WebP 로 넣으면서 필요해졌습니다.
+       크기를 못 읽으면 width/height 속성이 빠져 레이아웃이 밀립니다. */
+    if (buf.length > 30 &&
+        buf.toString('ascii', 0, 4) === 'RIFF' &&
+        buf.toString('ascii', 8, 12) === 'WEBP') {
+      const kind = buf.toString('ascii', 12, 16);
+      if (kind === 'VP8 ' && buf.length > 30) {
+        /* 손실: 동기코드 0x9d 0x01 0x2a 다음에 14비트 폭·높이 */
+        if (buf[23] === 0x9d && buf[24] === 0x01 && buf[25] === 0x2a) {
+          return {
+            width: buf.readUInt16LE(26) & 0x3fff,
+            height: buf.readUInt16LE(28) & 0x3fff
+          };
+        }
+      }
+      if (kind === 'VP8L' && buf.length > 25 && buf[20] === 0x2f) {
+        /* 무손실: 21바이트째부터 (폭-1) 14비트, (높이-1) 14비트 */
+        const b = buf.readUInt32LE(21);
+        return {
+          width: (b & 0x3fff) + 1,
+          height: ((b >> 14) & 0x3fff) + 1
+        };
+      }
+      if (kind === 'VP8X' && buf.length > 30) {
+        /* 확장: 24바이트째부터 (캔버스폭-1) 24비트, (캔버스높이-1) 24비트 */
+        const w = buf[24] | (buf[25] << 8) | (buf[26] << 16);
+        const h = buf[27] | (buf[28] << 8) | (buf[29] << 16);
+        return { width: w + 1, height: h + 1 };
+      }
+    }
     return null;
   } catch (e) {
     return null;
