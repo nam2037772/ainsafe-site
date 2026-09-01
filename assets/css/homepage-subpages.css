@@ -191,22 +191,25 @@ body[data-page=resource] .detail__figure{display:none}
 .qa dt{margin:0 0 10px;font-family:var(--font-serif);font-size:clamp(1.02rem,1.6vw,1.18rem);font-weight:500;letter-spacing:-.01em;color:var(--ink);line-height:1.5}
 .qa dd{margin:0;font-size:.95rem;line-height:1.9;color:var(--color-gray-dark)}
 
-/* 보수보강 히어로 — 사진을 배경으로 물러나게 합니다.
+/* 보수보강·회사소개 히어로 — 사진을 배경으로 물러나게 합니다.
    기존 히어로 사진(tech-crack.jpg)은 문구가 인쇄된 홍보 이미지여서 페이지의
    제목·설명과 글자가 겹쳐 보였습니다. 문구 없는 탄소섬유 보강 시공 사진으로
    교체하고, 여기서는 그 사진의 대비와 크롭 위치만 잡습니다.
    body[data-page=reinforcement] 로 묶어 다른 페이지의 .phero 에는 영향이 없습니다. */
-body[data-page=reinforcement] .phero__media img{filter:saturate(.80) contrast(.94);opacity:.94;object-position:50% 46%}
+body[data-page=reinforcement] .phero__media img,
+body[data-page=about] .phero__media img{filter:saturate(.80) contrast(.94);opacity:.94;object-position:50% 46%}
 /* 데스크톱: 왼쪽 스크림을 조금 더 길게 끌어 제목·설명이 놓이는 좌측 절반을 눌러 둡니다. */
 @media (min-width:900px){
-body[data-page=reinforcement] .phero::after{background:linear-gradient(90deg,rgba(248,247,245,.97) 0%,rgba(248,247,245,.94) 48%,rgba(248,247,245,.72) 70%,rgba(248,247,245,.48) 88%,rgba(248,247,245,.40) 100%)}
+body[data-page=reinforcement] .phero::after,
+body[data-page=about] .phero::after{background:linear-gradient(90deg,rgba(248,247,245,.97) 0%,rgba(248,247,245,.94) 48%,rgba(248,247,245,.72) 70%,rgba(248,247,245,.48) 88%,rgba(248,247,245,.40) 100%)}
 }
 /* 900~1180px 은 wrap 이 화면을 거의 다 쓰기 때문에 .phero__desc 한 줄이 가로 80%
    지점까지 뻗어 작업자 위에 얹힙니다(측정값 4.21:1). 이 구간에서만 스크림을 오른쪽
    끝까지 끌어 둡니다. 1181px 이상은 wrap 이 가운데로 모여 글이 왼쪽에 머무르므로
    위의 옅은 그라데이션을 그대로 두고 사진을 살립니다. */
 @media (min-width:900px) and (max-width:1180px){
-body[data-page=reinforcement] .phero::after{background:linear-gradient(90deg,rgba(248,247,245,.97) 0%,rgba(248,247,245,.95) 58%,rgba(248,247,245,.88) 78%,rgba(248,247,245,.72) 92%,rgba(248,247,245,.64) 100%)}
+body[data-page=reinforcement] .phero::after,
+body[data-page=about] .phero::after{background:linear-gradient(90deg,rgba(248,247,245,.97) 0%,rgba(248,247,245,.95) 58%,rgba(248,247,245,.88) 78%,rgba(248,247,245,.72) 92%,rgba(248,247,245,.64) 100%)}
 }
 /* 899px 이하: 세로가 길어지면서 가로가 잘립니다. 사진 원본에서 왼쪽 작업자는
    가로 47~58%, 오른쪽 작업자는 76~92% 에 있으므로, 두 사람이 모두 프레임에
@@ -214,6 +217,8 @@ body[data-page=reinforcement] .phero::after{background:linear-gradient(90deg,rgb
    세로는 자르지 않으므로 얼굴만 확대되는 구도가 나오지 않습니다.
    흰 글자가 아래에 깔리므로 하단 스크림은 조금 더 진하게 둡니다. */
 @media (max-width:899px){
-body[data-page=reinforcement] .phero__media img{object-position:85% 50%}
-body[data-page=reinforcement] .phero::after{background:linear-gradient(0deg,rgba(14,13,12,.82) 0%,rgba(14,13,12,.62) 46%,rgba(14,13,12,.20) 82%,rgba(14,13,12,.06) 100%)}
+body[data-page=reinforcement] .phero__media img,
+body[data-page=about] .phero__media img{object-position:85% 50%}
+body[data-page=reinforcement] .phero::after,
+body[data-page=about] .phero::after{background:linear-gradient(0deg,rgba(14,13,12,.82) 0%,rgba(14,13,12,.62) 46%,rgba(14,13,12,.20) 82%,rgba(14,13,12,.06) 100%)}
 }
