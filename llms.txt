@@ -29,10 +29,12 @@
 
 공정별 판단 기준을 정리한 기술 문서입니다. 전체 목록: [기술자료](https://ainconcrete.com/resources.html)
 
+- [콘크리트 균열보수와 구조보강 — 에폭시 주입부터 탄소섬유 보강까지](https://ainconcrete.com/guide/concrete-repair-strengthening-009.html): 균열의 거동·누수·원인을 먼저 확인하는 절차와, 에폭시 주입과 탄소섬유 보강을 구분해 적용하는 기준.
+- [제주 해안지역 콘크리트 염해와 철근부식 보수](https://ainconcrete.com/guide/jeju-chloride-corrosion-repair-010.html): 염화물 침투와 철근부식 조사부터 취약부 제거, 철근 처리, 단면복구, 표면보호까지의 현장 흐름.
 - [노출콘크리트 곰보·기포 보수의 기본 원리](https://ainconcrete.com/guide/concrete-repair-001.html): 메우는 것과 다시 만드는 것의 차이, 충전재 선택부터 질감 재현까지의 순서.
 - [층조인트 단차 보정과 라인 정리](https://ainconcrete.com/guide/joint-level-002.html): 갈아내야 하는 경우와 채워야 하는 경우를 구분하는 기준.
 - [색상 및 질감 재현 — 조색은 현장에서](https://ainconcrete.com/guide/color-texture-003.html): 같은 벽면에서도 위치에 따라 달라지는 톤을 읽어내는 방법과 조색 절차.
-- [균열 보수 — 거동 균열과 비거동 균열의 구분](https://ainconcrete.com/guide/crack-repair-004.html): 균열 폭보다 거동 여부가 충전재와 공법을 결정하는 이유.
+- [균열 보수 — 거동 균열과 비거동 균열의 구분](https://ainconcrete.com/guide/crack-repair-004.html): 폭 하나로 공법을 정하지 않고 거동·누수·원인·구조적 영향을 함께 확인해 주입·충전·실링을 고르는 기준.
 - [누수 인젝션 — 경로 추적이 먼저입니다](https://ainconcrete.com/guide/injection-005.html): 지하주차장 누수 보수가 실패하는 원인과 주입 전 확인 항목.
 - [액상고무 방수의 적용 범위](https://ainconcrete.com/guide/liquid-rubber-006.html): 이음매 없는 도막방수가 유리한 부위, 적합한 바탕면 조건과 한계.
 - [발수 및 표면 보호 — 보수 이후를 결정하는 마지막 공정](https://ainconcrete.com/guide/water-repellent-007.html): 발수제 선택과 도포 시점.

@@ -54,6 +54,8 @@ var LEGACY_CASE_ROUTES = {
 };
 
 var LEGACY_GUIDE_ROUTES = {
+  "concrete-repair-strengthening-009": "guide/concrete-repair-strengthening-009.html",
+  "jeju-chloride-corrosion-repair-010": "guide/jeju-chloride-corrosion-repair-010.html",
   "concrete-repair-001": "guide/concrete-repair-001.html",
   "joint-level-002": "guide/joint-level-002.html",
   "color-texture-003": "guide/color-texture-003.html",
