@@ -84,7 +84,12 @@
 <main id="main">
 
 <section class="phero">
-  <div class="phero__media"><picture><source srcset="assets/images/hero/reinforcement-cfrp.webp" type="image/webp" /><img src="assets/images/hero/reinforcement-cfrp.jpg" alt="탄소섬유 시트로 보강한 콘크리트 기둥과 보" width="1600" height="854" fetchpriority="high" /></picture></div>
+  <div class="phero__media"><picture>
+    <source media="(min-width:900px)" type="image/webp" sizes="100vw" srcset="assets/images/hero/reinforcement-cfrp-work-wide-1600.webp 1600w, assets/images/hero/reinforcement-cfrp-work-wide-2200.webp 2200w" />
+    <source media="(min-width:900px)" sizes="100vw" srcset="assets/images/hero/reinforcement-cfrp-work-wide-1600.jpg 1600w, assets/images/hero/reinforcement-cfrp-work-wide-2200.jpg 2200w" />
+    <source type="image/webp" sizes="100vw" srcset="assets/images/hero/reinforcement-cfrp-work-1000.webp 1000w, assets/images/hero/reinforcement-cfrp-work-1600.webp 1600w" />
+    <img src="assets/images/hero/reinforcement-cfrp-work-1600.jpg" sizes="100vw" srcset="assets/images/hero/reinforcement-cfrp-work-1000.jpg 1000w, assets/images/hero/reinforcement-cfrp-work-1600.jpg 1600w" alt="탄소섬유 시트로 콘크리트 슬래브 하부를 보강하는 시공 모습" width="1600" height="800" fetchpriority="high" />
+  </picture></div>
   <div class="phero__inner">
     <p class="eyebrow">STRUCTURAL REPAIR &amp; REINFORCEMENT</p>
     <h1 class="h1">콘크리트 보수보강</h1>
