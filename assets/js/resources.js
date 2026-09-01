@@ -23,7 +23,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '철근부식과 콘크리트 박락은 떨어진 부분을 몰탈로 메우는 것으로 끝나지 않습니다. 탄산화·염화물·누수 등 원인을 확인하고, 열화 콘크리트 제거와 철근 처리, 단면복구까지 이어지는 기본 보수공정을 정리했습니다.',
-    thumbnail: '',
+    thumbnail: 'assets/images/guide/rebar-corrosion-spalling-repair-015.webp',
     file: '',
     tags: ['철근부식', '콘크리트 박락', '단면복구', '철근 방청', '염해', '탄산화', 'KS F 4042'],
     content: `
@@ -228,7 +228,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '에폭시 주입은 균열을 감추는 작업이 아니라 갈라진 단면을 다시 붙이는 작업입니다. 적용 목적과 KS F 4923의 위치, 건식·습식·거동 균열에 따른 재료 구분, 주입 방식과 현장 품질관리를 정리했습니다.',
-    thumbnail: 'assets/images/hero/tech-crack.jpg',
+    thumbnail: 'assets/images/guide/epoxy-crack-injection-011.webp',
     file: '',
     tags: ['에폭시 주입', '균열주입', 'KS F 4923', '저압 주입', '습식 에폭시', '균열보수'],
     content: `
@@ -388,7 +388,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '탄소섬유 보강은 완성되면 안이 보이지 않습니다. 바탕 조건과 표면처리, 함침과 섬유방향, 단부 정착, 접착 확인과 기록까지 시공 중에만 확인할 수 있는 항목을 정리했습니다.',
-    thumbnail: 'assets/images/hero/concrete-detail.jpg',
+    thumbnail: 'assets/images/guide/cfrp-quality-control-013.webp',
     file: '',
     tags: ['CFRP 품질관리', '부착시험', 'KS F 2762', '단부박리', '함침', '들뜸'],
     content: `
@@ -462,7 +462,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '균열은 폭 하나로 공법을 정하지 않습니다. 거동·누수·발생 원인과 구조적 영향을 먼저 확인하고, 에폭시 주입과 탄소섬유 보강을 언제 구분해 적용하는지 정리했습니다.',
-    thumbnail: 'assets/images/hero/tech-crack.jpg',
+    thumbnail: 'assets/images/guide/concrete-repair-strengthening-009.webp',
     file: '',
     tags: ['콘크리트 균열', '에폭시 주입', '탄소섬유 보강', '구조보강', '제주 보수보강'],
     content: `
@@ -511,7 +511,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '해안과 비래염분에 노출되는 콘크리트는 염화물 침투와 철근부식 위험을 함께 봐야 합니다. 박락부 제거부터 철근 처리, 단면복구와 표면보호까지 현장 흐름을 정리했습니다.',
-    thumbnail: 'assets/images/hero/concrete-detail.jpg',
+    thumbnail: 'assets/images/guide/jeju-chloride-corrosion-repair-010.webp',
     file: '',
     tags: ['제주 염해', '철근부식', '콘크리트 박락', '단면복구', '표면보호', '해안 콘크리트'],
     content: `
