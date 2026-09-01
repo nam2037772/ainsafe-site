@@ -199,13 +199,21 @@ function contentCard(item, prefix, FALLBACK_IMAGE) {
   const alt = item.title + ' 대표 이미지';
   const flag = (item.images.beforeImages && item.images.beforeImages.length)
     ? '<span class="card__flag">BEFORE / AFTER</span>' : '';
-  const src = imgOr(item.images.thumbnail || item.images.cover, FALLBACK_IMAGE);
+  /* 대표 이미지가 아예 없는 항목은 관계없는 대체 이미지를 끼워 넣지 않고
+     빈 .card__media 로 둡니다. .card__media 는 aspect-ratio:4/3 과 배경색을
+     이미 갖고 있어서, 그리드 정렬이 흐트러지지 않고 깨진 이미지도 뜨지 않습니다.
+     썸네일이 있는 항목의 출력은 이전과 완전히 동일합니다. */
+  const own = item.images.thumbnail || item.images.cover;
+  const src = imgOr(own, FALLBACK_IMAGE);
+  const media = own
+    ? '<img src="' + prefix + esc(src) + '" alt="' + esc(alt) + '"' +
+      ' loading="lazy" width="800" height="600" />'
+    : '';
   return '' +
     '<article class="card reveal">' +
       '<a class="card__link" href="' + prefix + esc(item.url) + '">' +
         '<span class="card__media">' +
-          '<img src="' + prefix + esc(src) + '" alt="' + esc(alt) + '"' +
-          ' loading="lazy" width="800" height="600" />' +
+          media +
           flag +
         '</span>' +
         '<span class="card__body">' +

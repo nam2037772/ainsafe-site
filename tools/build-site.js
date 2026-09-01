@@ -87,7 +87,10 @@ function clamp(text, max) {
 /* ── 생성 페이지의 <head> ──────────────────────────────────── */
 function headBlock(o) {
   const canonical = absUrl(SITE_URL, o.rel);
-  const ogImage = absUrl(SITE_URL, o.image);
+  /* 대표 이미지가 없는 문서는 og:image 를 아예 내보내지 않습니다.
+     빈 값을 absUrl 에 넘기면 사이트 루트가 og:image 로 들어가고,
+     관계없는 대체 이미지를 넣으면 공유 카드가 내용과 어긋납니다. */
+  const ogImage = o.image ? absUrl(SITE_URL, o.image) : '';
   return `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -102,10 +105,10 @@ function headBlock(o) {
 <meta property="og:site_name" content="${esc(COMPANY.brand)}" />
 <meta property="og:title" content="${esc(o.title)}" />
 <meta property="og:description" content="${esc(o.description)}" />
-<meta property="og:image" content="${esc(ogImage)}" />
-<meta property="og:url" content="${esc(canonical)}" />
+${ogImage ? `<meta property="og:image" content="${esc(ogImage)}" />
+` : ''}<meta property="og:url" content="${esc(canonical)}" />
 <meta property="og:locale" content="ko_KR" />
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="${ogImage ? 'summary_large_image' : 'summary'}" />
 <link rel="icon" href="${SUB_PREFIX}assets/images/brand/logo.png" />
 ${R.FONT_LINKS}
 <link rel="stylesheet" href="${SUB_PREFIX}assets/css/style.css" />
@@ -263,7 +266,7 @@ ${R.footer(SUB_PREFIX, COMPANY, EXTERNAL_LINKS)}
 function buildGuidePage(r) {
   const rel = guidePath(r.id);
   const svc = serviceOf(r.category);
-  const cover = r.thumbnail || FALLBACK_IMAGE;
+  const cover = r.thumbnail || '';
 
   const title = `${r.title} | ${COMPANY.brand}`;
   const description = clamp(r.summary, 155);

@@ -335,9 +335,19 @@ console.log('\n[7] 이미지 참조');
     [...markupOf(rel).matchAll(/<(?:img|source)\b([^>]*)>/g)].forEach((m) => {
       const tag = m[1];
       const isImg = /^<img/i.test(m[0]);
-      const refs = ['src', 'data-src', 'srcset', 'data-srcset']
+      /* srcset 은 "경로 1000w, 경로 1600w" 처럼 후보를 여러 개 담을 수 있습니다.
+         값 전체를 경로 하나로 보면 실제로 있는 파일도 '없음' 으로 잡힙니다.
+         쉼표로 나눈 뒤 뒤에 붙는 크기·배율 서술자를 떼고 확인합니다. */
+      const plain = ['src', 'data-src']
         .map((k) => attrOf(tag, new RegExp('\\b' + k + '="([^"]+)"')))
         .filter(Boolean);
+      const sets = ['srcset', 'data-srcset']
+        .map((k) => attrOf(tag, new RegExp('\\b' + k + '="([^"]+)"')))
+        .filter(Boolean)
+        .reduce((acc, v) => acc.concat(
+          v.split(',').map((c) => c.trim().split(/\s+/)[0]).filter(Boolean)
+        ), []);
+      const refs = plain.concat(sets);
       refs.forEach((src) => {
         if (/^(https?:|data:)/i.test(src)) return;
         total++;

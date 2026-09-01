@@ -321,12 +321,19 @@
     var flag = (item.images.beforeImages && item.images.beforeImages.length)
       ? '<span class="card__flag">BEFORE / AFTER</span>' : '';
 
+    /* 대표 이미지가 아예 없는 항목은 관계없는 대체 이미지를 끼워 넣지 않고
+       빈 .card__media 로 둡니다 (tools/lib/render.js contentCard 과 같은 규칙). */
+    var own = item.images.thumbnail || item.images.cover;
+    var media = own
+      ? '<img src="' + esc(img(own)) + '" alt="' + esc(alt) + '"' +
+        ' loading="lazy" width="800" height="600" />'
+      : '';
+
     return '' +
       '<article class="card reveal">' +
         '<a class="card__link" href="' + esc(item.url) + '">' +
           '<span class="card__media">' +
-            '<img src="' + esc(img(item.images.thumbnail || item.images.cover)) + '" alt="' + esc(alt) + '"' +
-            ' loading="lazy" width="800" height="600" />' +
+            media +
             flag +
           '</span>' +
           '<span class="card__body">' +
