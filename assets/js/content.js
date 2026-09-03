@@ -210,10 +210,13 @@ function contentSearchText(item) {
    기술문서 + 시공사례를 합쳐 날짜 최신순으로 정렬합니다.
    새로 올린 자료가 목록 맨 앞에 오게 하기 위한 규칙입니다.
 
-   날짜가 없는 항목에는 임의 날짜를 만들지 않습니다. 대신 목록 끝으로 보내고,
-   날짜가 같은 항목끼리는 제목 가나다순으로 순서를 고정합니다
-   (같은 날짜 자료가 새로고침마다 자리를 바꾸지 않도록).
+   날짜가 없는 항목에는 임의 날짜를 만들지 않습니다. 대신 사례번호 내림차순으로
+   놓고(번호가 곧 기록 순서), 그래도 같으면 제목순으로 순서를 고정합니다
+   (같은 자료가 새로고침마다 자리를 바꾸지 않도록).
 
+   ▶ main.js 의 byRecencyDesc · tools/lib/site-data.js 의 byRecencyDesc 와
+     같은 규칙입니다. 시공사례는 현재 원본 노트에 시공일이 없어 사례번호로
+     정렬되며, 날짜를 채우면 그때부터 자동으로 날짜순이 됩니다.
    ▶ tools/build-site.js 의 poolFor 와 main.js 의 initContentPage 가
      이 순서를 그대로 이어받습니다. 여기만 고치면 세 곳이 함께 바뀝니다.
    (앞으로 옵시디언 .md 를 변환해 넣을 때도 여기에 concat 하면 됩니다) */
@@ -230,6 +233,9 @@ var CONTENT = (function () {
       if (!kb) return -1;
       return kb.localeCompare(ka);
     }
+    var na = String(a.caseNo || '');
+    var nb = String(b.caseNo || '');
+    if (na !== nb) return nb.localeCompare(na);
     return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
   });
 })();

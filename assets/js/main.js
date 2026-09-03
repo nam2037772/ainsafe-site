@@ -23,7 +23,39 @@
     var m = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
   }
-  function byDateDesc(a, b) { return (b.date || '').localeCompare(a.date || ''); }
+  /* 'YYYY' · 'YYYY-MM' 도 비교할 수 있게 맞춥니다 (없으면 빈 문자열 그대로). */
+  function normDate(d) {
+    var s = String(d || '').trim();
+    if (/^\d{4}$/.test(s)) return s + '-01-01';
+    if (/^\d{4}-\d{2}$/.test(s)) return s + '-01';
+    return s;
+  }
+
+  /* ── 목록 정렬 규칙 (사이트 전체 공통) ─────────────────────────
+     가장 최근 항목이 항상 맨 위에 오게 합니다.
+
+       1) 날짜 내림차순      기술자료 = 등록일, 시공사례 = 시공일
+       2) 날짜가 없으면      사례번호 내림차순 (번호가 곧 기록 순서)
+       3) 그래도 같으면      제목순 — 새로고침마다 자리가 바뀌지 않도록
+
+     ▶ 날짜가 비어 있는 항목에 임의 날짜를 만들지 않습니다.
+       시공사례는 현재 원본 노트에 시공일이 없어 2)로 정렬되며,
+       날짜를 채우면 그때부터 자동으로 1)이 적용됩니다.
+     ▶ 목록 · 카테고리 페이지 · 메인 노출 영역이 모두 이 규칙을 씁니다.
+       main.js · content.js · tools/lib/site-data.js 세 곳의 구현이
+       항상 같아야 합니다. */
+  function byRecencyDesc(a, b) {
+    var da = normDate(a.date), db = normDate(b.date);
+    if (da !== db) {
+      if (!da) return 1;
+      if (!db) return -1;
+      return db.localeCompare(da);
+    }
+    var na = String(a.case_no || a.caseNo || '');
+    var nb = String(b.case_no || b.caseNo || '');
+    if (na !== nb) return nb.localeCompare(na);
+    return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+  }
   function fmtDate(d) { return (d || '').replace(/-/g, '.'); }
   function img(src) { return src || FALLBACK_IMAGE; }
 
@@ -363,12 +395,12 @@
       var limit = parseInt(box.getAttribute('data-limit'), 10) || 3;
       var list;
       if (mode === 'featured') {
-        list = PROJECTS.filter(function (p) { return p.featured; }).sort(byDateDesc);
-        if (list.length < 3) list = PROJECTS.slice().sort(byDateDesc);
+        list = PROJECTS.filter(function (p) { return p.featured; }).sort(byRecencyDesc);
+        if (list.length < 3) list = PROJECTS.slice().sort(byRecencyDesc);
       } else if (mode === 'all' || !mode) {
-        list = PROJECTS.slice().sort(byDateDesc);
+        list = PROJECTS.slice().sort(byRecencyDesc);
       } else {
-        list = PROJECTS.filter(function (p) { return p.category === mode; }).sort(byDateDesc);
+        list = PROJECTS.filter(function (p) { return p.category === mode; }).sort(byRecencyDesc);
       }
       list = list.slice(0, limit);
       var isAsymmetric = box.classList.contains('works-asymmetric');
@@ -387,7 +419,7 @@
       if (box.hasAttribute('data-built')) return;   // 이미 HTML 로 채워진 상자
       var mode = box.getAttribute('data-resources');
       var limit = parseInt(box.getAttribute('data-limit'), 10) || 4;
-      var list = RESOURCES.slice().sort(byDateDesc);
+      var list = RESOURCES.slice().sort(byRecencyDesc);
       if (mode && mode !== 'all') {
         var wanted = mode.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
         list = list.filter(function (r) { return wanted.indexOf(r.category) > -1; });
@@ -408,7 +440,7 @@
         var ci = caseImages(p);
         return { p: p, before: ci.beforeImages[0] || '', after: ci.afterImages[0] || ci.representativeImage };
       }).filter(function (x) { return x.before && x.after; })
-        .sort(function (a, b) { return byDateDesc(a.p, b.p); }).slice(0, 4);
+        .sort(function (a, b) { return byRecencyDesc(a.p, b.p); }).slice(0, 4);
       if (!pairs.length) {
         var section = document.getElementById('compare');
         if (section) section.hidden = true;
@@ -479,16 +511,10 @@
       return baseType === 'all' || item.type === baseType;
     });
 
-    /* 시공사례 화면은 사례 번호가 큰 것부터 봅니다 (046 → 045 → … → 001).
-       번호가 곧 기록한 순서라, 최근 현장이 앞에 옵니다.
-       번호는 '001' 처럼 세 자리로 맞춘 문자열이라 문자열 비교로 충분합니다.
-       ▶ tools/build-site.js 의 poolFor 와 같은 규칙이어야 합니다.
+    /* 순서는 CONTENT 가 이미 정해 두었습니다 (날짜 → 사례번호 → 제목).
+       여기서 다시 정렬하지 않습니다. 화면마다 규칙이 갈리던 원인이었습니다.
+       ▶ tools/build-site.js 의 poolFor 와 같아야 합니다.
           (서버가 먼저 12장을 그리고, 그 뒤를 이 코드가 이어받습니다) */
-    if (baseType === 'case') {
-      pool = pool.slice().sort(function (a, b) {
-        return String(b.caseNo || '').localeCompare(String(a.caseNo || ''));
-      });
-    }
 
     var catBox  = $('#contentFilters');
     var search  = $('#contentSearch');

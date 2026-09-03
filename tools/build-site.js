@@ -32,7 +32,7 @@ const D = require('./lib/site-data');
 const R = require('./lib/render');
 
 const {
-  REPO_ROOT, esc, jsonld, fmtDate, byDateDesc,
+  REPO_ROOT, esc, jsonld, fmtDate, byRecencyDesc,
   caseSlug, casePath, guidePath, SUB_PREFIX,
   siteUrlOf, absUrl, imgOr, sizeAttrs, writeFileIfChanged, fileExists
 } = D;
@@ -201,7 +201,7 @@ function buildCasePage(p, sorted, idx) {
 
   /* 이 사례와 같은 공정을 설명한 기술자료 (있을 때만) */
   const guide = RESOURCES.filter((r) => serviceOf(r.category).page === svc.page)
-    .slice().sort(byDateDesc)[0];
+    .slice().sort(byRecencyDesc)[0];
 
   const html = `${headBlock({ rel, title, description, image: rep, schema })}
 <body data-page="project">
@@ -399,14 +399,10 @@ const GRID_MARK = {
 };
 
 function poolFor(baseType) {
-  let pool = CONTENT.filter((item) => baseType === 'all' || item.type === baseType);
-  /* 시공사례는 사례 번호가 큰 것부터 (046 → 045 → … → 001).
+  /* 순서는 CONTENT 가 이미 정해 두었습니다 (날짜 → 사례번호 → 제목).
+     여기서 다시 정렬하지 않습니다.
      main.js 의 initContentPage 와 같은 규칙이어야 합니다. */
-  if (baseType === 'case') {
-    pool = pool.slice().sort((a, b) =>
-      String(b.caseNo || '').localeCompare(String(a.caseNo || '')));
-  }
-  return pool;
+  return CONTENT.filter((item) => baseType === 'all' || item.type === baseType);
 }
 
 /* 첫 화면 12건만 서버에서 그리고 나머지는 '더 보기' 가 이어받습니다
@@ -458,18 +454,18 @@ function matchingCloseDiv(text, afterOpen) {
 function pickWorks(mode, limit) {
   let list;
   if (mode === 'featured') {
-    list = PROJECTS.filter((p) => p.featured).sort(byDateDesc);
-    if (list.length < 3) list = PROJECTS.slice().sort(byDateDesc);
+    list = PROJECTS.filter((p) => p.featured).sort(byRecencyDesc);
+    if (list.length < 3) list = PROJECTS.slice().sort(byRecencyDesc);
   } else if (mode === 'all' || !mode) {
-    list = PROJECTS.slice().sort(byDateDesc);
+    list = PROJECTS.slice().sort(byRecencyDesc);
   } else {
-    list = PROJECTS.filter((p) => p.category === mode).sort(byDateDesc);
+    list = PROJECTS.filter((p) => p.category === mode).sort(byRecencyDesc);
   }
   return list.slice(0, limit);
 }
 
 function pickResources(mode, limit) {
-  let list = RESOURCES.slice().sort(byDateDesc);
+  let list = RESOURCES.slice().sort(byRecencyDesc);
   if (mode && mode !== 'all') {
     const wanted = mode.split(',').map((s) => s.trim()).filter(Boolean);
     list = list.filter((r) => wanted.indexOf(r.category) > -1);
@@ -673,7 +669,7 @@ function buildHome() {
     }).join('\n');
 
   const docsLimit = rs.homeLimit || 3;
-  const docs = RESOURCES.slice().sort(byDateDesc).slice(0, docsLimit).map((r) =>
+  const docs = RESOURCES.slice().sort(byRecencyDesc).slice(0, docsLimit).map((r) =>
     `      <li><a class="doc reveal" href="${guidePath(r.id)}">` +
     `<span class="doc__cat">${esc(r.category)}</span>` +
     `<span><span class="doc__ttl">${esc(r.title)}</span>` +
@@ -1230,9 +1226,9 @@ var RETIRED_CASE_IDS = ${JSON.stringify(RETIRED_PROJECT_IDS || [], null, 2)};
 
 /* ── 실행 ──────────────────────────────────────────────────── */
 function main() {
-  const sorted = PROJECTS.slice().sort(byDateDesc);
+  const sorted = PROJECTS.slice().sort(byRecencyDesc);
   const casePages = sorted.map((p, i) => buildCasePage(p, sorted, i));
-  const guidePages = RESOURCES.slice().sort(byDateDesc).map(buildGuidePage);
+  const guidePages = RESOURCES.slice().sort(byRecencyDesc).map(buildGuidePage);
 
   const outputs = [];
   casePages.forEach((c) => outputs.push([c.rel, c.html]));

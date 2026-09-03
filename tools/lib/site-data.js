@@ -84,7 +84,39 @@ function jsonld(obj) {
 /* 'YYYY-MM-DD' → 'YYYY.MM.DD' (main.js fmtDate 와 동일) */
 function fmtDate(d) { return (d || '').replace(/-/g, '.'); }
 
-function byDateDesc(a, b) { return (b.date || '').localeCompare(a.date || ''); }
+/* 'YYYY' · 'YYYY-MM' 도 비교할 수 있게 맞춥니다 (없으면 빈 문자열 그대로). */
+function normDate(d) {
+  var s = String(d || '').trim();
+  if (/^\d{4}$/.test(s)) return s + '-01-01';
+  if (/^\d{4}-\d{2}$/.test(s)) return s + '-01';
+  return s;
+}
+
+/* ── 목록 정렬 규칙 (사이트 전체 공통) ─────────────────────────
+   가장 최근 항목이 항상 맨 위에 오게 합니다.
+
+     1) 날짜 내림차순      기술자료 = 등록일, 시공사례 = 시공일
+     2) 날짜가 없으면      사례번호 내림차순 (번호가 곧 기록 순서)
+     3) 그래도 같으면      제목순 — 새로고침마다 자리가 바뀌지 않도록
+
+   ▶ 날짜가 비어 있는 항목에 임의 날짜를 만들지 않습니다.
+     시공사례는 현재 원본 노트에 시공일이 없어 2)로 정렬되며,
+     날짜를 채우면 그때부터 자동으로 1)이 적용됩니다.
+   ▶ 목록 · 카테고리 페이지 · 메인 노출 영역이 모두 이 규칙을 씁니다.
+     main.js · content.js · tools/lib/site-data.js 세 곳의 구현이
+     항상 같아야 합니다. */
+function byRecencyDesc(a, b) {
+  var da = normDate(a.date), db = normDate(b.date);
+  if (da !== db) {
+    if (!da) return 1;
+    if (!db) return -1;
+    return db.localeCompare(da);
+  }
+  var na = String(a.case_no || a.caseNo || '');
+  var nb = String(b.case_no || b.caseNo || '');
+  if (na !== nb) return nb.localeCompare(na);
+  return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+}
 
 /* ── 주소 규칙 ────────────────────────────────────────────────
    시공사례 id:  obsidian-case-045-songpa-…  →  case/case-045-songpa-….html
@@ -223,7 +255,7 @@ function writeFileIfChanged(rel, content) {
 module.exports = {
   REPO_ROOT, DATA_FILES,
   loadData, readRepo, fileExists, writeFileIfChanged,
-  esc, attr, jsonld, fmtDate, byDateDesc,
+  esc, attr, jsonld, fmtDate, byRecencyDesc,
   caseSlug, casePath, guidePath, SUB_PREFIX,
   siteUrlOf, absUrl, imgOr, imageSize, sizeAttrs, webpFor
 };
