@@ -54,6 +54,7 @@ var LEGACY_CASE_ROUTES = {
 };
 
 var LEGACY_GUIDE_ROUTES = {
+  "jeju-chloride-spalling-repair-selection-016": "guide/jeju-chloride-spalling-repair-selection-016.html",
   "rebar-corrosion-spalling-repair-015": "guide/rebar-corrosion-spalling-repair-015.html",
   "repair-method-selection-014": "guide/repair-method-selection-014.html",
   "epoxy-crack-injection-011": "guide/epoxy-crack-injection-011.html",
