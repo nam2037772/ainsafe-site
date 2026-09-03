@@ -207,8 +207,15 @@ function contentSearchText(item) {
 }
 
 /* ── 통합 목록 ────────────────────────────────────────────────
-   기술문서 + 시공사례를 합쳐 제목 가나다순으로 정렬합니다.
-   날짜가 없는 항목에 임의 날짜를 만들지 않고, 모든 항목에 같은 중립 규칙을 적용합니다.
+   기술문서 + 시공사례를 합쳐 날짜 최신순으로 정렬합니다.
+   새로 올린 자료가 목록 맨 앞에 오게 하기 위한 규칙입니다.
+
+   날짜가 없는 항목에는 임의 날짜를 만들지 않습니다. 대신 목록 끝으로 보내고,
+   날짜가 같은 항목끼리는 제목 가나다순으로 순서를 고정합니다
+   (같은 날짜 자료가 새로고침마다 자리를 바꾸지 않도록).
+
+   ▶ tools/build-site.js 의 poolFor 와 main.js 의 initContentPage 가
+     이 순서를 그대로 이어받습니다. 여기만 고치면 세 곳이 함께 바뀝니다.
    (앞으로 옵시디언 .md 를 변환해 넣을 때도 여기에 concat 하면 됩니다) */
 var CONTENT = (function () {
   var list = [];
@@ -216,6 +223,13 @@ var CONTENT = (function () {
   if (typeof PROJECTS !== 'undefined') list = list.concat(PROJECTS.map(projectToContent));
   list.forEach(function (item) { item.searchText = contentSearchText(item); });
   return list.sort(function (a, b) {
+    var ka = a.sortKey || '';
+    var kb = b.sortKey || '';
+    if (ka !== kb) {
+      if (!ka) return 1;
+      if (!kb) return -1;
+      return kb.localeCompare(ka);
+    }
     return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
   });
 })();
