@@ -564,7 +564,7 @@ const RESOURCES = [
     category: '보수보강',
     date: '2026-09-01',
     summary: '균열은 폭 하나로 공법을 정하지 않습니다. 거동·누수·발생 원인과 구조적 영향을 먼저 확인하고, 에폭시 주입과 탄소섬유 보강을 언제 구분해 적용하는지 정리했습니다.',
-    thumbnail: 'assets/images/guide/concrete-repair-strengthening-009.webp',
+    thumbnail: 'assets/images/guide/concrete-repair-strengthening-009-v2.webp',
     file: '',
     tags: ['콘크리트 균열', '에폭시 주입', '탄소섬유 보강', '구조보강', '제주 보수보강'],
     content: `
