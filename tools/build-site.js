@@ -527,6 +527,46 @@ function fillWidgets(file, text) {
   return { file, next: out, filled, items };
 }
 
+/* ── 자바스크립트 · 스타일 주소에 내용 해시를 붙입니다 ───────
+   목록 카드는 정적 HTML 로 깔리지만, main.js 가 화면에서 다시 그립니다
+   (initContentPage → render → grid.innerHTML). 그래서 사진을 바꿔도
+   브라우저가 assets/js/resources.js 를 캐시에서 꺼내 쓰면 옛 주소로 다시
+   그려집니다. GitHub Pages 는 Cache-Control: max-age=600 을 고정으로 주고
+   우리가 바꿀 수 없으므로, 파일 내용이 바뀌면 주소도 바뀌게 만듭니다.
+
+     assets/js/resources.js  →  assets/js/resources.js?v=1a2b3c4d
+
+   내용이 같으면 해시도 같아서 주소가 그대로입니다. 즉 바뀐 파일만
+   다시 내려받습니다. 이미지처럼 파일명을 바꾸지 않는 이유는, JS·CSS 는
+   손으로 쓴 페이지 여러 곳에서 부르고 있어 이름을 바꾸면 그 참조를
+   전부 따라다녀야 하기 때문입니다. */
+const crypto = require('crypto');
+const _hashCache = new Map();
+
+function assetHash(rel) {
+  if (_hashCache.has(rel)) return _hashCache.get(rel);
+  let h = '';
+  try {
+    h = crypto.createHash('sha1')
+      .update(fs.readFileSync(path.join(REPO_ROOT, rel)))
+      .digest('hex').slice(0, 8);
+  } catch (e) { h = ''; }          /* 파일이 없으면 주소를 건드리지 않습니다 */
+  _hashCache.set(rel, h);
+  return h;
+}
+
+function stampAssets(html) {
+  /* 손으로 쓴 페이지에는 작은따옴표로 적힌 <link> 도 섞여 있습니다.
+     따옴표 종류는 그대로 두고 주소만 바꿉니다. */
+  return html.replace(
+    /\b(src|href)=(["'])((?:\.\.\/)*)(assets\/(?:js|css)\/[A-Za-z0-9._-]+\.(?:js|css))(?:\?v=[0-9a-f]+)?\2/g,
+    (whole, attr, q, up, rel) => {
+      const h = assetHash(rel);
+      return h ? `${attr}=${q}${up}${rel}?v=${h}${q}` : whole;
+    }
+  );
+}
+
 /* ── 손으로 쓴 페이지의 머리말 · 꼬리말을 맞춥니다 ───────────
    지금까지 concrete.html · about.html 같은 페이지는 헤더와 푸터를 각자
    품고 있었습니다. 브랜드 이름을 바꾸면 11곳을 따로 고쳐야 했고, 한 곳을
@@ -1263,6 +1303,13 @@ function main() {
   widgets.forEach((w) => pageText.set(w.file, w.next));
 
   pageText.forEach((text, file) => outputs.push([file, text]));
+
+  /* 4단계 — 모든 페이지의 JS · CSS 주소에 내용 해시를 찍습니다.
+     생성 페이지와 손으로 쓴 페이지를 한자리에서 함께 처리해야
+     같은 파일이 페이지마다 다른 주소로 갈리지 않습니다. */
+  for (let i = 0; i < outputs.length; i++) {
+    if (/\.html$/.test(outputs[i][0])) outputs[i][1] = stampAssets(outputs[i][1]);
+  }
 
   console.log('base url        : ' + SITE_URL + (BASE_ARG ? '   (--base 로 지정)' : '   (config.js)'));
   const shellChanged = shells.filter((s) => s.changed.length);
