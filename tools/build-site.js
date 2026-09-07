@@ -55,15 +55,21 @@ const SERVICE_BY_CATEGORY = {
   '면보수':       { name: '노출콘크리트 면보수', page: 'concrete.html' },
   '색상재현':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
   '시공기준':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
-  '표면보호':     { name: '노출콘크리트 면보수', page: 'concrete.html' },
-  '발수':         { name: '노출콘크리트 면보수', page: 'concrete.html' },
+  '표면보호':     { name: '제주 콘크리트 표면강화 · 발수코팅', page: 'concrete-surface-protection.html' },
+  '발수':         { name: '제주 콘크리트 표면강화 · 발수코팅', page: 'concrete-surface-protection.html' },
   '보수보강':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
   '균열보수':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
   '균열·보수':    { name: '콘크리트 보수보강', page: 'reinforcement.html' },
-  '에폭시주입':   { name: '콘크리트 보수보강', page: 'reinforcement.html' },
   '단면복구':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
   '철근노출':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
-  '탄소섬유':     { name: '콘크리트 보수보강', page: 'reinforcement.html' },
+  /* 아래 세 분류는 공정별 상세 페이지가 따로 있습니다.
+     사례 데이터에 이 분류를 적으면 상세 페이지의 about · 관련 링크가
+     reinforcement.html 이 아니라 해당 공정 페이지를 가리킵니다. */
+  '에폭시주입':   { name: '제주 에폭시 균열보수 · 저압주입', page: 'epoxy-crack-repair.html' },
+  '에폭시저압주입': { name: '제주 에폭시 균열보수 · 저압주입', page: 'epoxy-crack-repair.html' },
+  '에폭시인젝션': { name: '제주 에폭시 균열보수 · 저압주입', page: 'epoxy-crack-repair.html' },
+  '탄소섬유':     { name: '제주 탄소섬유 보강 · CFRP 구조보강', page: 'carbon-fiber-reinforcement.html' },
+  '표면강화':     { name: '제주 콘크리트 표면강화 · 발수코팅', page: 'concrete-surface-protection.html' },
   '인젝션':       { name: '인젝션 특수방수', page: 'waterproof.html' },
   '누수보수':     { name: '인젝션 특수방수', page: 'waterproof.html' },
   '특수방수':     { name: '인젝션 특수방수', page: 'waterproof.html' }
@@ -464,7 +470,16 @@ function pickWorks(mode, limit) {
   return list.slice(0, limit);
 }
 
-function pickResources(mode, limit) {
+/* ids 를 적으면 적은 순서 그대로 그 자료만 씁니다.
+   공정별 상세 페이지의 '관련 기술자료' 처럼, 최신순이 아니라 주제로
+   골라 두어야 하는 자리에 씁니다. 분류 필터(mode)는 ids 가 없을 때만 씁니다.
+   ※ assets/js/main.js 의 initResourceLists 와 같은 규칙입니다. */
+function pickResources(mode, limit, ids) {
+  if (ids) {
+    const byId = new Map(RESOURCES.map((r) => [r.id, r]));
+    return ids.split(',').map((s) => s.trim()).filter(Boolean)
+      .map((id) => byId.get(id)).filter(Boolean).slice(0, limit);
+  }
   let list = RESOURCES.slice().sort(byRecencyDesc);
   if (mode && mode !== 'all') {
     const wanted = mode.split(',').map((s) => s.trim()).filter(Boolean);
@@ -504,7 +519,7 @@ function fillWidgets(file, text) {
       cards = list.map((p) => R.projectCard(p, CaseImages.normalize(p), '', FALLBACK_IMAGE)).join('\n      ');
       items += list.length;
     } else {
-      const list = pickResources(resources, limit);
+      const list = pickResources(resources, limit, attrValue(attrs, 'data-resource-ids'));
       cards = list.map((r) => R.resourceRow(r, '')).join('\n      ');
       items += list.length;
     }
@@ -580,7 +595,9 @@ function stampAssets(html) {
 
    ※ 그 사이의 본문은 건드리지 않습니다. 껍데기만 갈아 끼웁니다. */
 const SHELL_PAGES = [
-  'concrete.html', 'reinforcement.html', 'waterproof.html', 'projects.html', 'resources.html',
+  'concrete.html', 'reinforcement.html', 'waterproof.html',
+  'carbon-fiber-reinforcement.html', 'epoxy-crack-repair.html', 'concrete-surface-protection.html',
+  'projects.html', 'resources.html',
   'materials.html', 'about.html', 'contact.html', 'privacy.html', '404.html'
 ];
 
@@ -628,6 +645,7 @@ function buildHome() {
   const hero = S.hero || {};
   const about = S.about || {};
   const ss = S.serviceSection || {};
+  const sc = S.scopeSection || {};
   const fs_ = S.featureSection || {};
   const ws = S.worksSection || {};
   const rs = S.resourcesSection || {};
@@ -684,6 +702,18 @@ function buildHome() {
       items +
       `<p class="svc__text">${esc(s.text)}</p>` +
       '<span class="svc__go">View More</span></a>';
+  }).join('\n');
+
+  /* 보수보강 시공 범위 — 다섯 갈래를 헤어라인 목록으로 깔아 둡니다.
+     서비스 카드(3장)는 '어느 분야인가', 이 목록은 '무엇을 시공하는가' 입니다.
+     설명은 여기에 두지 않고 각 상세 페이지로 넘깁니다. */
+  const scopes = (S.scopes || []).map((x) => {
+    const items = (x.items || []).map((it) => `<li>${esc(it)}</li>`).join('');
+    return `      <li class="scope reveal">` +
+      `<p class="scope__no">${esc(x.no)}</p>` +
+      `<div class="scope__body"><h3 class="scope__ttl">${esc(x.title)}</h3>` +
+      (items ? `<ul class="scope__items">${items}</ul>` : '') + '</div>' +
+      `<a class="scope__go" href="${esc(x.link)}">${esc(x.linkText)}</a></li>`;
   }).join('\n');
 
   const features = (S.features || []).map((f) =>
@@ -860,6 +890,22 @@ ${aboutBody}
     <div class="service__grid" id="serviceGrid">
 ${services}
     </div>
+  </div>
+</section>
+
+<!-- ═══════════ 보수보강 시공 범위 ═══════════ -->
+<section class="scopes" id="scope">
+  <div class="wrap">
+    <div class="sec-head sec-head--row reveal">
+      <div>
+        <p class="eyebrow">${esc(sc.eyebrow)}</p>
+        <h2 class="h2">${esc(sc.heading)}</h2>
+      </div>
+      <p class="sec-head__desc">${esc(sc.desc)}</p>
+    </div>
+    <ol class="scope-list">
+${scopes}
+    </ol>
   </div>
 </section>
 
@@ -1136,6 +1182,10 @@ function buildOrganisationGraph() {
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 노출콘크리트 보수·복원', description: '곰보·기포 면보수, 층조인트 단차 보정, 색상 및 패턴 복원, 오염·백화 하자보수, 발수 및 표면 보호', url: absUrl(SITE_URL, 'concrete.html') } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '콘크리트 보수보강', description: '균열보수 및 에폭시 주입, 단면복구, 철근노출 및 박락 보수', url: absUrl(SITE_URL, 'reinforcement.html') } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '인젝션 특수방수', description: '누수 경로 추적, 우레탄 인젝션, 배면 그라우팅, 액상고무 도막방수', url: absUrl(SITE_URL, 'waterproof.html') } },
+        /* 세 전문 분야 아래의 공정별 상세 — 각각 전용 페이지가 있습니다. */
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 에폭시 균열보수 · 저압주입', description: '비구조부 균열보수, 구조부 에폭시 저압주입, 에폭시 기계식 인젝션', url: absUrl(SITE_URL, 'epoxy-crack-repair.html') } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 탄소섬유 보강 · CFRP 구조보강', description: '구조검토와 보강설계에 따른 탄소섬유시트(CFRP) 부착 보강. 철판·강재보강은 전문 협력팀 연계', url: absUrl(SITE_URL, 'carbon-fiber-reinforcement.html') } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '제주 콘크리트 표면강화 · 발수코팅', description: '표면강화와 경화·분진억제, 침투형 발수코팅, 수분·염분 침투 저감', url: absUrl(SITE_URL, 'concrete-surface-protection.html') } },
         /* 콘채 제주총판 — 시공과 함께 자재를 공급합니다. 근거가 있는 사실만 적습니다. */
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: '노출콘크리트 면보수재 콘채 공급 · 기술지원', description: '제주도 콘채 총판. 노출콘크리트 보수재·색보정 마감재 공급과 배합·시공 기술지원', url: absUrl(SITE_URL, 'materials.html') } }
       ]
@@ -1195,6 +1245,11 @@ const STATIC_PAGES = [
   ['concrete.html', 'monthly', '0.9'],
   ['reinforcement.html', 'monthly', '0.9'],
   ['waterproof.html', 'monthly', '0.9'],
+  /* 공정별 상세 페이지 — 서비스 3축 아래의 세부 공법입니다.
+     상위 서비스 페이지보다 한 단계 낮은 우선순위를 둡니다. */
+  ['carbon-fiber-reinforcement.html', 'monthly', '0.8'],
+  ['epoxy-crack-repair.html', 'monthly', '0.8'],
+  ['concrete-surface-protection.html', 'monthly', '0.8'],
   ['projects.html', 'weekly', '0.9'],
   ['resources.html', 'weekly', '0.8'],
   ['materials.html', 'monthly', '0.7'],
@@ -1297,7 +1352,9 @@ function main() {
 
   /* 3단계 — 서비스 · 자재 페이지의 관련 콘텐츠 위젯을 정적으로 채웁니다.
      (projects/resources 는 위에서 이미 처리했으므로 제외) */
-  const WIDGET_PAGES = ['concrete.html', 'reinforcement.html', 'waterproof.html', 'materials.html', 'about.html', 'contact.html'];
+  const WIDGET_PAGES = ['concrete.html', 'reinforcement.html', 'waterproof.html',
+    'carbon-fiber-reinforcement.html', 'epoxy-crack-repair.html', 'concrete-surface-protection.html',
+    'materials.html', 'about.html', 'contact.html'];
   const widgets = WIDGET_PAGES.filter((f) => fileExists(f))
     .map((f) => fillWidgets(f, readPage(f))).filter((w) => w.filled);
   widgets.forEach((w) => pageText.set(w.file, w.next));

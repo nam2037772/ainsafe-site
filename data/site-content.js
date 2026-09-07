@@ -88,6 +88,38 @@ window.SITE = {
       link: 'waterproof.html' }
   ],
 
+  /* ── 4-2. 보수보강 시공 범위 (5축) ────────────────────────────────────────
+     위 services 는 '전문 분야' 세 갈래(= 헤더 메뉴)입니다. 여기는 그 안에서
+     실제로 무엇을 시공하는지를 다섯 갈래로 한눈에 보여 주는 자리입니다.
+
+     한 줄 규칙 — 여기에는 '무엇을 하는가'만 적고 설명은 상세 페이지에 둡니다.
+     items 가 길어지면 홈이 무거워집니다. 각 항목은 3~4개까지만 적습니다.
+
+     link 는 그 갈래를 가장 잘 설명하는 페이지 한 곳입니다. 여러 페이지에
+     걸치는 갈래는 대표 페이지 하나만 걸고, 나머지는 그 페이지 안에서 잇습니다. */
+  scopeSection: {
+    eyebrow: 'Repair Scope',
+    heading: '보수보강 시공 범위',
+    desc:    '누수 차단부터 표면보호까지 다섯 갈래로 나눠 대응합니다. 정해진 세트가 아니라, 현장 상태와 손상 원인에 따라 필요한 공정만 조합합니다.'
+  },
+  scopes: [
+    { no: '01', title: '누수 차단',
+      items: ['우레탄 인젝션'],
+      link: 'waterproof.html', linkText: '인젝션 특수방수' },
+    { no: '02', title: '균열 보수',
+      items: ['비구조부 균열보수', '구조부 에폭시 저압주입', '구조부 에폭시 기계식 인젝션'],
+      link: 'epoxy-crack-repair.html', linkText: '에폭시 균열보수' },
+    { no: '03', title: '구조 보강',
+      items: ['탄소섬유시트(CFRP)', '철판·강재보강 — 전문 협력팀 연계'],
+      link: 'carbon-fiber-reinforcement.html', linkText: '탄소섬유 보강' },
+    { no: '04', title: '콘크리트 복원',
+      items: ['철근부식·박락 단면복구', '노출콘크리트 면보수·외관복원'],
+      link: 'reinforcement.html', linkText: '콘크리트 보수보강' },
+    { no: '05', title: '표면보호 · 내구성 향상',
+      items: ['표면강화 · 경화 · 분진억제', '발수코팅', '수분·염분 침투 저감'],
+      link: 'concrete-surface-protection.html', linkText: '표면강화 · 발수코팅' }
+  ],
+
   /* ── 5. 강점 (Feature) ────────────────────────────────────────────────────
      features 는 배열입니다. no·title·text 로 이루어집니다. */
   featureSection: {

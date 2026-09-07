@@ -412,17 +412,31 @@
   }
 
   /* <div data-resources="카테고리명|all" data-limit="4">
-     카테고리는 쉼표로 여러 개를 적을 수 있습니다. 예) data-resources="인젝션,특수방수" */
+     카테고리는 쉼표로 여러 개를 적을 수 있습니다. 예) data-resources="인젝션,특수방수"
+
+     data-resource-ids="id1,id2" 를 함께 적으면 분류 대신 그 자료만,
+     적은 순서 그대로 씁니다. 공정별 상세 페이지의 '관련 기술자료'처럼
+     최신순이 아니라 주제로 골라 두어야 하는 자리에 씁니다.
+     ※ tools/build-site.js 의 pickResources 와 같은 규칙입니다. */
   function initResourceLists() {
     if (!hasResources) return;
     $$('[data-resources]').forEach(function (box) {
       if (box.hasAttribute('data-built')) return;   // 이미 HTML 로 채워진 상자
       var mode = box.getAttribute('data-resources');
+      var ids = box.getAttribute('data-resource-ids');
       var limit = parseInt(box.getAttribute('data-limit'), 10) || 4;
-      var list = RESOURCES.slice().sort(byRecencyDesc);
-      if (mode && mode !== 'all') {
-        var wanted = mode.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-        list = list.filter(function (r) { return wanted.indexOf(r.category) > -1; });
+      var list;
+      if (ids) {
+        list = ids.split(',').map(function (s) { return s.trim(); }).filter(Boolean)
+          .map(function (id) {
+            return RESOURCES.filter(function (r) { return r.id === id; })[0];
+          }).filter(Boolean);
+      } else {
+        list = RESOURCES.slice().sort(byRecencyDesc);
+        if (mode && mode !== 'all') {
+          var wanted = mode.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          list = list.filter(function (r) { return wanted.indexOf(r.category) > -1; });
+        }
       }
       list = list.slice(0, limit);
       box.innerHTML = list.length ? list.map(resourceRow).join('')

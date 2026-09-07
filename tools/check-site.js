@@ -48,7 +48,9 @@ const data = D.loadData();
 const { COMPANY, PROJECTS, PROJECT_ALIASES, RESOURCES, CONTENT, CaseImages } = data;
 const SITE_URL = D.siteUrlOf(COMPANY);
 
-const ROOT_PAGES = ['index.html', 'concrete.html', 'reinforcement.html', 'waterproof.html', 'projects.html',
+const ROOT_PAGES = ['index.html', 'concrete.html', 'reinforcement.html', 'waterproof.html',
+  'carbon-fiber-reinforcement.html', 'epoxy-crack-repair.html', 'concrete-surface-protection.html',
+  'projects.html',
   'resources.html', 'materials.html', 'about.html', 'contact.html',
   'privacy.html', '404.html', 'project.html', 'resource.html'];
 
@@ -261,6 +263,12 @@ console.log('\n[5] 정적 내부 링크 · 고아 페이지');
     'waterproof.html':    { cases: 3, guides: 2, material: true },
     /* 보수보강 기술자료는 1건뿐입니다(공개 사례가 아직 없어 사례 링크는 기대하지 않습니다) */
     'reinforcement.html': { cases: 0, guides: 1, material: true },
+    /* 공정별 상세 페이지 — 아직 해당 공정의 공개 사례가 없으므로 사례 링크는
+       기대하지 않습니다. 관련 기술자료는 페이지마다 골라 둔 2건 이상이 있어야
+       합니다(없는 실적 대신 근거가 되는 자료로 잇습니다). */
+    'carbon-fiber-reinforcement.html': { cases: 0, guides: 2, material: true },
+    'epoxy-crack-repair.html':         { cases: 0, guides: 2, material: true },
+    'concrete-surface-protection.html':{ cases: 0, guides: 2, material: true },
     'materials.html':     { cases: 3, guides: 3, material: false }
   };
   Object.entries(EXPECT).forEach(([page, want]) => {

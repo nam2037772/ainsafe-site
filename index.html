@@ -148,6 +148,33 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "name": "제주 에폭시 균열보수 · 저압주입",
+              "description": "비구조부 균열보수, 구조부 에폭시 저압주입, 에폭시 기계식 인젝션",
+              "url": "https://ainconcrete.com/epoxy-crack-repair.html"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "제주 탄소섬유 보강 · CFRP 구조보강",
+              "description": "구조검토와 보강설계에 따른 탄소섬유시트(CFRP) 부착 보강. 철판·강재보강은 전문 협력팀 연계",
+              "url": "https://ainconcrete.com/carbon-fiber-reinforcement.html"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "제주 콘크리트 표면강화 · 발수코팅",
+              "description": "표면강화와 경화·분진억제, 침투형 발수코팅, 수분·염분 침투 저감",
+              "url": "https://ainconcrete.com/concrete-surface-protection.html"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
               "name": "노출콘크리트 면보수재 콘채 공급 · 기술지원",
               "description": "제주도 콘채 총판. 노출콘크리트 보수재·색보정 마감재 공급과 배합·시공 기술지원",
               "url": "https://ainconcrete.com/materials.html"
@@ -381,6 +408,46 @@ ul,ol{list-style:none}
 .svc:hover .svc__go{opacity:.5}
 
 /* ============================================================
+   REPAIR SCOPE (보수보강 시공 범위 — 5축)
+   ------------------------------------------------------------
+   서비스 카드(.svc)가 '어느 분야인가'라면, 여기는 '무엇을 시공하는가'
+   입니다. 새 색·새 글꼴을 만들지 않고 이미 쓰고 있는 토큰(--line,
+   --sub, --serif)만 씁니다. 다섯 줄이라 2열·3열 격자에 넣으면 마지막
+   칸이 비므로, 헤어라인으로 나눈 한 줄 목록으로 둡니다.
+   ============================================================ */
+.scopes{padding:0 0 var(--sec);background:var(--paper)}
+.scope-list{border-top:1px solid var(--line)}
+/* min-width:0 — 격자·플렉스 칸의 기본값(auto)은 내용보다 좁아지지 않습니다.
+   '철판·강재보강 — 전문 협력팀 연계'처럼 긴 항목이 들어오면 칸이 화면 밖으로
+   밀려 오른쪽 글자가 잘립니다(body 가 overflow-x:hidden 이라 스크롤도 안 됩니다).
+   칸이 줄어들 수 있게 열어 두어야 아래 flex-wrap 이 실제로 줄을 바꿉니다. */
+.scope{display:grid;gap:.6em;padding:clamp(24px,3vw,36px) 0;
+  border-bottom:1px solid var(--line)}
+.scope > *{min-width:0}
+.scope__no{font-size:.72rem;letter-spacing:.22em;color:var(--sub)}
+.scope__ttl{font-family:var(--serif);font-weight:500;font-size:clamp(1.08rem,1.8vw,1.3rem);
+  line-height:1.45}
+.scope__items{display:flex;flex-wrap:wrap;margin:.85em 0 0;padding:0;
+  font-size:.85rem;line-height:1.7;color:var(--ink-2)}
+.scope__items li{min-width:0}
+.scope__items li + li{margin-left:.9em;padding-left:.9em;border-left:1px solid var(--line)}
+/* 좁은 화면에서는 항목 사이의 세로 구분선 대신 줄을 나눕니다 — 한 항목이
+   화면보다 길면 구분선 방식으로는 줄을 바꿀 자리가 없습니다. */
+@media (max-width:599px){
+  .scope__items{display:block}
+  .scope__items li + li{margin-left:0;padding-left:0;border-left:0}
+}
+.scope__go{align-self:end;justify-self:start;font-size:.78rem;letter-spacing:.1em;
+  color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:.3em;
+  transition:border-color .3s}
+.scope__go::after{content:" →"}
+.scope:hover .scope__go{border-bottom-color:var(--ink)}
+@media (min-width:900px){
+  .scope{grid-template-columns:96px minmax(0,1fr) auto;gap:0 32px;align-items:start}
+  .scope__go{max-width:14em;align-self:center;justify-self:end;text-align:right}
+}
+
+/* ============================================================
    FEATURE (강점)
    ============================================================ */
 .feature{padding:var(--sec) 0}
@@ -611,6 +678,26 @@ ul,ol{list-style:none}
       <a class="svc reveal" href="reinforcement.html"><p class="svc__no">02</p><h3 class="svc__ttl">콘크리트 보수보강</h3><ul class="svc__items"><li>균열보수 · 에폭시 주입</li><li>단면복구</li><li>철근노출 및 박락 보수</li></ul><p class="svc__text">균열과 박락 같은 구조적 손상의 진행 여부를 먼저 진단한 뒤, 원인에 맞는 공법으로 보수·보강합니다.</p><span class="svc__go">View More</span></a>
       <a class="svc reveal" href="waterproof.html"><p class="svc__no">03</p><h3 class="svc__ttl">인젝션 특수방수</h3><ul class="svc__items"><li>우레탄 인젝션</li><li>누수 균열 보수</li><li>액상고무 방수</li></ul><p class="svc__text">누수의 원인과 경로를 먼저 진단하고, 구조와 현장 조건에 맞는 방식으로 물의 길을 차단합니다.</p><span class="svc__go">View More</span></a>
     </div>
+  </div>
+</section>
+
+<!-- ═══════════ 보수보강 시공 범위 ═══════════ -->
+<section class="scopes" id="scope">
+  <div class="wrap">
+    <div class="sec-head sec-head--row reveal">
+      <div>
+        <p class="eyebrow">Repair Scope</p>
+        <h2 class="h2">보수보강 시공 범위</h2>
+      </div>
+      <p class="sec-head__desc">누수 차단부터 표면보호까지 다섯 갈래로 나눠 대응합니다. 정해진 세트가 아니라, 현장 상태와 손상 원인에 따라 필요한 공정만 조합합니다.</p>
+    </div>
+    <ol class="scope-list">
+      <li class="scope reveal"><p class="scope__no">01</p><div class="scope__body"><h3 class="scope__ttl">누수 차단</h3><ul class="scope__items"><li>우레탄 인젝션</li></ul></div><a class="scope__go" href="waterproof.html">인젝션 특수방수</a></li>
+      <li class="scope reveal"><p class="scope__no">02</p><div class="scope__body"><h3 class="scope__ttl">균열 보수</h3><ul class="scope__items"><li>비구조부 균열보수</li><li>구조부 에폭시 저압주입</li><li>구조부 에폭시 기계식 인젝션</li></ul></div><a class="scope__go" href="epoxy-crack-repair.html">에폭시 균열보수</a></li>
+      <li class="scope reveal"><p class="scope__no">03</p><div class="scope__body"><h3 class="scope__ttl">구조 보강</h3><ul class="scope__items"><li>탄소섬유시트(CFRP)</li><li>철판·강재보강 — 전문 협력팀 연계</li></ul></div><a class="scope__go" href="carbon-fiber-reinforcement.html">탄소섬유 보강</a></li>
+      <li class="scope reveal"><p class="scope__no">04</p><div class="scope__body"><h3 class="scope__ttl">콘크리트 복원</h3><ul class="scope__items"><li>철근부식·박락 단면복구</li><li>노출콘크리트 면보수·외관복원</li></ul></div><a class="scope__go" href="reinforcement.html">콘크리트 보수보강</a></li>
+      <li class="scope reveal"><p class="scope__no">05</p><div class="scope__body"><h3 class="scope__ttl">표면보호 · 내구성 향상</h3><ul class="scope__items"><li>표면강화 · 경화 · 분진억제</li><li>발수코팅</li><li>수분·염분 침투 저감</li></ul></div><a class="scope__go" href="concrete-surface-protection.html">표면강화 · 발수코팅</a></li>
+    </ol>
   </div>
 </section>
 
