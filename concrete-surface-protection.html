@@ -50,7 +50,7 @@
       "@id": "https://ainconcrete.com/concrete-surface-protection.html#breadcrumb",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "HOME", "item": "https://ainconcrete.com/" },
-        { "@type": "ListItem", "position": 2, "name": "노출콘크리트 보수", "item": "https://ainconcrete.com/concrete.html" },
+        { "@type": "ListItem", "position": 2, "name": "콘크리트 보수보강", "item": "https://ainconcrete.com/reinforcement.html" },
         { "@type": "ListItem", "position": 3, "name": "콘크리트 표면강화 · 발수코팅" }
       ]
     }
@@ -113,7 +113,7 @@
 <nav class="wrap" aria-label="현재 위치">
   <ol class="crumb">
     <li><a href="index.html">HOME</a></li>
-    <li><a href="concrete.html">노출콘크리트 보수</a></li>
+    <li><a href="reinforcement.html">콘크리트 보수보강</a></li>
     <li>콘크리트 표면강화 · 발수코팅</li>
   </ol>
 </nav>
@@ -226,7 +226,7 @@
   <div class="wrap">
     <header class="section__head section__head--row reveal">
       <div><p class="eyebrow">ORDER OF WORK</p><h2 class="h2">보수 후에 적용하는<br />마지막 공정입니다</h2></div>
-      <p class="section__desc">균열과 박락이 남아 있는 면에 발수제를 먼저 바르는 것은 순서가 뒤바뀐 시공입니다.</p>
+      <p class="section__desc">발수 · 표면보호는 균열, 박락, 단면결손 등 원인 보수 후 적용하는 것을 원칙으로 합니다. 균열과 박락이 남아 있는 면에 발수제를 먼저 바르는 것은 순서가 뒤바뀐 시공입니다.</p>
     </header>
     <ol class="strength">
       <li class="strength__item reveal"><p class="strength__no">STEP 01</p><h3 class="strength__ttl">원인 확인</h3><p class="strength__text">누수, 균열의 거동, 철근부식, 염화물 침투 등 손상의 원인을 먼저 확인합니다.</p></li>
@@ -273,7 +273,22 @@
   </div>
 </section>
 
+<!-- 하단 구조는 세 공정 페이지가 같습니다 — 관련 서비스 → 관련 기술자료 → 상담. -->
 <section class="section section--mist">
+  <div class="wrap">
+    <header class="section__head section__head--row reveal">
+      <div><p class="eyebrow">RELATED SERVICES</p><h2 class="h2">관련 서비스</h2></div>
+      <p class="section__desc">표면보호는 마지막 공정입니다. 그 앞에 놓이는 공종을 먼저 확인하시는 편이 순서가 맞습니다.</p>
+    </header>
+    <ol class="strength">
+      <li class="strength__item reveal"><p class="strength__no">SERVICE 01</p><h3 class="strength__ttl">노출콘크리트 면보수</h3><p class="strength__text">발수·표면보호 앞에서 색과 질감을 정리하는 공정입니다. 보수 부위의 색이 안정된 뒤에 표면보호로 넘어갑니다.</p><p class="strength__text"><a class="link-arrow" href="concrete.html">노출콘크리트 면보수 자세히 보기</a></p></li>
+      <li class="strength__item reveal"><p class="strength__no">SERVICE 02</p><h3 class="strength__ttl">철근부식 · 단면복구</h3><p class="strength__text">박락과 단면결손은 표면보호로 멈추지 않습니다. 열화부를 제거하고 철근을 처리해 단면을 회복한 뒤에 적용합니다.</p><p class="strength__text"><a class="link-arrow" href="reinforcement.html#rebar">철근부식 · 단면복구 보기</a></p></li>
+      <li class="strength__item reveal"><p class="strength__no">SERVICE 03</p><h3 class="strength__ttl">에폭시 균열보수</h3><p class="strength__text">균열이 남아 있으면 그 길로 물과 염분이 계속 들어옵니다. 발수제는 균열을 메우는 재료가 아닙니다.</p><p class="strength__text"><a class="link-arrow" href="epoxy-crack-repair.html">에폭시 균열보수 자세히 보기</a></p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
   <div class="wrap">
     <header class="section__head section__head--row reveal">
       <div><p class="eyebrow">TECHNICAL NOTES</p><h2 class="h2">관련 기술자료</h2></div>
@@ -287,6 +302,7 @@
     </div>
     <div class="section__more">
       <a class="btn btn--dark" href="contact.html">표면 상태 사진으로 상담하기</a>
+      <a class="btn btn--line" href="reinforcement.html">콘크리트 보수보강 전체 보기</a>
       <a class="btn btn--line" href="materials.html">발수제 · 표면보호재 보기</a>
     </div>
   </div>
@@ -304,12 +320,20 @@
       <p class="footer__tel"><a href="tel:16604019">대표전화 1660-4019</a></p>
       <address>제주특별자치도 서귀포시 성산읍 풍천로 142, 103호</address>
     </div>
+    <!-- 전문 분야 — 상단 메뉴(분야 3개)가 아니라 실제 공종 6개를 적습니다.
+         공종별 상세 페이지가 생긴 뒤로 메뉴 3줄만으로는 에폭시 주입·CFRP·표면보호가
+         전역 어디에서도 닿지 않았습니다. 옆 칼럼(바로가기)도 6줄이라 높이가 맞습니다.
+         철근부식·단면복구는 상세 페이지가 없으므로 허브의 해당 절로 보냅니다.
+         철판·강재보강은 협력 공종이라 여기 넣지 않고 허브 안에서만 밝힙니다. -->
     <nav class="footer__col" aria-label="전문 분야">
       <h2 class="footer__ttl">전문 분야</h2>
       <ul>
-        <li><a href="concrete.html">노출콘크리트 보수</a></li>
-        <li><a href="reinforcement.html">콘크리트 보수보강</a></li>
-        <li><a href="waterproof.html">인젝션 특수방수</a></li>
+        <li><a href="concrete.html">노출콘크리트 보수·복원</a></li>
+        <li><a href="epoxy-crack-repair.html">에폭시 균열주입</a></li>
+        <li><a href="carbon-fiber-reinforcement.html">CFRP 탄소섬유 구조보강</a></li>
+        <li><a href="reinforcement.html#rebar">철근부식 · 단면복구</a></li>
+        <li><a href="waterproof.html">우레탄 인젝션 특수방수</a></li>
+        <li><a href="concrete-surface-protection.html">표면강화 · 발수보호</a></li>
       </ul>
     </nav>
     <nav class="footer__col" aria-label="사이트 메뉴">

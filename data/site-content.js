@@ -187,10 +187,19 @@ window.SITE = {
   footer: {
     /* 세 전문 분야만 같은 층위로 둡니다. 세부 공정(색상·패턴 복원, 균열보수 등)은
        각 서비스 페이지 안에서 다룰 자리이지, 전역 푸터에 함께 늘어놓지 않습니다. */
+    /* 상단 메뉴(분야 3개)가 아니라 실제 공종 6개를 적습니다.
+       공종별 상세 페이지가 생긴 뒤로 3줄만으로는 에폭시 주입 · CFRP · 표면보호가
+       전역 어디에서도 닿지 않았습니다. tools/lib/render.js 의 하위 페이지 푸터와
+       같은 목록입니다 — 한쪽만 고치면 홈과 하위 페이지의 전문 분야가 갈라집니다.
+       철근부식 · 단면복구는 상세 페이지가 없어 허브의 해당 절로 보냅니다.
+       철판 · 강재보강은 협력 공종이라 여기 넣지 않고 허브 안에서만 밝힙니다. */
     serviceLinks: [
-      { label: '노출콘크리트 보수', href: 'concrete.html' },
-      { label: '콘크리트 보수보강', href: 'reinforcement.html' },
-      { label: '인젝션 특수방수',   href: 'waterproof.html' }
+      { label: '노출콘크리트 보수·복원',    href: 'concrete.html' },
+      { label: '에폭시 균열주입',           href: 'epoxy-crack-repair.html' },
+      { label: 'CFRP 탄소섬유 구조보강',    href: 'carbon-fiber-reinforcement.html' },
+      { label: '철근부식 · 단면복구',       href: 'reinforcement.html#rebar' },
+      { label: '우레탄 인젝션 특수방수',    href: 'waterproof.html' },
+      { label: '표면강화 · 발수보호',       href: 'concrete-surface-protection.html' }
     ],
     siteLinks: [
       { label: '시공사례',   href: 'projects.html' },
